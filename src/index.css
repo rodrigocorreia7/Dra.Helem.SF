@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #f6f1e8;
+  --color-ivory-deep: #ece4d7;
+  --color-ink: #16211d;
+  --color-forest: #1d382f;
+  --color-forest-soft: #2c5245;
+  --color-sage: #7d9b8c;
+  --color-clay: #b06544;
+  --color-clay-soft: #d9a184;
+  --color-gold: #c2a15b;
+
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-body: "Karla", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-forest);
+  color: var(--color-ivory);
+}
+
+.grain {
+  position: relative;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: radial-gradient(rgba(29, 56, 47, 0.07) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+.rule {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--color-forest) 30%, transparent),
+    transparent
+  );
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+}
+.float-slow { animation: floatSlow 9s ease-in-out infinite; }
