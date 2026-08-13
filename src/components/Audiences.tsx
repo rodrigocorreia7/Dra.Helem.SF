@@ -114,7 +114,7 @@ export default function Audiences() {
       cards: [
         {
           id: 'card-geral-1',
-          image: '/images/ENSAIOMED-94.webp',
+          image: '/images/hormonio-mulher.webp',
           imageCaption: 'Investigação Clínica Completa',
           imagePos: 'object-[center_15%]',
           symptoms: [
