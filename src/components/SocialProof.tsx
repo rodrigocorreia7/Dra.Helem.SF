@@ -1,102 +1,100 @@
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Quote, BadgeCheck, GraduationCap, Users } from 'lucide-react';
+import { BadgeCheck, GraduationCap, Users, TrendingUp, CheckCircle, Quote } from 'lucide-react';
 import { site } from '../lib/site';
 
-type Testimonial = {
-  id: number;
-  author: string;
-  context: string | null;
-  quote: string;
-};
-
 export default function SocialProof() {
-  const [items, setItems] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchItems = async () => {
-    try {
-      const res = await fetch('/api/testimonials');
-      const data = await res.json();
-      setItems(Array.isArray(data) ? data : []);
-    } catch {
-      setItems([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchItems();
-  }, []);
-
   const credibility = [
-    { icon: BadgeCheck, k: 'CRM ativo', v: site.crm },
-    { icon: GraduationCap, k: 'Formação', v: 'Medicina e Psicologia' },
-    { icon: Users, k: 'Associação', v: 'Membro da ABMEV' },
+    { icon: BadgeCheck, k: 'Registro Médico', v: site.crm },
+    { icon: GraduationCap, k: 'Dupla Formação', v: 'Medicina e Psicologia' },
+    { icon: Users, k: 'Membro Ativo', v: 'ABMEV - Estilo de Vida' },
   ];
 
   return (
-    <section className="bg-ivory-deep/60 py-20 sm:py-28">
+    <section id="casos" className="bg-ivory-deep/50 py-24 relative overflow-hidden">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <div className="mb-12 max-w-2xl">
-          <p className="text-[11px] uppercase tracking-[0.24em] text-clay">Credibilidade</p>
-          <h2 className="mt-4 font-display text-3xl leading-tight text-forest sm:text-[2.7rem]">
-            {items.length > 0
-              ? 'Quem já passou por esse acompanhamento'
-              : 'Confiança começa com registro, formação e método'}
+        <div className="text-center max-w-2xl mx-auto">
+          <span className="inline-flex items-center gap-2 rounded-full border border-clay/20 bg-clay/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+            <TrendingUp size={14} /> Resultados & Prática Clínica
+          </span>
+          <h2 className="mt-4 font-display text-3xl sm:text-4xl lg:text-[2.6rem] leading-tight text-forest">
+            Evidência Científica e Acompanhamento de Casos Reais
           </h2>
+          <p className="mt-3 text-base text-ink/75">
+            A verdadeira medicina integrativa se comprova na evolução concreta dos exames laboratoriais e na qualidade de vida.
+          </p>
         </div>
 
-        {loading ? (
-          <div className="grid gap-6 md:grid-cols-3">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="h-44 animate-pulse rounded-[1.5rem] bg-forest/6" />
-            ))}
+        {/* Featured Real Clinical Case Study */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="mt-12 rounded-[2.5rem] border border-forest/15 bg-white p-8 sm:p-10 shadow-xl shadow-forest/8"
+        >
+          <div className="grid gap-8 lg:grid-cols-12 items-center">
+            <div className="lg:col-span-8">
+              <div className="flex items-center gap-3">
+                <span className="rounded-full bg-emerald-100 text-emerald-800 px-3.5 py-1 text-xs font-bold uppercase tracking-wider">
+                  Estudo de Caso Clínico Real
+                </span>
+                <span className="text-xs text-ink/60">Evolução em 90 dias</span>
+              </div>
+              <h3 className="mt-4 font-display text-2xl sm:text-3xl font-bold text-forest leading-snug">
+                Reversão de Pré-Diabetes e Normalização Lipídica sem Radicalismo
+              </h3>
+              <p className="mt-4 text-base leading-relaxed text-ink/80">
+                <strong>Paciente masculino, homem jovem:</strong> Apresentava exames com pré-diabetes (glicemia de jejum e HbA1c alteradas), dislipidemia (colesterol/triglicerídeos elevados) e queixa de fadiga crônica.
+              </p>
+              <div className="mt-4 space-y-2 text-sm text-ink/75">
+                <p className="flex items-start gap-2">
+                  <CheckCircle size={16} className="mt-1 shrink-0 text-clay" />
+                  <strong>Conduta Aplicada:</strong> Intervenção focada na Mudança do Estilo de Vida (MEV), otimização de micronutrientes específicos (Cúrcuma, Vitaminas do Complexo B e D em doses individualizadas) e manejo do estresse.
+                </p>
+                <p className="flex items-start gap-2">
+                  <CheckCircle size={16} className="mt-1 shrink-0 text-emerald-600" />
+                  <strong>Resultado em 3 Meses:</strong> Normalização completa do perfil lipídico, saída da faixa de pré-diabetes, eliminação do cansaço e recuperação da disposição diária.
+                </p>
+              </div>
+            </div>
+
+            <div className="lg:col-span-4 rounded-2xl border border-forest/10 bg-[#faf8f5] p-6 text-center">
+              <Quote className="mx-auto text-clay" size={32} />
+              <p className="mt-3 text-sm italic text-ink/80 leading-relaxed">
+                "A medicina integrativa investiga a causa raiz dos sintomas para restaurar a vitalidade, a energia e o equilíbrio metabólico do corpo de forma duradoura."
+              </p>
+              <p className="mt-4 font-display text-xs font-bold uppercase tracking-wider text-forest">
+                Dra. Hélem Machado Almeida
+              </p>
+              <p className="text-[11px] text-forest/60">CRM 40098-SC</p>
+            </div>
           </div>
-        ) : items.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-3">
-            {items.map((t, i) => (
-              <motion.blockquote
-                key={t.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="flex h-full flex-col rounded-[1.5rem] border border-forest/12 bg-ivory p-7"
-              >
-                <Quote className="text-clay/60" size={22} />
-                <p className="mt-4 flex-1 text-[0.98rem] leading-relaxed text-ink/80">“{t.quote}”</p>
-                <footer className="mt-6 border-t border-forest/10 pt-4">
-                  <p className="font-display text-base text-forest">{t.author}</p>
-                  {t.context && <p className="text-xs text-forest/55">{t.context}</p>}
-                </footer>
-              </motion.blockquote>
-            ))}
-          </div>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-3">
-            {credibility.map((c, i) => (
+        </motion.div>
+
+        {/* Credibility Grid */}
+        <div className="mt-10 grid gap-6 sm:grid-cols-3">
+          {credibility.map((c, idx) => {
+            const Icon = c.icon;
+            return (
               <motion.div
                 key={c.k}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="rounded-[1.5rem] border border-forest/12 bg-ivory p-7"
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="flex items-center gap-4 rounded-2xl border border-forest/12 bg-white p-6 shadow-sm"
               >
-                <c.icon className="text-clay" size={22} />
-                <p className="mt-4 text-[11px] uppercase tracking-[0.2em] text-forest/50">{c.k}</p>
-                <p className="mt-2 font-display text-xl text-forest">{c.v}</p>
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-forest text-clay-soft">
+                  <Icon size={24} />
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-forest/50">{c.k}</p>
+                  <p className="mt-0.5 font-display text-base font-bold text-forest">{c.v}</p>
+                </div>
               </motion.div>
-            ))}
-          </div>
-        )}
-
-        <p className="mt-8 max-w-3xl text-sm leading-relaxed text-ink/60">
-          Médica com CRM ativo ({site.crm}), formação em Medicina e Psicologia, membro da ABMEV
-          (Associação Brasileira de Medicina do Estilo de Vida).
-        </p>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

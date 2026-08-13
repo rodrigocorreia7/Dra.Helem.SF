@@ -1,18 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ivory: #f6f1e8;
-  --color-ivory-deep: #ece4d7;
-  --color-ink: #16211d;
-  --color-forest: #1d382f;
-  --color-forest-soft: #2c5245;
-  --color-sage: #7d9b8c;
-  --color-clay: #b06544;
-  --color-clay-soft: #d9a184;
+  --color-ivory: #faf8f5;
+  --color-ivory-deep: #f3efe9;
+  --color-ink: #192420;
+  --color-forest: #0d2d26;
+  --color-forest-soft: #18443b;
+  --color-sage: #41786c;
+  --color-clay: #c26d47;
+  --color-clay-soft: #d9825b;
   --color-gold: #c2a15b;
+  --color-whatsapp: #075e54;
+  --color-whatsapp-hover: #0b7367;
 
   --font-display: "Fraunces", ui-serif, Georgia, serif;
-  --font-body: "Karla", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
@@ -27,8 +29,8 @@ body {
 }
 
 ::selection {
-  background: var(--color-forest);
-  color: var(--color-ivory);
+  background: var(--color-clay);
+  color: #ffffff;
 }
 
 .grain {
@@ -39,9 +41,21 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.5;
-  background-image: radial-gradient(rgba(29, 56, 47, 0.07) 1px, transparent 1px);
+  opacity: 0.4;
+  background-image: radial-gradient(rgba(13, 45, 38, 0.08) 1px, transparent 1px);
   background-size: 4px 4px;
+}
+
+.glass-card {
+  background: rgba(250, 248, 245, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-dark {
+  background: rgba(13, 45, 38, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .rule {
@@ -49,13 +63,20 @@ body {
   background: linear-gradient(
     to right,
     transparent,
-    color-mix(in srgb, var(--color-forest) 30%, transparent),
+    rgba(13, 45, 38, 0.15),
     transparent
   );
 }
 
 @keyframes floatSlow {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-14px); }
+  50% { transform: translateY(-10px); }
 }
-.float-slow { animation: floatSlow 9s ease-in-out infinite; }
+.float-slow { animation: floatSlow 7s ease-in-out infinite; }
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+.pulse-glow { animation: pulseGlow 3s ease-in-out infinite; }
+
