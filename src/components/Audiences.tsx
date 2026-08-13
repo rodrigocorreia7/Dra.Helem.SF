@@ -61,7 +61,7 @@ export default function Audiences() {
           id: 'card-mulher-3',
           image: '/images/hormonio-mulher3.webp',
           imageCaption: 'Redução do Inchaço & Retenção',
-          imagePos: 'object-[center_15%]',
+          imagePos: 'object-[center_60%]',
           symptoms: [
             'Inchaço, dor ou peso nas pernas (investigação de retenção/lipedema)',
             'Oscilações bruscas de humor, ansiedade e névoa mental (brain fog)',
@@ -116,7 +116,7 @@ export default function Audiences() {
           id: 'card-geral-1',
           image: '/images/hormonio-mulher.webp',
           imageCaption: 'Investigação Clínica Completa',
-          imagePos: 'object-[center_15%]',
+          imagePos: 'object-[center_75%]',
           symptoms: [
             'Pré-diabetes ou glicose no limite do laboratório',
             'Colesterol e triglicerídeos alterados (dislipidemia)',
