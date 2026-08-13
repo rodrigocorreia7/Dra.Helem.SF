@@ -16,7 +16,7 @@ export default function Hero() {
   const { openBooking } = useBooking();
 
   return (
-    <section id="topo" className="grain relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28 bg-[#faf8f5]">
+    <section id="topo" className="grain relative overflow-hidden pt-44 pb-20 sm:pt-52 lg:pt-56 sm:pb-28 bg-[#faf8f5]">
       {/* Background radial glows */}
       <div
         className="pointer-events-none absolute -right-32 -top-24 h-[560px] w-[560px] rounded-full opacity-40 blur-3xl"
