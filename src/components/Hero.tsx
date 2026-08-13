@@ -35,18 +35,18 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             variants={fade}
-            className="mb-6 flex flex-wrap items-center gap-2"
+            className="mb-6 flex flex-wrap items-center gap-2.5"
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-forest/15 bg-white px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-forest shadow-xs">
-              <ShieldCheck size={14} className="text-clay" />
+            <span className="inline-flex items-center gap-2 rounded-full border border-forest/25 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-forest shadow-sm">
+              <ShieldCheck size={15} className="text-clay shrink-0" />
               {site.crm} · Médica & Psicóloga
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-forest/15 bg-forest/5 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-forest/80">
-              <Award size={13} className="text-clay" />
+            <span className="inline-flex items-center gap-2 rounded-full border border-forest/25 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-forest shadow-sm">
+              <Award size={15} className="text-clay shrink-0" />
               ABMEV
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-forest/15 bg-forest/5 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-forest/80">
-              <Video size={13} className="text-forest" />
+            <span className="inline-flex items-center gap-2 rounded-full border border-forest/25 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-forest shadow-sm">
+              <Video size={15} className="text-forest shrink-0" />
               Presencial & Telemedicina
             </span>
           </motion.div>
