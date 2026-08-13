@@ -106,16 +106,17 @@ export default function Hero() {
           transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
           className="relative"
         >
-          <div className="relative overflow-hidden rounded-[2.5rem] border border-forest/15 bg-ivory-deep shadow-2xl shadow-forest/12">
-            <img
-              src="/images/ENSAIOMED-94.webp"
-              alt="Dra. Hélem Machado Almeida - Médica e Psicóloga CRM 40098-SC"
-              className="h-[420px] w-full object-cover object-[center_15%] sm:h-[540px]"
-              loading="eager"
-              fetchPriority="high"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-forest/75 via-transparent to-transparent" />
-            <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-ivory/25 bg-forest/80 p-4.5 backdrop-blur-md text-ivory">
+          <div className="overflow-hidden rounded-[2.5rem] border border-forest/15 bg-white shadow-2xl shadow-forest/12">
+            <div className="relative aspect-[3/4] sm:aspect-[2/3] w-full overflow-hidden bg-forest/5">
+              <img
+                src="/images/ENSAIOMED-115.webp"
+                alt="Dra. Hélem Machado Almeida - Médica e Psicóloga CRM 40098-SC"
+                className="h-full w-full object-cover object-[center_15%]"
+                loading="eager"
+                fetchPriority="high"
+              />
+            </div>
+            <div className="p-5 bg-forest text-ivory border-t border-forest/20">
               <p className="font-display text-lg font-semibold">{site.doctor}</p>
               <p className="mt-0.5 text-xs text-ivory/80">
                 {site.crm} · Médica e Psicóloga · Membro ABMEV

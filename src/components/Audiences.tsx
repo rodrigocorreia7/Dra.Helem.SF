@@ -40,16 +40,16 @@ export default function Audiences() {
       cards: [
         {
           id: 'card-mulher-1',
-          image: '/images/hormonio-mulher.webp',
+          image: '/images/w1.webp',
           imageCaption: 'Modulação Hormonal & Vitalidade',
-          imagePos: 'object-[center_15%]',
+          imagePos: 'object-center',
           symptoms: [
             'Ganho de peso acentuado mesmo mantendo a rotina alimentar',
           ],
         },
         {
           id: 'card-mulher-2',
-          image: '/images/hormonio-mulher2.webp',
+          image: '/images/w2.webp',
           imageCaption: 'Acompanhamento Peri/Pós-Menopausa',
           imagePos: 'object-center',
           symptoms: [
