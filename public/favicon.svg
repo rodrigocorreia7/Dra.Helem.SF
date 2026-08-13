@@ -1,6 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="16" fill="#1d382f"/>
-  <path d="M18 44V20M18 32h14M32 20v24" stroke="#f6f1e8" stroke-width="4.5" stroke-linecap="round"/>
-  <circle cx="44" cy="25" r="7" fill="none" stroke="#b06544" stroke-width="4"/>
-  <path d="M44 32v10M40 38h8" stroke="#b06544" stroke-width="4" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="H com agulha">
+  <!-- Paleta dourada do logo original -->
+  <g fill="none" stroke="#B9975B" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Haste 1 (esquerda/centro) -->
+    <path d="M 70 8 C 68.5 28 67 65 69 108" stroke-width="6.5" />
+    <!-- Haste 2 (direita) -->
+    <path d="M 105 12 C 103 35 102 70 108 115" stroke-width="6.5" />
+    
+    <!-- Fio superior - da agulha até cruzar -->
+    <path d="M 25 52.5 C 38 54 58 59 92 68" stroke-width="4.2" />
+    <!-- Fio inferior - forma o olho e desce -->
+    <path d="M 25 60.5 C 38 66 63 72 91 73.5" stroke-width="4.2" />
+    <!-- Perna diagonal que sai do cruzamento -->
+    <path d="M 74 71.5 C 82 77 98 92 108 115" stroke-width="4.2" />
+  </g>
+
+  <!-- Olho da agulha -->
+  <g>
+    <circle cx="18" cy="56.5" r="8.5" fill="#B9975B"/>
+    <circle cx="18" cy="56.5" r="4.8" fill="#FEFEFE"/>
+    <circle cx="18" cy="56.5" r="2.4" fill="#B9975B"/>
+  </g>
 </svg>
