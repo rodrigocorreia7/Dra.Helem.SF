@@ -9,8 +9,8 @@ export const site = {
   whatsappNumber: '554791512620', // WhatsApp institucional da clínica (+55 47 9151-2620)
   whatsappFormatted: '+55 47 9151-2620',
   whatsappLabel: 'Falar no WhatsApp',
-  instagram: 'https://instagram.com/drahelem.machado',
-  instagramLabel: '@drahelem.machado',
+  instagram: 'https://instagram.com/drahelemmachado',
+  instagramLabel: '@drahelemmachado',
   email: 'contato@drahelemmachado.com.br',
   
   city: 'Florianópolis / Santa Catarina',

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Venus, Mars, Activity, CheckCircle, Sparkles, ArrowRight } from 'lucide-react';
 import { useBooking } from '../lib/booking';
 import { Audience } from '../lib/site';
-import SpecularButton from './SpecularButton';
+import ShinyText from './ShinyText';
 
 type SymptomCard = {
   id: string;
@@ -180,34 +180,46 @@ export default function Audiences() {
             Cansaço constante, ganho de peso sem explicação, insônia, alterações de humor ou exames alterados? A resposta não está em fórmulas mágicas nem em consultas superficiais, mas na investigação médica profunda das causas raízes do seu corpo.
           </p>
 
-          {/* Specular WebGL Category Buttons */}
+          {/* Category Navigation Buttons with Soft Ambient Pulsing Glow */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5 sm:gap-5">
             {categories.map((cat) => {
               const Icon = cat.icon;
               const active = activeTab === cat.id;
               return (
-                <SpecularButton
-                  key={cat.id}
-                  size="lg"
-                  radius={35}
-                  textColor={active ? '#ffffff' : '#0d2d26'}
-                  activeBg="bg-forest"
-                  lineColor={cat.lineColor}
-                  baseColor={cat.baseColor}
-                  intensity={1.25}
-                  shineSize={12}
-                  shineFade={38}
-                  thickness={3.0}
-                  speed={0.85}
-                  followMouse
-                  proximity={250}
-                  autoAnimate
-                  active={active}
-                  onClick={() => setActiveTab(cat.id)}
-                >
-                  <Icon size={18} className={`shrink-0 ${active ? 'text-clay-soft' : 'text-forest/75'}`} />
-                  <span className="font-semibold">{cat.title}</span>
-                </SpecularButton>
+                <div key={cat.id} className="relative group">
+                  {/* Soft Ambient Pulsing Light behind the button */}
+                  <div
+                    className={`absolute -inset-1 rounded-full blur-md transition-all duration-700 animate-pulse pointer-events-none ${
+                      active
+                        ? 'bg-forest/35 opacity-100 scale-105'
+                        : 'bg-clay/25 opacity-60 group-hover:opacity-90 group-hover:bg-clay/40 scale-100'
+                    }`}
+                  />
+
+                  {/* Clean Native Button */}
+                  <button
+                    onClick={() => setActiveTab(cat.id)}
+                    className={`relative flex items-center gap-2.5 rounded-full px-7 py-3.5 text-sm sm:text-base font-semibold transition-all duration-300 cursor-pointer ${
+                      active
+                        ? 'bg-forest text-ivory shadow-xl shadow-forest/25 scale-105 ring-1 ring-white/20'
+                        : 'border border-forest/20 bg-white text-forest hover:border-clay hover:text-clay hover:bg-forest/5 hover:scale-102 shadow-md shadow-forest/5'
+                    }`}
+                  >
+                    <Icon size={19} className={`shrink-0 transition-colors ${active ? 'text-clay-soft' : 'text-clay'}`} />
+                    {active ? (
+                      <ShinyText
+                        text={cat.title}
+                        color="#ffffff"
+                        shineColor="#ffd166"
+                        speed={2.2}
+                        spread={110}
+                        className="font-semibold"
+                      />
+                    ) : (
+                      <span>{cat.title}</span>
+                    )}
+                  </button>
+                </div>
               );
             })}
           </div>

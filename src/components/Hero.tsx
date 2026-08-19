@@ -3,6 +3,7 @@ import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { ShieldCheck, Award, ChevronDown, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
 import { site } from '../lib/site';
 import { useBooking } from '../lib/booking';
+import ShinyText from './ShinyText';
 
 export default function Hero() {
   const { openBooking } = useBooking();
@@ -248,8 +249,15 @@ export default function Hero() {
                   onClick={() => openBooking('geral')}
                   className="group w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-clay px-6 sm:px-8 py-3.5 md:py-4 text-sm sm:text-base font-bold text-white shadow-2xl shadow-clay/50 transition-all duration-300 hover:scale-105 hover:bg-clay-soft hover:text-forest cursor-pointer"
                 >
-                  Agendar Minha Consulta Médica
-                  <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+                  <ShinyText
+                    text="Agendar Minha Consulta Médica"
+                    color="#ffffff"
+                    shineColor="#ffd166"
+                    speed={2.4}
+                    spread={100}
+                    className="font-bold"
+                  />
+                  <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1 shrink-0" />
                 </button>
               </div>
             </motion.div>
