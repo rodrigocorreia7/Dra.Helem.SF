@@ -16,7 +16,7 @@ import BrandDivider from './components/BrandDivider';
 export default function App() {
   return (
     <BookingProvider>
-      <div className="min-h-screen bg-[#faf8f5] text-[#192420] overflow-x-hidden selection:bg-[#c26d47] selection:text-white">
+      <div className="min-h-screen bg-[#faf8f5] text-[#192420] overflow-x-clip selection:bg-[#c26d47] selection:text-white">
         <Nav />
         <main>
           <Hero />

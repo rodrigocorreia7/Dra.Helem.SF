@@ -145,10 +145,11 @@ export default function Audiences() {
             <Sparkles size={14} /> Investigação Integral
           </span>
           <h2 className="mt-4 font-display text-3xl sm:text-4xl lg:text-[2.75rem] leading-tight text-forest">
-            Sinais de que seu corpo precisa de uma investigação integral
+            Recupere sua energia, equilíbrio hormonal e saúde metabólica com uma{' '}
+            <span className="italic text-clay">medicina que olha você por inteiro.</span>
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-ink/75">
-            Cada organismo expressa desequilíbrios metabólicos e hormonais de forma única. Selecione a área correspondente ao seu momento de vida:
+          <p className="mt-4 text-base sm:text-lg text-ink/75 max-w-2xl mx-auto leading-relaxed">
+            Cansaço constante, ganho de peso sem explicação, insônia, alterações de humor ou exames alterados? A resposta não está em fórmulas mágicas nem em consultas superficiais, mas na investigação médica profunda das causas raízes do seu corpo.
           </p>
 
           {/* Navigation Buttons */}

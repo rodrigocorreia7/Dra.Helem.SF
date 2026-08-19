@@ -1,137 +1,195 @@
-import { motion } from 'framer-motion';
-import { ArrowDown, ShieldCheck, Stethoscope, Video, Award } from 'lucide-react';
+import { useRef, useEffect, useState } from 'react';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { ShieldCheck, Award, Video, ChevronDown, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
 import { site } from '../lib/site';
 import { useBooking } from '../lib/booking';
 
-const fade = {
-  hidden: { opacity: 0, y: 24 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, delay: 0.1 * i, ease: [0.22, 1, 0.36, 1] as const },
-  }),
-};
-
 export default function Hero() {
   const { openBooking } = useBooking();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoDuration, setVideoDuration] = useState(10);
+
+  // Scroll Progress across the 350vh container
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  // Smooth physics spring for scrubbing
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 30,
+    mass: 0.4,
+    restDelta: 0.001,
+  });
+
+  // Sync scroll to video currentTime
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const onLoadedMetadata = () => {
+      if (video.duration && !isNaN(video.duration)) {
+        setVideoDuration(video.duration);
+      }
+    };
+
+    video.addEventListener('loadedmetadata', onLoadedMetadata);
+    if (video.readyState >= 1 && video.duration) {
+      setVideoDuration(video.duration);
+    }
+
+    const unsubscribe = smoothProgress.on('change', (latest) => {
+      if (video && video.duration) {
+        const targetTime = Math.min(
+          Math.max(latest * video.duration, 0.01),
+          video.duration - 0.05
+        );
+        video.currentTime = targetTime;
+      }
+    });
+
+    return () => {
+      video.removeEventListener('loadedmetadata', onLoadedMetadata);
+      unsubscribe();
+    };
+  }, [smoothProgress]);
+
+  // Phase 1 (0.00 -> 0.30): Na Recepção - Slide from left (X: -100 -> 0 -> +50)
+  const p1Opacity = useTransform(scrollYProgress, [0, 0.22, 0.30], [1, 1, 0]);
+  const p1X = useTransform(scrollYProgress, [0, 0.25, 0.30], [0, 0, 40]);
+  const p1Scale = useTransform(scrollYProgress, [0, 0.30], [1, 0.96]);
+
+  // Phase 2 (0.35 -> 0.68): No Corredor / Ambiente - Slide from left
+  const p2Opacity = useTransform(scrollYProgress, [0.32, 0.40, 0.60, 0.68], [0, 1, 1, 0]);
+  const p2X = useTransform(scrollYProgress, [0.32, 0.40, 0.60, 0.68], [-80, 0, 0, 40]);
+
+  // Phase 3 (0.72 -> 1.00): Chegando ao Consultório + Aperto de Mão + CTA
+  const p3Opacity = useTransform(scrollYProgress, [0.70, 0.78, 1], [0, 1, 1]);
+  const p3X = useTransform(scrollYProgress, [0.70, 0.78, 1], [-80, 0, 0]);
+
+  // Bottom visual journey progress bar
+  const progressBarWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
   return (
-    <section id="topo" className="grain relative overflow-hidden pt-44 pb-20 sm:pt-52 lg:pt-56 sm:pb-28 bg-[#faf8f5]">
-      {/* Background radial glows */}
-      <div
-        className="pointer-events-none absolute -right-32 -top-24 h-[560px] w-[560px] rounded-full opacity-40 blur-3xl"
-        style={{ background: 'radial-gradient(circle, #c26d4744 0%, transparent 70%)' }}
-      />
-      <div
-        className="pointer-events-none absolute -left-48 top-48 h-[500px] w-[500px] rounded-full opacity-40 blur-3xl"
-        style={{ background: 'radial-gradient(circle, #41786c44 0%, transparent 70%)' }}
-      />
+    <section ref={containerRef} id="topo" className="relative h-[350vh] bg-black text-white">
+      {/* Sticky Fullscreen Viewport */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
+        {/* Background Video (Fixed & Locked with Top Framing to Preserve Full Head) */}
+        <video
+          ref={videoRef}
+          src="/videos/hero_scrub.mp4"
+          muted
+          playsInline
+          preload="auto"
+          disablePictureInPicture
+          className="absolute inset-0 h-full w-full object-cover object-[center_top]"
+        />
 
-      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-[1.1fr_0.9fr]">
-        <div>
-          {/* Badges */}
+        {/* Cinematic Lateral Vignette (Dark on left for text contrast, Clear on right for video focus) */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent sm:w-3/4 lg:w-3/5" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50" />
+
+        {/* Storytelling Text Overlays Container - Aligned to the Left */}
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-12 lg:px-16 flex items-center min-h-[70vh]">
+          
+          {/* ================= FASE 1 (0% -> 30%): Na Recepção ================= */}
           <motion.div
-            custom={0}
-            initial="hidden"
-            animate="show"
-            variants={fade}
-            className="mb-6 flex flex-wrap items-center gap-2.5"
+            style={{ opacity: p1Opacity, x: p1X, scale: p1Scale }}
+            className="absolute max-w-xl text-left flex flex-col items-start"
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-forest/25 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-forest shadow-sm">
-              <ShieldCheck size={15} className="text-clay shrink-0" />
-              {site.crm} · Médica & Psicóloga
-            </span>
-            <span className="inline-flex items-center gap-2 rounded-full border border-forest/25 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-forest shadow-sm">
-              <Award size={15} className="text-clay shrink-0" />
-              ABMEV
-            </span>
-            <span className="inline-flex items-center gap-2 rounded-full border border-forest/25 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-forest shadow-sm">
-              <Video size={15} className="text-forest shrink-0" />
-              Presencial & Telemedicina
-            </span>
+            {/* Top Badges */}
+            <div className="mb-5 flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/50 backdrop-blur-md px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-lg">
+                <ShieldCheck size={14} className="text-clay-soft" />
+                {site.crm} · Médica & Psicóloga
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/50 backdrop-blur-md px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-lg">
+                <Award size={14} className="text-clay-soft" />
+                ABMEV
+              </span>
+            </div>
+
+            {/* Phrase 1 (Grande, Branca, Alinhada à Esquerda) */}
+            <h1 className="font-display text-3xl sm:text-4xl lg:text-[3.2rem] leading-[1.12] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]">
+              SUA JORNADA DE TRANSFORMAÇÃO COMEÇA NO MOMENTO EM QUE VOCÊ{' '}
+              <span className="text-clay-soft underline decoration-clay-soft/40 underline-offset-8">
+                ATRAVESSA ESTA PORTA...
+              </span>
+            </h1>
+
+            {/* Scroll Indicator */}
+            <div className="mt-8 flex items-center gap-3 text-white/80 animate-pulse">
+              <ChevronDown size={22} className="animate-bounce text-clay-soft" />
+              <span className="text-xs font-bold uppercase tracking-[0.22em] text-clay-soft drop-shadow">
+                Role para acompanhar a experiência
+              </span>
+            </div>
           </motion.div>
 
-          {/* Main Headline */}
-          <motion.h1
-            custom={1}
-            initial="hidden"
-            animate="show"
-            variants={fade}
-            className="font-display text-[2.5rem] leading-[1.06] tracking-tight text-forest sm:text-5xl lg:text-[3.6rem]"
-          >
-            Recupere sua energia, equilíbrio hormonal e saúde metabólica com uma{' '}
-            <span className="italic text-clay underline decoration-clay/30 underline-offset-8">
-              medicina que olha você por inteiro.
-            </span>
-          </motion.h1>
-
-          {/* Subheadline */}
-          <motion.p
-            custom={2}
-            initial="hidden"
-            animate="show"
-            variants={fade}
-            className="mt-6 max-w-2xl text-[1.05rem] leading-relaxed text-ink/80 sm:text-lg"
-          >
-            Cansaço constante, ganho de peso sem explicação, insônia, alterações de humor ou exames alterados? A resposta não está em fórmulas mágicas nem em consultas superficiais, mas na investigação médica profunda das causas raízes do seu corpo.
-          </motion.p>
-
-          {/* Action Button & Micro-copy */}
+          {/* ================= FASE 2 (35% -> 68%): No Corredor / Ambiente ================= */}
           <motion.div
-            custom={3}
-            initial="hidden"
-            animate="show"
-            variants={fade}
-            className="mt-9 flex flex-col items-start gap-3"
+            style={{ opacity: p2Opacity, x: p2X }}
+            className="absolute max-w-xl text-left flex flex-col items-start pointer-events-none"
           >
-            <button
-              onClick={() => openBooking('geral')}
-              className="group inline-flex items-center gap-3 rounded-full bg-forest px-8 py-4 text-base font-semibold text-ivory shadow-xl shadow-forest/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-forest-soft hover:shadow-2xl hover:shadow-forest/30"
-            >
-              <Stethoscope size={19} className="text-clay-soft" />
-              Quero Agendar Minha Avaliação Integrada
-              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </button>
-            <p className="text-xs text-forest/65 flex items-center gap-1.5 font-medium">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              Atendimento individualizado. Vagas limitadas por mês para garantir acompanhamento próximo.
+            <span className="inline-flex items-center gap-2 rounded-full border border-clay-soft/40 bg-black/60 backdrop-blur-md px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-clay-soft shadow-lg">
+              <Sparkles size={14} /> Investigação na Causa Raiz
+            </span>
+
+            {/* Phrase 2 (Grande, Branca, Alinhada à Esquerda) */}
+            <h2 className="mt-5 font-display text-3xl sm:text-4xl lg:text-[3.2rem] leading-[1.15] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]">
+              Uma medicina que investiga a <span className="text-clay-soft">causa raiz</span> da sua saúde, sem pressa e com escuta profunda.
+            </h2>
+          </motion.div>
+
+          {/* ================= FASE 3 (72% -> 100%): Chegando ao Consultório + Aperto de Mão + CTA ================= */}
+          <motion.div
+            style={{ opacity: p3Opacity, x: p3X }}
+            className="absolute max-w-xl text-left flex flex-col items-start"
+          >
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-forest/90 backdrop-blur-md px-4 py-1.5 text-xs font-bold uppercase tracking-[0.22em] text-white shadow-xl">
+              <CheckCircle2 size={15} className="text-clay-soft" /> Atendimento de Alto Padrão
+            </span>
+
+            {/* Phrase 3 (Grande, Branca, Alinhada à Esquerda) */}
+            <h2 className="mt-4 font-display text-3xl sm:text-4xl lg:text-[3.4rem] leading-[1.1] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]">
+              Dra. Hélem Machado Almeida
+            </h2>
+
+            <p className="mt-2 text-lg sm:text-2xl font-display text-clay-soft drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+              Seja bem-vindo(a) à sua nova fase.
+            </p>
+
+            <p className="mt-2 text-xs sm:text-sm font-semibold tracking-wider text-white/85 uppercase">
+              {site.crm} · Médica e Psicóloga · Membro ABMEV
+            </p>
+
+            {/* Action CTA Button */}
+            <div className="mt-7 flex flex-col sm:flex-row items-start gap-4">
+              <button
+                onClick={() => openBooking('geral')}
+                className="group inline-flex items-center gap-3 rounded-full bg-clay px-8 py-4 text-base font-bold text-white shadow-2xl shadow-clay/50 transition-all duration-300 hover:scale-105 hover:bg-clay-soft hover:text-forest"
+              >
+                Agendar Minha Consulta Médica
+                <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
+              </button>
+            </div>
+
+            <p className="mt-4 text-xs text-white/75 flex items-center gap-1.5 font-medium">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              Presencial em Florianópolis/SC & Telemedicina para todo o Brasil
             </p>
           </motion.div>
         </div>
 
-        {/* Doctor Main Featured Portrait */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className="relative"
-        >
-          <div className="overflow-hidden rounded-[2.5rem] border border-forest/15 bg-white shadow-2xl shadow-forest/12">
-            <div className="relative aspect-[3/4] sm:aspect-[2/3] w-full overflow-hidden bg-forest/5">
-              <img
-                src="/images/ENSAIOMED-115.webp"
-                alt="Dra. Hélem Machado Almeida - Médica e Psicóloga CRM 40098-SC"
-                className="h-full w-full object-cover object-[center_15%]"
-                loading="eager"
-                fetchPriority="high"
-              />
-            </div>
-            <div className="p-5 bg-forest text-ivory border-t border-forest/20">
-              <p className="font-display text-lg font-semibold">{site.doctor}</p>
-              <p className="mt-0.5 text-xs text-ivory/80">
-                {site.crm} · Médica e Psicóloga · Membro ABMEV
-              </p>
-              <p className="mt-2 text-xs italic text-clay-soft border-t border-ivory/15 pt-2">
-                "Cuidando da parte bioquímica/hormonal sem negligenciar o aspecto emocional."
-              </p>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-
-      <div className="relative mx-auto mt-14 flex max-w-6xl items-center gap-3 px-5 text-forest/50 sm:px-8">
-        <ArrowDown size={16} className="animate-bounce" />
-        <span className="text-[11px] font-semibold uppercase tracking-[0.24em]">Role para explorar a conduta médica</span>
+        {/* Cinematic Scrollytelling Progress Bar at the Bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/15">
+          <motion.div
+            style={{ width: progressBarWidth }}
+            className="h-full bg-gradient-to-r from-clay via-clay-soft to-emerald-400 shadow-sm"
+          />
+        </div>
       </div>
     </section>
   );
