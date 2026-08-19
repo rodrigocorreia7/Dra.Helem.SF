@@ -10,16 +10,36 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const bgVideoRef = useRef<HTMLVideoElement>(null);
   const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4');
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [isInView, setIsInView] = useState(true);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
-  // Detect device size to load ultra-fast mobile intra-frame video
+  // Device & Motion Preference Detection
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth >= 768) {
-        setVideoSrc('/videos/hero_scrub.mp4');
-      } else {
-        setVideoSrc('/videos/hero_mobile.mp4');
-      }
+      const desktop = window.innerWidth >= 768;
+      setIsDesktop(desktop);
+      setVideoSrc(desktop ? '/videos/hero_scrub.mp4' : '/videos/hero_mobile.mp4');
+
+      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      setPrefersReducedMotion(motionQuery.matches);
     }
+  }, []);
+
+  // IntersectionObserver: Pause all GPU/CPU loops when Hero is scrolled out of view
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.01 }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
   }, []);
 
   // Scroll Progress across the 350vh container
@@ -30,16 +50,17 @@ export default function Hero() {
 
   // Smooth physics spring for scrubbing
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 28,
-    mass: 0.3,
+    stiffness: 110,
+    damping: 30,
+    mass: 0.25,
     restDelta: 0.001,
   });
 
-  // Zero-latency mobile & desktop video scrub with requestAnimationFrame + seek-locking
+  // Zero-latency mobile & desktop video scrub with deadzone filter and IntersectionObserver
   useEffect(() => {
+    if (!isInView || prefersReducedMotion) return;
+
     const el = videoRef.current;
-    const bgEl = bgVideoRef.current;
     if (!el) return;
 
     let target = 0;
@@ -61,16 +82,25 @@ export default function Hero() {
     const loop = () => {
       const v = videoRef.current as any;
       const bgV = bgVideoRef.current as any;
+
       if (v && v.duration && !isSeeking) {
-        if (Math.abs(v.currentTime - target) > 0.02) {
+        // Optimization: Deadzone filter (skips micro-movements < 0.025s)
+        const diff = Math.abs(v.currentTime - target);
+        if (diff > 0.025) {
           isSeeking = true;
           if ('fastSeek' in v) {
             v.fastSeek(target);
           } else {
             v.currentTime = target;
           }
+
+          // Only sync secondary background video on desktop to save mobile GPU
           if (bgV && bgV.duration) {
-            bgV.currentTime = target;
+            if ('fastSeek' in bgV) {
+              bgV.fastSeek(target);
+            } else {
+              bgV.currentTime = target;
+            }
           }
         }
       }
@@ -84,7 +114,7 @@ export default function Hero() {
       cancelAnimationFrame(raf);
       unsub();
     };
-  }, [smoothProgress, videoSrc]);
+  }, [smoothProgress, videoSrc, isInView, prefersReducedMotion]);
 
   // Phase 1 (0.00 -> 0.30): Na Recepção - Slide from left
   const p1Opacity = useTransform(scrollYProgress, [0, 0.22, 0.30], [1, 1, 0]);
@@ -103,23 +133,29 @@ export default function Hero() {
   const progressBarWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
   return (
-    <section ref={containerRef} id="topo" className="relative h-[350vh] bg-[#071914] text-white">
+    <section
+      ref={containerRef}
+      id="topo"
+      className="relative h-[350vh] bg-[#071914] text-white [overscroll-behavior-y:none]"
+    >
       {/* Sticky Viewport positioned strictly below the menu */}
-      <div className="sticky top-[64px] sm:top-[88px] h-[calc(100vh-64px)] sm:h-[calc(100vh-88px)] w-full overflow-hidden flex items-center justify-center bg-[#071914]">
+      <div className="sticky top-[64px] sm:top-[88px] h-[calc(100vh-64px)] sm:h-[calc(100vh-88px)] w-full overflow-hidden flex items-center justify-center bg-[#071914] [transform:translateZ(0)]">
         
-        {/* Layer 1: Ambient Blurred Background Video to fill letterboxing seamlessly */}
-        <video
-          ref={bgVideoRef}
-          src={videoSrc}
-          muted
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover blur-3xl opacity-35 scale-110 pointer-events-none"
-        />
+        {/* Layer 1: Ambient Blurred Background Video (Desktop only to conserve mobile GPU) */}
+        {isDesktop && (
+          <video
+            ref={bgVideoRef}
+            src={videoSrc}
+            muted
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover blur-3xl opacity-35 scale-110 pointer-events-none [transform:translateZ(0)]"
+          />
+        )}
 
         {/* Layer 2: Main Crisp Video Preserving 100% Original 16:9 Framing (Zero Head Cropping) */}
-        <div className="relative w-full h-full flex items-center justify-center">
+        <div className="relative w-full h-full flex items-center justify-center [transform:translateZ(0)]">
           <video
             ref={videoRef}
             src={videoSrc}
@@ -127,7 +163,7 @@ export default function Hero() {
             playsInline
             preload="auto"
             disablePictureInPicture
-            className="w-full h-full max-h-full max-w-full object-contain md:object-contain object-center z-0"
+            className="w-full h-full max-h-full max-w-full object-contain object-center z-0 [transform:translateZ(0)] [will-change:transform]"
           />
 
           {/* Cinematic Vignette Overlays for Text Legibility */}
@@ -140,7 +176,7 @@ export default function Hero() {
             {/* ================= FASE 1 (0% -> 30%): Na Recepção ================= */}
             <motion.div
               style={{ opacity: p1Opacity, x: p1X, scale: p1Scale }}
-              className="absolute max-w-xl text-left flex flex-col items-start"
+              className="absolute max-w-xl text-left flex flex-col items-start [transform:translateZ(0)] [will-change:transform,opacity]"
             >
               {/* Top Badges */}
               <div className="mb-5 flex flex-wrap items-center gap-2">
@@ -174,7 +210,7 @@ export default function Hero() {
             {/* ================= FASE 2 (35% -> 68%): No Corredor / Ambiente ================= */}
             <motion.div
               style={{ opacity: p2Opacity, x: p2X }}
-              className="absolute max-w-xl text-left flex flex-col items-start pointer-events-none"
+              className="absolute max-w-xl text-left flex flex-col items-start pointer-events-none [transform:translateZ(0)] [will-change:transform,opacity]"
             >
               <span className="inline-flex items-center gap-2 rounded-full border border-clay-soft/40 bg-black/60 backdrop-blur-md px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-clay-soft shadow-lg">
                 <Sparkles size={14} /> Investigação na Causa Raiz
@@ -189,7 +225,7 @@ export default function Hero() {
             {/* ================= FASE 3 (72% -> 100%): Chegando ao Consultório + Aperto de Mão + CTA ================= */}
             <motion.div
               style={{ opacity: p3Opacity, x: p3X }}
-              className="absolute max-w-xl text-left flex flex-col items-start"
+              className="absolute max-w-xl text-left flex flex-col items-start [transform:translateZ(0)] [will-change:transform,opacity]"
             >
               <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-forest/90 backdrop-blur-md px-4 py-1.5 text-xs font-bold uppercase tracking-[0.22em] text-white shadow-xl">
                 <CheckCircle2 size={15} className="text-clay-soft" /> Atendimento de Alto Padrão
@@ -223,7 +259,7 @@ export default function Hero() {
         </div>
 
         {/* Cinematic Scrollytelling Progress Bar at the Bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/15 z-20">
+        <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/15 z-20 [transform:translateZ(0)]">
           <motion.div
             style={{ width: progressBarWidth }}
             className="h-full bg-gradient-to-r from-clay via-clay-soft to-emerald-400 shadow-sm"
