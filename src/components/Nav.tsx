@@ -62,12 +62,12 @@ export default function Nav() {
         className={`transition-all duration-300 ${
           scrolled
             ? 'glass-card border-b border-forest/10 py-3 shadow-md'
-            : 'bg-ivory/70 backdrop-blur-xs py-4'
+            : 'bg-black/30 backdrop-blur-md border-b border-white/10 py-3'
         }`}
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 sm:px-8">
           <a href="#topo" className="group flex items-center" aria-label="Voltar ao topo">
-            <Logo variant="dark" showSubtitle={true} className="scale-95 origin-left" />
+            <Logo variant={scrolled ? "dark" : "light"} showSubtitle={true} className="scale-95 origin-left" />
           </a>
 
           {/* Desktop Navigation Links */}
@@ -76,14 +76,22 @@ export default function Nav() {
               <a
                 key={l.href}
                 href={l.href}
-                className="text-xs font-semibold uppercase tracking-wider text-forest/85 transition-colors hover:text-clay"
+                className={`text-xs font-semibold uppercase tracking-wider transition-colors ${
+                  scrolled
+                    ? 'text-forest/85 hover:text-clay'
+                    : 'text-white/90 hover:text-clay-soft drop-shadow-sm'
+                }`}
               >
                 {l.label}
               </a>
             ))}
             <button
               onClick={() => openBooking('geral')}
-              className="rounded-full bg-forest px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-ivory transition-all hover:bg-forest-soft hover:shadow-lg shadow-forest/15"
+              className={`rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all shadow-lg ${
+                scrolled
+                  ? 'bg-forest text-ivory hover:bg-forest-soft shadow-forest/15'
+                  : 'bg-clay text-white hover:bg-clay-soft shadow-clay/30'
+              }`}
             >
               Agendar Consulta
             </button>
