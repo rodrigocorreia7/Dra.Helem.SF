@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { ShieldCheck, Award, Video, ChevronDown, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Award, ChevronDown, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
 import { site } from '../lib/site';
 import { useBooking } from '../lib/booking';
 
@@ -8,7 +8,18 @@ export default function Hero() {
   const { openBooking } = useBooking();
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoDuration, setVideoDuration] = useState(10);
+  const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4');
+
+  // Detect device size to load ultra-fast mobile intra-frame video
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth >= 768) {
+        setVideoSrc('/videos/hero_scrub.mp4');
+      } else {
+        setVideoSrc('/videos/hero_mobile.mp4');
+      }
+    }
+  }, []);
 
   // Scroll Progress across the 350vh container
   const { scrollYProgress } = useScroll({
@@ -18,56 +29,69 @@ export default function Hero() {
 
   // Smooth physics spring for scrubbing
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 30,
-    mass: 0.4,
+    stiffness: 100,
+    damping: 28,
+    mass: 0.3,
     restDelta: 0.001,
   });
 
-  // Sync scroll to video currentTime
+  // Zero-latency mobile & desktop video scrub with requestAnimationFrame + seek-locking
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    const el = videoRef.current;
+    if (!el) return;
 
-    const onLoadedMetadata = () => {
-      if (video.duration && !isNaN(video.duration)) {
-        setVideoDuration(video.duration);
-      }
+    let target = 0;
+    let isSeeking = false;
+    let raf: number;
+
+    const handleSeeked = () => {
+      isSeeking = false;
     };
 
-    video.addEventListener('loadedmetadata', onLoadedMetadata);
-    if (video.readyState >= 1 && video.duration) {
-      setVideoDuration(video.duration);
-    }
+    el.addEventListener('seeked', handleSeeked);
 
-    const unsubscribe = smoothProgress.on('change', (latest) => {
-      if (video && video.duration) {
-        const targetTime = Math.min(
-          Math.max(latest * video.duration, 0.01),
-          video.duration - 0.05
-        );
-        video.currentTime = targetTime;
+    const unsub = smoothProgress.on('change', (v) => {
+      if (el.duration) {
+        target = Math.min(Math.max(v * el.duration, 0.01), el.duration - 0.05);
       }
     });
 
-    return () => {
-      video.removeEventListener('loadedmetadata', onLoadedMetadata);
-      unsubscribe();
+    const loop = () => {
+      const v = videoRef.current as any;
+      if (v && v.duration && !isSeeking) {
+        if (Math.abs(v.currentTime - target) > 0.02) {
+          isSeeking = true;
+          if ('fastSeek' in v) {
+            v.fastSeek(target);
+          } else {
+            v.currentTime = target;
+          }
+        }
+      }
+      raf = requestAnimationFrame(loop);
     };
-  }, [smoothProgress]);
 
-  // Phase 1 (0.00 -> 0.30): Na Recepção - Slide from left (X: -100 -> 0 -> +50)
+    raf = requestAnimationFrame(loop);
+
+    return () => {
+      el.removeEventListener('seeked', handleSeeked);
+      cancelAnimationFrame(raf);
+      unsub();
+    };
+  }, [smoothProgress, videoSrc]);
+
+  // Phase 1 (0.00 -> 0.30): Na Recepção - Slide from left
   const p1Opacity = useTransform(scrollYProgress, [0, 0.22, 0.30], [1, 1, 0]);
   const p1X = useTransform(scrollYProgress, [0, 0.25, 0.30], [0, 0, 40]);
   const p1Scale = useTransform(scrollYProgress, [0, 0.30], [1, 0.96]);
 
   // Phase 2 (0.35 -> 0.68): No Corredor / Ambiente - Slide from left
   const p2Opacity = useTransform(scrollYProgress, [0.32, 0.40, 0.60, 0.68], [0, 1, 1, 0]);
-  const p2X = useTransform(scrollYProgress, [0.32, 0.40, 0.60, 0.68], [-80, 0, 0, 40]);
+  const p2X = useTransform(scrollYProgress, [0.32, 0.40, 0.60, 0.68], [-60, 0, 0, 40]);
 
   // Phase 3 (0.72 -> 1.00): Chegando ao Consultório + Aperto de Mão + CTA
   const p3Opacity = useTransform(scrollYProgress, [0.70, 0.78, 1], [0, 1, 1]);
-  const p3X = useTransform(scrollYProgress, [0.70, 0.78, 1], [-80, 0, 0]);
+  const p3X = useTransform(scrollYProgress, [0.70, 0.78, 1], [-60, 0, 0]);
 
   // Bottom visual journey progress bar
   const progressBarWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
@@ -76,10 +100,10 @@ export default function Hero() {
     <section ref={containerRef} id="topo" className="relative h-[350vh] bg-black text-white">
       {/* Sticky Fullscreen Viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
-        {/* Background Video (Fixed & Locked with Top Framing to Preserve Full Head) */}
+        {/* Background Video (Fixed & Locked with Top Framing) */}
         <video
           ref={videoRef}
-          src="/videos/hero_scrub.mp4"
+          src={videoSrc}
           muted
           playsInline
           preload="auto"
@@ -87,12 +111,12 @@ export default function Hero() {
           className="absolute inset-0 h-full w-full object-cover object-[center_top]"
         />
 
-        {/* Cinematic Lateral Vignette (Dark on left for text contrast, Clear on right for video focus) */}
+        {/* Cinematic Lateral Vignette */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent sm:w-3/4 lg:w-3/5" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50" />
 
-        {/* Storytelling Text Overlays Container - Aligned to the Left */}
-        <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-12 lg:px-16 flex items-center min-h-[70vh]">
+        {/* Storytelling Text Overlays Container - Aligned to the Left & Lowered for View Clearance */}
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-12 lg:px-16 flex items-center min-h-[70vh] pt-24 sm:pt-32">
           
           {/* ================= FASE 1 (0% -> 30%): Na Recepção ================= */}
           <motion.div
