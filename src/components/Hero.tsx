@@ -98,9 +98,9 @@ export default function Hero() {
 
   return (
     <section ref={containerRef} id="topo" className="relative h-[350vh] bg-black text-white">
-      {/* Sticky Fullscreen Viewport */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
-        {/* Background Video (Fixed & Locked with Top Framing) */}
+      {/* Sticky Viewport positioned strictly below the menu */}
+      <div className="sticky top-[64px] sm:top-[88px] h-[calc(100vh-64px)] sm:h-[calc(100vh-88px)] w-full overflow-hidden flex items-center">
+        {/* Background Video (Separated from menu, framed with full headroom) */}
         <video
           ref={videoRef}
           src={videoSrc}
@@ -113,10 +113,10 @@ export default function Hero() {
 
         {/* Cinematic Lateral Vignette */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent sm:w-3/4 lg:w-3/5" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
 
-        {/* Storytelling Text Overlays Container - Aligned to the Left & Lowered for View Clearance */}
-        <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-12 lg:px-16 flex items-center min-h-[70vh] pt-24 sm:pt-32">
+        {/* Storytelling Text Overlays Container - Aligned to the Left & Comfortably Spaced */}
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-12 lg:px-16 flex items-center min-h-[60vh]">
           
           {/* ================= FASE 1 (0% -> 30%): Na Recepção ================= */}
           <motion.div
@@ -193,17 +193,12 @@ export default function Hero() {
             <div className="mt-7 flex flex-col sm:flex-row items-start gap-4">
               <button
                 onClick={() => openBooking('geral')}
-                className="group inline-flex items-center gap-3 rounded-full bg-clay px-8 py-4 text-base font-bold text-white shadow-2xl shadow-clay/50 transition-all duration-300 hover:scale-105 hover:bg-clay-soft hover:text-forest"
+                className="group inline-flex items-center gap-3 rounded-full bg-clay px-8 py-4 text-base font-bold text-white shadow-2xl shadow-clay/50 transition-all duration-300 hover:scale-105 hover:bg-clay-soft hover:text-forest cursor-pointer"
               >
                 Agendar Minha Consulta Médica
                 <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
               </button>
             </div>
-
-            <p className="mt-4 text-xs text-white/75 flex items-center gap-1.5 font-medium">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              Presencial em Florianópolis/SC & Telemedicina para todo o Brasil
-            </p>
           </motion.div>
         </div>
 

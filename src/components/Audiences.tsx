@@ -152,24 +152,41 @@ export default function Audiences() {
             Cansaço constante, ganho de peso sem explicação, insônia, alterações de humor ou exames alterados? A resposta não está em fórmulas mágicas nem em consultas superficiais, mas na investigação médica profunda das causas raízes do seu corpo.
           </p>
 
-          {/* Navigation Buttons */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          {/* Interactive Category Buttons with Pulsing Light Aura */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4">
             {categories.map((cat) => {
               const Icon = cat.icon;
               const active = activeTab === cat.id;
               return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveTab(cat.id)}
-                  className={`flex items-center gap-2.5 rounded-full px-6 py-3.5 text-sm font-semibold transition-all duration-300 ${
-                    active
-                      ? 'bg-forest text-ivory shadow-lg shadow-forest/20 scale-105'
-                      : 'border border-forest/15 bg-white text-forest/80 hover:border-forest/40 hover:bg-forest/5'
-                  }`}
-                >
-                  <Icon size={18} className={active ? 'text-clay-soft' : ''} />
-                  {cat.title}
-                </button>
+                <div key={cat.id} className="relative group">
+                  {/* Glowing Pulsing Aura behind each button */}
+                  <div
+                    className={`absolute -inset-1 rounded-full blur-md transition-all duration-500 animate-pulse ${
+                      active
+                        ? 'bg-forest/40 opacity-100 scale-105'
+                        : 'bg-clay/35 opacity-70 group-hover:opacity-100 group-hover:bg-clay/50'
+                    }`}
+                  />
+
+                  {/* Button Element */}
+                  <button
+                    onClick={() => setActiveTab(cat.id)}
+                    className={`relative flex items-center gap-2.5 rounded-full px-6 py-3.5 text-sm font-semibold transition-all duration-300 cursor-pointer ${
+                      active
+                        ? 'bg-forest text-ivory shadow-xl shadow-forest/25 ring-2 ring-forest/30 scale-105'
+                        : 'border-2 border-forest/20 bg-white text-forest hover:border-clay hover:bg-clay/5 hover:scale-105 shadow-md'
+                    }`}
+                  >
+                    <Icon size={18} className={active ? 'text-clay-soft' : 'text-clay group-hover:scale-110 transition-transform'} />
+                    <span>{cat.title}</span>
+                    {!active && (
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-clay opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-clay" />
+                      </span>
+                    )}
+                  </button>
+                </div>
               );
             })}
           </div>

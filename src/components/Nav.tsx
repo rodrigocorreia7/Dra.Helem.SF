@@ -14,19 +14,11 @@ const links = [
 ];
 
 export default function Nav() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { openBooking } = useBooking();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30);
-    onScroll();
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   return (
-    <header className="fixed inset-x-0 top-0 z-40">
+    <header className="sticky top-0 z-40 bg-[#faf8f5] border-b border-forest/10 shadow-xs">
       {/* Topbar Superior */}
       <div className="bg-forest text-ivory text-[11px] py-1.5 px-4 hidden sm:block border-b border-ivory/10">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
@@ -57,17 +49,11 @@ export default function Nav() {
         </div>
       </div>
 
-      {/* Header Sticky Container */}
-      <div
-        className={`transition-all duration-300 ${
-          scrolled
-            ? 'glass-card border-b border-forest/10 py-3 shadow-md'
-            : 'bg-black/30 backdrop-blur-md border-b border-white/10 py-3'
-        }`}
-      >
+      {/* Main Navbar Container */}
+      <div className="py-3 sm:py-3.5">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 sm:px-8">
           <a href="#topo" className="group flex items-center" aria-label="Voltar ao topo">
-            <Logo variant={scrolled ? "dark" : "light"} showSubtitle={true} className="scale-95 origin-left" />
+            <Logo variant="dark" showSubtitle={true} className="scale-95 origin-left" />
           </a>
 
           {/* Desktop Navigation Links */}
@@ -76,22 +62,14 @@ export default function Nav() {
               <a
                 key={l.href}
                 href={l.href}
-                className={`text-xs font-semibold uppercase tracking-wider transition-colors ${
-                  scrolled
-                    ? 'text-forest/85 hover:text-clay'
-                    : 'text-white/90 hover:text-clay-soft drop-shadow-sm'
-                }`}
+                className="text-xs font-semibold uppercase tracking-wider text-forest/85 transition-colors hover:text-clay"
               >
                 {l.label}
               </a>
             ))}
             <button
               onClick={() => openBooking('geral')}
-              className={`rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all shadow-lg ${
-                scrolled
-                  ? 'bg-forest text-ivory hover:bg-forest-soft shadow-forest/15'
-                  : 'bg-clay text-white hover:bg-clay-soft shadow-clay/30'
-              }`}
+              className="rounded-full bg-forest px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-ivory transition-all hover:bg-forest-soft hover:shadow-lg shadow-forest/15 cursor-pointer"
             >
               Agendar Consulta
             </button>
@@ -99,42 +77,41 @@ export default function Nav() {
 
           {/* Mobile Menu Button */}
           <button
-            onClick={() => setMobileOpen((v) => !v)}
-            className="rounded-full border border-forest/20 p-2 text-forest lg:hidden"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="rounded-full p-2 text-forest hover:bg-forest/5 lg:hidden"
             aria-label="Abrir menu"
-            aria-expanded={mobileOpen}
           >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
-
-        {/* Mobile Dropdown */}
-        {mobileOpen && (
-          <div className="mx-5 mt-3 rounded-2xl border border-forest/15 bg-white p-5 shadow-2xl lg:hidden">
-            <nav className="flex flex-col gap-4">
-              {links.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="text-sm font-semibold uppercase tracking-wider text-forest/90 hover:text-clay"
-                >
-                  {l.label}
-                </a>
-              ))}
-              <button
-                onClick={() => {
-                  setMobileOpen(false);
-                  openBooking('geral');
-                }}
-                className="mt-2 rounded-full bg-forest px-5 py-3 text-xs font-bold uppercase tracking-wider text-ivory"
-              >
-                Agendar Consulta
-              </button>
-            </nav>
-          </div>
-        )}
       </div>
+
+      {/* Mobile Drawer */}
+      {mobileOpen && (
+        <div className="border-b border-forest/10 bg-[#faf8f5] px-5 py-4 lg:hidden">
+          <nav className="flex flex-col gap-3">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setMobileOpen(false)}
+                className="py-1 text-sm font-semibold text-forest hover:text-clay"
+              >
+                {l.label}
+              </a>
+            ))}
+            <button
+              onClick={() => {
+                setMobileOpen(false);
+                openBooking('geral');
+              }}
+              className="mt-2 w-full rounded-full bg-forest py-3 text-center text-xs font-bold uppercase tracking-wider text-ivory"
+            >
+              Agendar Consulta
+            </button>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
