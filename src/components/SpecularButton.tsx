@@ -26,6 +26,7 @@ export interface SpecularButtonProps {
   className?: string;
   type?: 'button' | 'submit' | 'reset';
   active?: boolean;
+  activeBg?: string;
 }
 
 interface ShaderProps {
@@ -45,9 +46,9 @@ interface ShaderProps {
 const PAD = 20;
 
 const SIZES: Record<ButtonSize, string> = {
-  sm: 'text-[0.85rem] px-[22px] py-[10px]',
+  sm: 'text-[0.85rem] px-5 py-2.5',
   md: 'text-[0.95rem] px-6 py-3',
-  lg: 'text-[1.05rem] px-7 py-3.5'
+  lg: 'text-sm sm:text-base px-7 py-3.5'
 };
 
 const VERT = `#version 300 es
@@ -115,9 +116,9 @@ const SpecularButton = ({
   size = 'lg',
   radius = 35,
   tint = '#ffffff',
-  tintOpacity = 0,
+  tintOpacity = 1,
   blur = 0,
-  textColor = '#f5f5f5',
+  textColor,
   lineColor = '#ffffff',
   baseColor = '#525252',
   intensity = 1.15,
@@ -132,7 +133,8 @@ const SpecularButton = ({
   onClick,
   className = '',
   type = 'button',
-  active = false
+  active = false,
+  activeBg = 'bg-[#0d2d26]'
 }: SpecularButtonProps) => {
   const btnRef = useRef<HTMLButtonElement>(null);
   const fxRef = useRef<HTMLSpanElement>(null);
@@ -261,27 +263,28 @@ const SpecularButton = ({
     };
   }, []);
 
+  const resolvedTextColor = textColor || (active ? '#ffffff' : '#0d2d26');
+
   return (
     <button
       ref={btnRef}
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`relative m-0 inline-flex cursor-pointer items-center justify-center border-none font-medium leading-none tracking-[0.01em] outline-none transition-all duration-200 active:scale-[0.97] disabled:cursor-default disabled:opacity-55 disabled:active:scale-100 [color:var(--sb-text-color)] [border-radius:var(--sb-radius)] [background:color-mix(in_srgb,var(--sb-tint)_calc(var(--sb-tint-opacity)*100%),transparent)] [backdrop-filter:blur(var(--sb-blur))] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_8px_24px_rgba(0,0,0,0.25)] focus-visible:outline-2 focus-visible:outline-offset-[3px] ${
-        active ? 'ring-2 ring-white/60 shadow-xl scale-105' : 'opacity-90 hover:opacity-100 hover:scale-102'
+      className={`relative m-0 inline-flex cursor-pointer items-center justify-center border-none font-semibold leading-none tracking-[0.01em] outline-none transition-all duration-200 active:scale-[0.97] disabled:cursor-default disabled:opacity-55 disabled:active:scale-100 ${
+        active
+          ? `${activeBg} text-white shadow-xl shadow-black/15 scale-105 ring-1 ring-white/30`
+          : 'bg-white text-forest border border-forest/15 hover:border-forest/35 hover:bg-forest/5 hover:scale-102 shadow-md shadow-forest/5'
       } ${SIZES[size] || SIZES.md}${className ? ` ${className}` : ''}`}
       style={
         {
-          '--sb-radius': `${radius}px`,
-          '--sb-tint': tint,
-          '--sb-tint-opacity': tintOpacity,
-          '--sb-blur': `${blur}px`,
-          '--sb-text-color': textColor
+          borderRadius: `${radius}px`,
+          color: resolvedTextColor
         } as CSSProperties
       }
     >
       <span ref={fxRef} aria-hidden="true" className="pointer-events-none absolute -inset-5 z-[1] [&_canvas]:block [&_canvas]:h-full [&_canvas]:w-full" />
-      <span className="relative z-[2] flex items-center gap-2.5 font-semibold">{children}</span>
+      <span className="relative z-[2] flex items-center gap-2.5 font-semibold text-inherit">{children}</span>
     </button>
   );
 };

@@ -181,7 +181,7 @@ export default function Audiences() {
           </p>
 
           {/* Specular WebGL Category Buttons */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5 sm:gap-5">
             {categories.map((cat) => {
               const Icon = cat.icon;
               const active = activeTab === cat.id;
@@ -190,16 +190,14 @@ export default function Audiences() {
                   key={cat.id}
                   size="lg"
                   radius={35}
-                  tint="#ffffff"
-                  tintOpacity={0}
-                  blur={0}
-                  textColor={active ? '#ffffff' : '#f5f5f5'}
+                  textColor={active ? '#ffffff' : '#0d2d26'}
+                  activeBg="bg-forest"
                   lineColor={cat.lineColor}
                   baseColor={cat.baseColor}
-                  intensity={1.15}
-                  shineSize={10}
+                  intensity={1.25}
+                  shineSize={12}
                   shineFade={38}
-                  thickness={2.9}
+                  thickness={3.0}
                   speed={0.85}
                   followMouse
                   proximity={250}
@@ -207,8 +205,8 @@ export default function Audiences() {
                   active={active}
                   onClick={() => setActiveTab(cat.id)}
                 >
-                  <Icon size={18} className="shrink-0" />
-                  <span>{cat.title}</span>
+                  <Icon size={18} className={`shrink-0 ${active ? 'text-clay-soft' : 'text-forest/75'}`} />
+                  <span className="font-semibold">{cat.title}</span>
                 </SpecularButton>
               );
             })}
