@@ -13,8 +13,8 @@
   --color-whatsapp: #075e54;
   --color-whatsapp-hover: #0b7367;
 
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
-  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Josefin Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "REM", ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
