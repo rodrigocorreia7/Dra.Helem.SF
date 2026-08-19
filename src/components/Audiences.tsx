@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Venus, Mars, Activity, CheckCircle, Sparkles, ArrowRight } from 'lucide-react';
 import { useBooking } from '../lib/booking';
 import { Audience } from '../lib/site';
+import SpecularButton from './SpecularButton';
 
 type SymptomCard = {
   id: string;
@@ -20,6 +21,8 @@ type Category = {
   icon: any;
   howWeHelp: string;
   cta: string;
+  lineColor: string;
+  baseColor: string;
   cards: SymptomCard[];
 };
 
@@ -30,10 +33,12 @@ export default function Audiences() {
   const categories: Category[] = [
     {
       id: 'mulheres',
-      title: '🌸 Saúde da Mulher',
+      title: 'Saúde da Mulher',
       subtitle: 'Modulação Hormonal, Peri/Pós-Menopausa e Estilo de Vida',
       badge: 'Para Mulheres',
       icon: Venus,
+      lineColor: '#c63e8c',
+      baseColor: '#b525e1',
       howWeHelp:
         'Avaliação completa do perfil hormonal (estrogênio, progesterona, tireoide, cortisol), readequação metabólica e suporte emocional integrado.',
       cta: 'Agendar Consulta Feminina',
@@ -60,57 +65,71 @@ export default function Audiences() {
         {
           id: 'card-mulher-3',
           image: '/images/hormonio-mulher3.webp',
-          imageCaption: 'Redução do Inchaço & Retenção',
-          imagePos: 'object-[center_60%]',
+          imageCaption: 'Equilíbrio Metabólico & Emocional',
+          imagePos: 'object-center',
           symptoms: [
-            'Inchaço, dor ou peso nas pernas (investigação de retenção/lipedema)',
-            'Oscilações bruscas de humor, ansiedade e névoa mental (brain fog)',
+            'Oscilações severas de humor, irritabilidade ou desânimo',
+            'Cansaço matinal crônico e falta de energia física',
+            'Inchaço abdominal recorrente e retenção de líquidos',
           ],
         },
       ],
     },
     {
       id: 'homens',
-      title: '👨 Saúde do Homem',
-      subtitle: 'Andropausa, Performance e Saúde Prostática',
+      title: 'Saúde do Homem',
+      subtitle: 'Andropausa, Otimização Metabólica e Disposição',
       badge: 'Para Homens',
       icon: Mars,
+      lineColor: '#1f50d9',
+      baseColor: '#0740c2',
       howWeHelp:
-        'Diagnóstico preciso da saúde masculina, otimização metabólica/hormonal (testosterona), manejo prostático clínico (prostatite, HPB) e plano de longevidade.',
+        'Investigação do eixo hormonal masculino (testosterona livre/total, SHBG, prolactina), avaliação de composição corporal e prevenção cardiovascular.',
       cta: 'Agendar Consulta Masculina',
       cards: [
         {
           id: 'card-homem-1',
           image: '/images/hormonio-homem.webp',
           imageCaption: 'Otimização Hormonal Masculina',
-          imagePos: 'object-[center_15%]',
+          imagePos: 'object-center',
           symptoms: [
-            'Cansaço físico e mental persistente ao longo do dia',
-            'Dificuldade para perder gordura abdominal e ganho de massa magra lento',
+            'Queda progressiva na disposição diária e foco mental',
           ],
         },
         {
           id: 'card-homem-2',
-          image: '/images/hormonio-homem3.webp',
-          imageCaption: 'Performance, Libido & Saúde Prostática',
-          imagePos: 'object-[center_15%]',
+          image: '/images/hormonio-homem2.webp',
+          imageCaption: 'Vitalidade & Saúde Metabólica',
+          imagePos: 'object-center',
           symptoms: [
-            'Redução da libido, disposição e foco profissional',
-            'Alterações no sono, ronco e acordar já fadigado',
-            'Dúvidas sobre alterações na próstata (PSA), hipertensão ou glicose alta',
+            'Redução de libido e vitalidade sexual',
+            'Dificuldade para ganho e manutenção de massa magra',
+          ],
+        },
+        {
+          id: 'card-homem-3',
+          image: '/images/hormonio-homem3.webp',
+          imageCaption: 'Prevenção Cardiovascular & Sono',
+          imagePos: 'object-center',
+          symptoms: [
+            'Sono não reparador, ronco e cansaço ao acordar',
+            'Aumento da gordura abdominal e visceral',
+            'Desmotivação e perda de rendimento no trabalho/treino',
           ],
         },
       ],
     },
     {
       id: 'geral',
-      title: '🏥 Saúde Geral & Cuidados Metabólicos',
-      subtitle: 'Medicina Clínica Preventiva para Todas as Idades',
-      badge: 'Para Todos',
+      title: 'Saúde Geral & Cuidados Metabólicos',
+      subtitle: 'Longevidade Saudável, Fadiga Crônica e Prevenção',
+      badge: 'Saúde Geral',
       icon: Activity,
+      lineColor: '#1fd970',
+      baseColor: '#06b62a',
       howWeHelp:
-        'Medicina clínica preventiva e terapêutica. Reversão de marcadores metabólicos alterados com tratamentos fundamentados pela medicina baseada em evidências e nutrição funcional.',
-      cta: 'Agendar Acompanhamento Clínico',
+        'Abordagem integral dos pilares da saúde: sono, estresse, microbiota intestinal, micronutrientes e marcadores inflamatórios.',
+      cta: 'Agendar Consulta Integrada',
       cards: [
         {
           id: 'card-geral-1',
@@ -118,19 +137,28 @@ export default function Audiences() {
           imageCaption: 'Investigação Clínica Completa',
           imagePos: 'object-[center_75%]',
           symptoms: [
-            'Pré-diabetes ou glicose no limite do laboratório',
-            'Colesterol e triglicerídeos alterados (dislipidemia)',
-            'Gordura no fígado (esteatose hepática)',
+            'Exames laboratoriais de rotina aparentemente "normais", mas persistência de sintomas',
           ],
         },
         {
           id: 'card-geral-2',
-          image: '/images/Dra_Helem_3.webp',
-          imageCaption: 'Acompanhamento Metabólico Personalizado',
-          imagePos: 'object-[center_15%]',
+          image: '/images/Dra_Helem_2.webp',
+          imageCaption: 'Estratégia Metabólica Integrada',
+          imagePos: 'object-center',
           symptoms: [
-            'Inflamação crônica silenciosa e fadiga sem diagnóstico',
-            'Necessidade de reestruturação de hábitos sem radicalismo',
+            'Alterações metabólicas iniciais (glicemia, colesterol, esteatose hepática)',
+            'Fadiga inexplicada e lentidão digestiva',
+          ],
+        },
+        {
+          id: 'card-geral-3',
+          image: '/images/Dra_Helem_3.webp',
+          imageCaption: 'Prevenção & Longevidade',
+          imagePos: 'object-center',
+          symptoms: [
+            'Sensação de que o corpo "não funciona mais como antes"',
+            'Desejo de estruturar um plano de longevidade com respaldo médico',
+            'Estresse crônico afetando o desempenho diário',
           ],
         },
       ],
@@ -152,41 +180,36 @@ export default function Audiences() {
             Cansaço constante, ganho de peso sem explicação, insônia, alterações de humor ou exames alterados? A resposta não está em fórmulas mágicas nem em consultas superficiais, mas na investigação médica profunda das causas raízes do seu corpo.
           </p>
 
-          {/* Interactive Category Buttons with Pulsing Light Aura */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4">
+          {/* Specular WebGL Category Buttons */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             {categories.map((cat) => {
               const Icon = cat.icon;
               const active = activeTab === cat.id;
               return (
-                <div key={cat.id} className="relative group">
-                  {/* Glowing Pulsing Aura behind each button */}
-                  <div
-                    className={`absolute -inset-1 rounded-full blur-md transition-all duration-500 animate-pulse ${
-                      active
-                        ? 'bg-forest/40 opacity-100 scale-105'
-                        : 'bg-clay/35 opacity-70 group-hover:opacity-100 group-hover:bg-clay/50'
-                    }`}
-                  />
-
-                  {/* Button Element */}
-                  <button
-                    onClick={() => setActiveTab(cat.id)}
-                    className={`relative flex items-center gap-2.5 rounded-full px-6 py-3.5 text-sm font-semibold transition-all duration-300 cursor-pointer ${
-                      active
-                        ? 'bg-forest text-ivory shadow-xl shadow-forest/25 ring-2 ring-forest/30 scale-105'
-                        : 'border-2 border-forest/20 bg-white text-forest hover:border-clay hover:bg-clay/5 hover:scale-105 shadow-md'
-                    }`}
-                  >
-                    <Icon size={18} className={active ? 'text-clay-soft' : 'text-clay group-hover:scale-110 transition-transform'} />
-                    <span>{cat.title}</span>
-                    {!active && (
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-clay opacity-75" />
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-clay" />
-                      </span>
-                    )}
-                  </button>
-                </div>
+                <SpecularButton
+                  key={cat.id}
+                  size="lg"
+                  radius={35}
+                  tint="#ffffff"
+                  tintOpacity={0}
+                  blur={0}
+                  textColor={active ? '#ffffff' : '#f5f5f5'}
+                  lineColor={cat.lineColor}
+                  baseColor={cat.baseColor}
+                  intensity={1.15}
+                  shineSize={10}
+                  shineFade={38}
+                  thickness={2.9}
+                  speed={0.85}
+                  followMouse
+                  proximity={250}
+                  autoAnimate
+                  active={active}
+                  onClick={() => setActiveTab(cat.id)}
+                >
+                  <Icon size={18} className="shrink-0" />
+                  <span>{cat.title}</span>
+                </SpecularButton>
               );
             })}
           </div>
