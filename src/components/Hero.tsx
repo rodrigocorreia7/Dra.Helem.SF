@@ -145,6 +145,7 @@ export default function Hero() {
           <video
             ref={bgVideoRef}
             src={videoSrc}
+            poster="/images/hero_poster.webp"
             muted
             playsInline
             preload="auto"
@@ -158,6 +159,7 @@ export default function Hero() {
           <video
             ref={videoRef}
             src={videoSrc}
+            poster="/images/hero_poster.webp"
             muted
             playsInline
             preload="auto"
