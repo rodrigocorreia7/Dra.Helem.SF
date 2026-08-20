@@ -64,7 +64,7 @@ export default function Audiences() {
         },
         {
           id: 'card-mulher-3',
-          image: '/images/hormonio-mulher3.webp',
+          image: '/images/hormonio-mulher2.webp',
           imageCaption: 'Equilíbrio Metabólico & Emocional',
           imagePos: 'object-center',
           symptoms: [
