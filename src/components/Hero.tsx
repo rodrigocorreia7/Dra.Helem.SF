@@ -10,17 +10,20 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const bgVideoRef = useRef<HTMLVideoElement>(null);
-  const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4?v=ios-60fps');
+  const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4?v=ios-smooth-v2');
   const [isDesktop, setIsDesktop] = useState(false);
   const [isInView, setIsInView] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  const targetTimeRef = useRef(0);
+  const lastSeekTimeRef = useRef(0);
 
   // Device & Motion Preference Detection
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const desktop = window.innerWidth >= 768;
       setIsDesktop(desktop);
-      setVideoSrc(desktop ? '/videos/hero_scrub.mp4?v=ios-60fps' : '/videos/hero_mobile.mp4?v=ios-60fps');
+      setVideoSrc(desktop ? '/videos/hero_scrub.mp4?v=ios-smooth-v2' : '/videos/hero_mobile.mp4?v=ios-smooth-v2');
 
       const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       setPrefersReducedMotion(motionQuery.matches);
@@ -73,34 +76,56 @@ export default function Hero() {
 
   // Ultra-responsive spring tuned for 60fps mobile & desktop scrub
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 140,
-    damping: 28,
-    mass: 0.18,
+    stiffness: 120,
+    damping: 30,
+    mass: 0.2,
     restDelta: 0.001,
   });
 
-  // Direct, deadlock-free video frame scrub sync across all mobile & desktop browsers
+  // Sync scroll target time
   useMotionValueEvent(smoothProgress, 'change', (latest) => {
-    if (!isInView || prefersReducedMotion) return;
-
     const v = videoRef.current;
     if (v && v.duration && !isNaN(v.duration)) {
-      const targetTime = Math.min(Math.max(latest * v.duration, 0.01), v.duration - 0.05);
-      if (Math.abs(v.currentTime - targetTime) > 0.015) {
-        v.currentTime = targetTime;
-      }
-    }
-
-    if (isDesktop) {
-      const bgV = bgVideoRef.current;
-      if (bgV && bgV.duration && !isNaN(bgV.duration)) {
-        const targetTime = Math.min(Math.max(latest * bgV.duration, 0.01), bgV.duration - 0.05);
-        if (Math.abs(bgV.currentTime - targetTime) > 0.02) {
-          bgV.currentTime = targetTime;
-        }
-      }
+      targetTimeRef.current = Math.min(Math.max(latest * v.duration, 0.01), v.duration - 0.05);
     }
   });
+
+  // iOS-Safe Throttled RAF Seek Loop (Max 35 seeks/sec to prevent WebKit AVPlayer queue lock)
+  useEffect(() => {
+    if (!isInView || prefersReducedMotion) return;
+
+    let raf: number;
+
+    const tick = (now: number) => {
+      const v = videoRef.current;
+      // Throttle seeking to ~28ms interval (35fps seek rate) to guarantee 60fps smooth scrolling on iOS
+      if (v && v.duration && !isNaN(v.duration)) {
+        if (now - lastSeekTimeRef.current >= 28) {
+          const target = targetTimeRef.current;
+          const diff = Math.abs(v.currentTime - target);
+          if (diff >= 0.025) {
+            v.currentTime = target;
+            lastSeekTimeRef.current = now;
+          }
+        }
+      }
+
+      if (isDesktop) {
+        const bgV = bgVideoRef.current;
+        if (bgV && bgV.duration && !isNaN(bgV.duration)) {
+          const target = targetTimeRef.current;
+          if (Math.abs(bgV.currentTime - target) >= 0.04) {
+            bgV.currentTime = target;
+          }
+        }
+      }
+
+      raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [isInView, prefersReducedMotion, isDesktop]);
 
   // Phase 1 (0.00 -> 0.30): Na Recepção - Slide from left
   const p1Opacity = useTransform(scrollYProgress, [0, 0.22, 0.30], [1, 1, 0]);
@@ -122,10 +147,10 @@ export default function Hero() {
     <section
       ref={containerRef}
       id="topo"
-      className="relative h-[350vh] bg-[#071914] text-white [overscroll-behavior-y:none]"
+      className="relative h-[350vh] bg-[#071914] text-white [overscroll-behavior-y:none] [-webkit-overflow-scrolling:touch]"
     >
       {/* Sticky Viewport responsivo para todas as resoluções */}
-      <div className="sticky top-[108px] md:top-[96px] lg:top-[104px] h-[calc(100vh-108px)] md:h-[calc(100vh-96px)] lg:h-[calc(100vh-104px)] w-full overflow-hidden flex flex-col md:block items-center justify-start md:justify-center bg-[#071914] [transform:translateZ(0)]">
+      <div className="sticky top-[108px] md:top-[96px] lg:top-[104px] h-[calc(100vh-108px)] md:h-[calc(100vh-96px)] lg:h-[calc(100vh-104px)] w-full overflow-hidden flex flex-col md:block items-center justify-start md:justify-center bg-[#071914] [transform:translate3d(0,0,0)] [backface-visibility:hidden]">
         
         {/* Layer 1: Ambient Blurred Background Video (Desktop only) */}
         {isDesktop && (
@@ -138,12 +163,12 @@ export default function Hero() {
             autoPlay={false}
             preload="auto"
             aria-hidden="true"
-            className="absolute inset-0 h-full w-full object-cover blur-3xl opacity-35 scale-110 pointer-events-none [transform:translateZ(0)]"
+            className="absolute inset-0 h-full w-full object-cover blur-3xl opacity-35 scale-110 pointer-events-none [transform:translate3d(0,0,0)]"
           />
         )}
 
         {/* Layer 2: Container do Vídeo (100% Uncropped contain) */}
-        <div className="relative w-full aspect-video md:aspect-auto md:h-full md:absolute md:inset-0 shrink-0 flex items-center justify-center bg-black/60 overflow-hidden [transform:translateZ(0)] pt-1 sm:pt-2 md:pt-0">
+        <div className="relative w-full aspect-video md:aspect-auto md:h-full md:absolute md:inset-0 shrink-0 flex items-center justify-center bg-black/60 overflow-hidden [transform:translate3d(0,0,0)] pt-1 sm:pt-2 md:pt-0">
           <video
             ref={videoRef}
             src={videoSrc}
@@ -153,7 +178,7 @@ export default function Hero() {
             autoPlay={false}
             preload="auto"
             disablePictureInPicture
-            className="w-full h-full object-contain object-center z-0 [transform:translateZ(0)] [will-change:transform]"
+            className="w-full h-full object-contain object-center z-0 [transform:translate3d(0,0,0)] [will-change:transform]"
             onLoadedMetadata={() => {
               const v = videoRef.current;
               if (v) {
@@ -173,7 +198,7 @@ export default function Hero() {
           {/* ================= FASE 1 (0% -> 30%): Na Recepção ================= */}
           <motion.div
             style={{ opacity: p1Opacity, x: p1X, scale: p1Scale }}
-            className="w-full max-w-xl md:absolute md:top-1/2 md:-translate-y-1/2 flex flex-col items-center md:items-start text-center md:text-left bg-transparent p-0 border-none shadow-none pt-1 md:pt-0 [transform:translateZ(0)] [will-change:transform,opacity]"
+            className="w-full max-w-xl md:absolute md:top-1/2 md:-translate-y-1/2 flex flex-col items-center md:items-start text-center md:text-left bg-transparent p-0 border-none shadow-none pt-1 md:pt-0 [transform:translate3d(0,0,0)] [will-change:transform,opacity]"
           >
             {/* Phrase 1 */}
             <h1 className="font-display text-lg sm:text-2xl md:text-[2rem] lg:text-[2.4rem] xl:text-[2.8rem] leading-snug md:leading-[1.18] tracking-tight text-white drop-shadow-[0_3px_16px_rgba(0,0,0,0.95)]">
@@ -195,7 +220,7 @@ export default function Hero() {
           {/* ================= FASE 2 (35% -> 68%): No Corredor / Ambiente ================= */}
           <motion.div
             style={{ opacity: p2Opacity, x: p2X }}
-            className="w-full max-w-xl absolute top-2 sm:top-3 md:top-1/2 md:-translate-y-1/2 flex flex-col items-center md:items-start text-center md:text-left bg-transparent p-0 border-none shadow-none pointer-events-none md:pt-0 [transform:translateZ(0)] [will-change:transform,opacity]"
+            className="w-full max-w-xl absolute top-2 sm:top-3 md:top-1/2 md:-translate-y-1/2 flex flex-col items-center md:items-start text-center md:text-left bg-transparent p-0 border-none shadow-none pointer-events-none md:pt-0 [transform:translate3d(0,0,0)] [will-change:transform,opacity]"
           >
             <span className="inline-flex items-center gap-1.5 rounded-full border border-clay-soft/40 bg-black/60 backdrop-blur-md px-3.5 py-1 text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-clay-soft shadow-lg mb-1 sm:mb-2 md:mb-2.5">
               <Sparkles size={13} /> Investigação na Causa Raiz
@@ -210,7 +235,7 @@ export default function Hero() {
           {/* ================= FASE 3 (72% -> 100%): Chegando ao Consultório + Aperto de Mão + CTA ================= */}
           <motion.div
             style={{ opacity: p3Opacity, x: p3X }}
-            className="w-full max-w-xl absolute top-2 sm:top-3 md:top-1/2 md:-translate-y-1/2 flex flex-col items-center md:items-start text-center md:text-left bg-transparent p-0 border-none shadow-none md:pt-0 [transform:translateZ(0)] [will-change:transform,opacity]"
+            className="w-full max-w-xl absolute top-2 sm:top-3 md:top-1/2 md:-translate-y-1/2 flex flex-col items-center md:items-start text-center md:text-left bg-transparent p-0 border-none shadow-none md:pt-0 [transform:translate3d(0,0,0)] [will-change:transform,opacity]"
           >
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-forest/90 backdrop-blur-md px-3.5 py-1 text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-white shadow-xl mb-1 sm:mb-2 md:mb-2.5">
               <CheckCircle2 size={13} className="text-clay-soft" /> Atendimento de Alto Padrão
@@ -251,7 +276,7 @@ export default function Hero() {
         </div>
 
         {/* Cinematic Scrollytelling Progress Bar at the Bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/15 z-20 [transform:translateZ(0)]">
+        <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/15 z-20 [transform:translate3d(0,0,0)]">
           <motion.div
             style={{ width: progressBarWidth }}
             className="h-full bg-gradient-to-r from-clay via-clay-soft to-emerald-400 shadow-sm"
