@@ -10,7 +10,7 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const bgVideoRef = useRef<HTMLVideoElement>(null);
-  const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4');
+  const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4?v=ios-60fps');
   const [isDesktop, setIsDesktop] = useState(false);
   const [isInView, setIsInView] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -20,7 +20,7 @@ export default function Hero() {
     if (typeof window !== 'undefined') {
       const desktop = window.innerWidth >= 768;
       setIsDesktop(desktop);
-      setVideoSrc(desktop ? '/videos/hero_scrub.mp4' : '/videos/hero_mobile.mp4');
+      setVideoSrc(desktop ? '/videos/hero_scrub.mp4?v=ios-60fps' : '/videos/hero_mobile.mp4?v=ios-60fps');
 
       const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       setPrefersReducedMotion(motionQuery.matches);
