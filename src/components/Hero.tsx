@@ -10,7 +10,7 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const bgVideoRef = useRef<HTMLVideoElement>(null);
-  const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4?v=2');
+  const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4');
   const [isDesktop, setIsDesktop] = useState(false);
   const [isInView, setIsInView] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -21,7 +21,7 @@ export default function Hero() {
     if (typeof window === 'undefined') return;
     const desktop = window.innerWidth >= 768;
     setIsDesktop(desktop);
-    setVideoSrc(desktop ? '/videos/hero_scrub.mp4?v=2' : '/videos/hero_mobile.mp4?v=2');
+    setVideoSrc(desktop ? '/videos/hero_scrub.mp4' : '/videos/hero_mobile.mp4');
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     setPrefersReducedMotion(mq.matches);
   }, []);
@@ -40,10 +40,13 @@ export default function Hero() {
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 140, damping: 28, mass: 0.18, restDelta: 0.001,
+    stiffness: 140,
+    damping: 28,
+    mass: 0.18,
+    restDelta: 0.001,
   });
 
-  // Simple, reliable scrub: just set currentTime on every RAF tick
+  // Simple, reliable scrub loop
   useEffect(() => {
     if (!isInView || prefersReducedMotion) return;
     let raf: number;
@@ -51,10 +54,8 @@ export default function Hero() {
     const tick = (now: number) => {
       const v = videoRef.current;
       if (v && v.readyState >= 2 && v.duration > 0) {
-        // Ensure video is paused (scrub only, no playback)
         if (!v.paused) v.pause();
-
-        if (now - lastSeekRef.current >= 30) {
+        if (now - lastSeekRef.current >= 28) {
           const p = scrollYProgress.get();
           const t = Math.max(0.01, Math.min(p * v.duration, v.duration - 0.05));
           if (Math.abs(v.currentTime - t) > 0.02) {
@@ -83,13 +84,16 @@ export default function Hero() {
     return () => cancelAnimationFrame(raf);
   }, [isInView, prefersReducedMotion, isDesktop, scrollYProgress]);
 
+  // Phase 1 (0.00 -> 0.30): Na Recepção
   const p1Opacity = useTransform(scrollYProgress, [0, 0.22, 0.30], [1, 1, 0]);
   const p1X = useTransform(scrollYProgress, [0, 0.25, 0.30], [0, 0, 30]);
   const p1Scale = useTransform(scrollYProgress, [0, 0.30], [1, 0.96]);
 
+  // Phase 2 (0.35 -> 0.68): No Corredor / Ambiente
   const p2Opacity = useTransform(scrollYProgress, [0.32, 0.40, 0.60, 0.68], [0, 1, 1, 0]);
   const p2X = useTransform(scrollYProgress, [0.32, 0.40, 0.60, 0.68], [-40, 0, 0, 30]);
 
+  // Phase 3 (0.72 -> 1.00): Consultório + CTA
   const p3Opacity = useTransform(scrollYProgress, [0.70, 0.78, 1], [0, 1, 1]);
   const p3X = useTransform(scrollYProgress, [0.70, 0.78, 1], [-40, 0, 0]);
 
@@ -101,13 +105,14 @@ export default function Hero() {
       id="topo"
       className="relative h-[350dvh] bg-[#071914] text-white [overscroll-behavior-y:none] [-webkit-overflow-scrolling:touch]"
     >
+      {/* Sticky Viewport */}
       <div className="sticky top-[108px] md:top-[96px] lg:top-[104px] h-[calc(100dvh-108px)] md:h-[calc(100dvh-96px)] lg:h-[calc(100dvh-104px)] w-full overflow-hidden flex flex-col md:block items-center justify-start md:justify-center bg-[#071914] [transform:translate3d(0,0,0)] [backface-visibility:hidden]">
         
-        {/* Background blur video (desktop only, 480p 390KB) */}
+        {/* Layer 1: Blurred Background (Desktop only) */}
         {isDesktop && (
           <video
             ref={bgVideoRef}
-            src="/videos/hero_scrub_bg.mp4?v=2"
+            src="/videos/hero_scrub_bg.mp4"
             poster="/images/hero_poster.webp"
             muted
             playsInline
@@ -117,7 +122,7 @@ export default function Hero() {
           />
         )}
 
-        {/* Main video */}
+        {/* Layer 2: Main Video / Poster */}
         <div className="relative w-full aspect-video md:aspect-auto md:h-full md:absolute md:inset-0 shrink-0 flex items-center justify-center bg-black/60 overflow-hidden [transform:translate3d(0,0,0)] pt-1 sm:pt-2 md:pt-0">
           <video
             ref={videoRef}
@@ -134,10 +139,10 @@ export default function Hero() {
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#071914] via-transparent to-black/30 z-1" />
         </div>
 
-        {/* Storytelling text */}
+        {/* Layer 3: Narrative Phases (Smooth, direct render without overlays or blinks) */}
         <div className="relative z-10 w-full flex-1 md:absolute md:inset-0 mx-auto max-w-6xl px-5 sm:px-10 lg:px-16 flex flex-col items-center md:items-start justify-start md:justify-center text-center md:text-left pt-3 sm:pt-4 md:pt-0">
           
-          {/* Phase 1 */}
+          {/* ================= FASE 1 (0% -> 30%): Na Recepção ================= */}
           <motion.div
             style={{ opacity: p1Opacity, x: p1X, scale: p1Scale }}
             className="w-full max-w-xl md:absolute md:top-1/2 md:-translate-y-1/2 flex flex-col items-center md:items-start text-center md:text-left bg-transparent p-0 border-none shadow-none pt-1 md:pt-0 [transform:translate3d(0,0,0)] [will-change:transform,opacity]"
@@ -148,6 +153,7 @@ export default function Hero() {
                 ATRAVESSA ESTA PORTA...
               </span>
             </h1>
+
             <div className="mt-2.5 sm:mt-4 md:mt-5 flex items-center gap-2 text-white/80 animate-pulse">
               <ChevronDown size={18} className="animate-bounce text-clay-soft" />
               <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-clay-soft drop-shadow">
@@ -156,7 +162,7 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Phase 2 */}
+          {/* ================= FASE 2 (35% -> 68%): No Corredor / Ambiente ================= */}
           <motion.div
             style={{ opacity: p2Opacity, x: p2X }}
             className="w-full max-w-xl absolute top-2 sm:top-3 md:top-1/2 md:-translate-y-1/2 flex flex-col items-center md:items-start text-center md:text-left bg-transparent p-0 border-none shadow-none pointer-events-none md:pt-0 [transform:translate3d(0,0,0)] [will-change:transform,opacity]"
@@ -169,7 +175,7 @@ export default function Hero() {
             </h2>
           </motion.div>
 
-          {/* Phase 3 */}
+          {/* ================= FASE 3 (70% -> 100%): Consultório + CTA ================= */}
           <motion.div
             style={{ opacity: p3Opacity, x: p3X }}
             className="w-full max-w-xl absolute top-2 sm:top-3 md:top-1/2 md:-translate-y-1/2 flex flex-col items-center md:items-start text-center md:text-left bg-transparent p-0 border-none shadow-none md:pt-0 [transform:translate3d(0,0,0)] [will-change:transform,opacity]"
@@ -198,7 +204,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Progress bar */}
+        {/* Progress Bar */}
         <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/15 z-20 [transform:translate3d(0,0,0)]">
           <motion.div style={{ width: progressBarWidth }} className="h-full bg-gradient-to-r from-clay via-clay-soft to-emerald-400 shadow-sm" />
         </div>
