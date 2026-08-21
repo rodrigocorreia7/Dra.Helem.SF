@@ -152,11 +152,11 @@ export default function Hero() {
       {/* Sticky Viewport com dvh para estabilidade total durante expansão da barra do Safari iOS */}
       <div className="sticky top-[108px] md:top-[96px] lg:top-[104px] h-[calc(100dvh-108px)] md:h-[calc(100dvh-96px)] lg:h-[calc(100dvh-104px)] w-full overflow-hidden flex flex-col md:block items-center justify-start md:justify-center bg-[#071914] [transform:translate3d(0,0,0)] [backface-visibility:hidden]">
         
-        {/* Layer 1: Ambient Blurred Background Video (Desktop only) */}
+        {/* Layer 1: Ambient Blurred Background Video (Desktop only - 390KB ultra-lightweight 480p) */}
         {isDesktop && (
           <video
             ref={bgVideoRef}
-            src={videoSrc}
+            src="/videos/hero_scrub_bg.mp4?v=1"
             poster="/images/hero_poster.webp"
             muted
             playsInline
