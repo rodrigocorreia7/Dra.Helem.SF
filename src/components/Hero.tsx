@@ -10,7 +10,7 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const bgVideoRef = useRef<HTMLVideoElement>(null);
-  const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4?v=ios-smooth-v2');
+  const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4?v=ios-smooth-v3');
   const [isDesktop, setIsDesktop] = useState(false);
   const [isInView, setIsInView] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -23,7 +23,7 @@ export default function Hero() {
     if (typeof window !== 'undefined') {
       const desktop = window.innerWidth >= 768;
       setIsDesktop(desktop);
-      setVideoSrc(desktop ? '/videos/hero_scrub.mp4?v=ios-smooth-v2' : '/videos/hero_mobile.mp4?v=ios-smooth-v2');
+      setVideoSrc(desktop ? '/videos/hero_scrub.mp4?v=ios-smooth-v3' : '/videos/hero_mobile.mp4?v=ios-smooth-v3');
 
       const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       setPrefersReducedMotion(motionQuery.matches);
@@ -68,7 +68,7 @@ export default function Hero() {
     };
   }, []);
 
-  // Scroll Progress across the 350vh container
+  // Scroll Progress across the dynamic viewport container (350dvh for iOS address bar stability)
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
@@ -90,7 +90,7 @@ export default function Hero() {
     }
   });
 
-  // iOS-Safe Throttled RAF Seek Loop (Max 35 seeks/sec to prevent WebKit AVPlayer queue lock)
+  // iOS-Safe Throttled RAF Seek Loop com trava de hardware nativa (!v.seeking)
   useEffect(() => {
     if (!isInView || prefersReducedMotion) return;
 
@@ -98,8 +98,8 @@ export default function Hero() {
 
     const tick = (now: number) => {
       const v = videoRef.current;
-      // Throttle seeking to ~28ms interval (35fps seek rate) to guarantee 60fps smooth scrolling on iOS
-      if (v && v.duration && !isNaN(v.duration)) {
+      // Trava novo seek enquanto o anterior ainda está sendo processado pelo decoder do iOS
+      if (v && v.duration && !isNaN(v.duration) && !v.seeking) {
         if (now - lastSeekTimeRef.current >= 28) {
           const target = targetTimeRef.current;
           const diff = Math.abs(v.currentTime - target);
@@ -112,7 +112,7 @@ export default function Hero() {
 
       if (isDesktop) {
         const bgV = bgVideoRef.current;
-        if (bgV && bgV.duration && !isNaN(bgV.duration)) {
+        if (bgV && bgV.duration && !isNaN(bgV.duration) && !bgV.seeking) {
           const target = targetTimeRef.current;
           if (Math.abs(bgV.currentTime - target) >= 0.04) {
             bgV.currentTime = target;
@@ -147,10 +147,10 @@ export default function Hero() {
     <section
       ref={containerRef}
       id="topo"
-      className="relative h-[350vh] bg-[#071914] text-white [overscroll-behavior-y:none] [-webkit-overflow-scrolling:touch]"
+      className="relative h-[350dvh] bg-[#071914] text-white [overscroll-behavior-y:none] [-webkit-overflow-scrolling:touch]"
     >
-      {/* Sticky Viewport responsivo para todas as resoluções */}
-      <div className="sticky top-[108px] md:top-[96px] lg:top-[104px] h-[calc(100vh-108px)] md:h-[calc(100vh-96px)] lg:h-[calc(100vh-104px)] w-full overflow-hidden flex flex-col md:block items-center justify-start md:justify-center bg-[#071914] [transform:translate3d(0,0,0)] [backface-visibility:hidden]">
+      {/* Sticky Viewport com dvh para estabilidade total durante expansão da barra do Safari iOS */}
+      <div className="sticky top-[108px] md:top-[96px] lg:top-[104px] h-[calc(100dvh-108px)] md:h-[calc(100dvh-96px)] lg:h-[calc(100dvh-104px)] w-full overflow-hidden flex flex-col md:block items-center justify-start md:justify-center bg-[#071914] [transform:translate3d(0,0,0)] [backface-visibility:hidden]">
         
         {/* Layer 1: Ambient Blurred Background Video (Desktop only) */}
         {isDesktop && (
