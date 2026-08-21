@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useSpring, useTransform, useMotionValueEvent } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { ChevronDown, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
 import { site } from '../lib/site';
 import { useBooking } from '../lib/booking';
@@ -10,20 +10,17 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const bgVideoRef = useRef<HTMLVideoElement>(null);
-  const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4?v=ios-smooth-v3');
+  const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4?v=ios-smooth-v4');
   const [isDesktop, setIsDesktop] = useState(false);
   const [isInView, setIsInView] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  const targetTimeRef = useRef(0);
-  const lastSeekTimeRef = useRef(0);
 
   // Device & Motion Preference Detection
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const desktop = window.innerWidth >= 768;
       setIsDesktop(desktop);
-      setVideoSrc(desktop ? '/videos/hero_scrub.mp4?v=ios-smooth-v3' : '/videos/hero_mobile.mp4?v=ios-smooth-v3');
+      setVideoSrc(desktop ? '/videos/hero_scrub.mp4?v=ios-smooth-v4' : '/videos/hero_mobile.mp4?v=ios-smooth-v4');
 
       const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       setPrefersReducedMotion(motionQuery.matches);
@@ -46,28 +43,6 @@ export default function Hero() {
     return () => observer.disconnect();
   }, []);
 
-  // Unlock mobile hardware video decoder on initial touch / scroll
-  useEffect(() => {
-    const unlock = () => {
-      const v = videoRef.current;
-      if (v) {
-        v.play().then(() => v.pause()).catch(() => {});
-      }
-      const bg = bgVideoRef.current;
-      if (bg) {
-        bg.play().then(() => bg.pause()).catch(() => {});
-      }
-    };
-
-    window.addEventListener('touchstart', unlock, { once: true, passive: true });
-    window.addEventListener('scroll', unlock, { once: true, passive: true });
-
-    return () => {
-      window.removeEventListener('touchstart', unlock);
-      window.removeEventListener('scroll', unlock);
-    };
-  }, []);
-
   // Scroll Progress across the dynamic viewport container (350dvh for iOS address bar stability)
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -82,38 +57,28 @@ export default function Hero() {
     restDelta: 0.001,
   });
 
-  // Sync scroll target time
-  useMotionValueEvent(smoothProgress, 'change', (latest) => {
-    const v = videoRef.current;
-    if (v && v.duration && !isNaN(v.duration)) {
-      targetTimeRef.current = Math.min(Math.max(latest * v.duration, 0.01), v.duration - 0.05);
-    }
-  });
-
-  // iOS-Safe Throttled RAF Seek Loop com trava de hardware nativa (!v.seeking)
+  // iOS Safari Reactive RAF Scrub Loop (Direto de smoothProgress.get() com trava nativa !v.seeking)
   useEffect(() => {
     if (!isInView || prefersReducedMotion) return;
 
     let raf: number;
 
-    const tick = (now: number) => {
+    const tick = () => {
       const v = videoRef.current;
-      // Trava novo seek enquanto o anterior ainda está sendo processado pelo decoder do iOS
       if (v && v.duration && !isNaN(v.duration) && !v.seeking) {
-        if (now - lastSeekTimeRef.current >= 28) {
-          const target = targetTimeRef.current;
-          const diff = Math.abs(v.currentTime - target);
-          if (diff >= 0.025) {
-            v.currentTime = target;
-            lastSeekTimeRef.current = now;
-          }
+        const progress = smoothProgress.get();
+        const target = Math.min(Math.max(progress * v.duration, 0.01), v.duration - 0.05);
+        const diff = Math.abs(v.currentTime - target);
+        if (diff >= 0.02) {
+          v.currentTime = target;
         }
       }
 
       if (isDesktop) {
         const bgV = bgVideoRef.current;
         if (bgV && bgV.duration && !isNaN(bgV.duration) && !bgV.seeking) {
-          const target = targetTimeRef.current;
+          const progress = smoothProgress.get();
+          const target = Math.min(Math.max(progress * bgV.duration, 0.01), bgV.duration - 0.05);
           if (Math.abs(bgV.currentTime - target) >= 0.04) {
             bgV.currentTime = target;
           }
@@ -125,7 +90,7 @@ export default function Hero() {
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [isInView, prefersReducedMotion, isDesktop]);
+  }, [isInView, prefersReducedMotion, isDesktop, smoothProgress]);
 
   // Phase 1 (0.00 -> 0.30): Na Recepção - Slide from left
   const p1Opacity = useTransform(scrollYProgress, [0, 0.22, 0.30], [1, 1, 0]);
@@ -160,7 +125,7 @@ export default function Hero() {
             poster="/images/hero_poster.webp"
             muted
             playsInline
-            autoPlay={false}
+            autoPlay
             preload="auto"
             aria-hidden="true"
             className="absolute inset-0 h-full w-full object-cover blur-3xl opacity-35 scale-110 pointer-events-none [transform:translate3d(0,0,0)]"
@@ -175,14 +140,22 @@ export default function Hero() {
             poster="/images/hero_poster.webp"
             muted
             playsInline
-            autoPlay={false}
+            autoPlay
             preload="auto"
             disablePictureInPicture
             className="w-full h-full object-contain object-center z-0 [transform:translate3d(0,0,0)] [will-change:transform]"
-            onLoadedMetadata={() => {
-              const v = videoRef.current;
-              if (v) {
-                v.currentTime = 0.01;
+            onLoadedData={(e) => {
+              const v = e.currentTarget;
+              v.pause();
+              const progress = smoothProgress.get();
+              if (v.duration) {
+                v.currentTime = Math.min(Math.max(progress * v.duration, 0.01), v.duration - 0.05);
+              }
+            }}
+            onTimeUpdate={(e) => {
+              const v = e.currentTarget;
+              if (!v.paused && v.currentTime > 0.05) {
+                v.pause();
               }
             }}
           />
