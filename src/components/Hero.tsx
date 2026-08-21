@@ -46,14 +46,15 @@ export default function Hero() {
     restDelta: 0.001,
   });
 
-  // Simple, reliable scrub loop
+  // Reliable scrub loop: allows seeking as soon as metadata is loaded (readyState >= 1 / duration > 0)
+  // This is critical for Incognito mode and clean cache sessions where browsers don't pre-buffer until seek occurs.
   useEffect(() => {
     if (!isInView || prefersReducedMotion) return;
     let raf: number;
 
     const tick = (now: number) => {
       const v = videoRef.current;
-      if (v && v.readyState >= 2 && v.duration > 0) {
+      if (v && v.duration && !isNaN(v.duration) && v.duration > 0) {
         if (!v.paused) v.pause();
         if (now - lastSeekRef.current >= 28) {
           const p = scrollYProgress.get();
@@ -67,7 +68,7 @@ export default function Hero() {
 
       if (isDesktop) {
         const bg = bgVideoRef.current;
-        if (bg && bg.readyState >= 2 && bg.duration > 0) {
+        if (bg && bg.duration && !isNaN(bg.duration) && bg.duration > 0) {
           if (!bg.paused) bg.pause();
           const p = scrollYProgress.get();
           const t = Math.max(0.01, Math.min(p * bg.duration, bg.duration - 0.05));
@@ -139,7 +140,7 @@ export default function Hero() {
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#071914] via-transparent to-black/30 z-1" />
         </div>
 
-        {/* Layer 3: Narrative Phases (Smooth, direct render without overlays or blinks) */}
+        {/* Layer 3: Narrative Phases */}
         <div className="relative z-10 w-full flex-1 md:absolute md:inset-0 mx-auto max-w-6xl px-5 sm:px-10 lg:px-16 flex flex-col items-center md:items-start justify-start md:justify-center text-center md:text-left pt-3 sm:pt-4 md:pt-0">
           
           {/* ================= FASE 1 (0% -> 30%): Na Recepção ================= */}
