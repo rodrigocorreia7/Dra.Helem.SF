@@ -10,17 +10,19 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const bgVideoRef = useRef<HTMLVideoElement>(null);
-  const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4?v=ios-smooth-v4');
+  const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4?v=ios-final-v1');
   const [isDesktop, setIsDesktop] = useState(false);
   const [isInView, setIsInView] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  const lastSeekTimeRef = useRef(0);
 
   // Device & Motion Preference Detection
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const desktop = window.innerWidth >= 768;
       setIsDesktop(desktop);
-      setVideoSrc(desktop ? '/videos/hero_scrub.mp4?v=ios-smooth-v4' : '/videos/hero_mobile.mp4?v=ios-smooth-v4');
+      setVideoSrc(desktop ? '/videos/hero_scrub.mp4?v=ios-final-v1' : '/videos/hero_mobile.mp4?v=ios-final-v1');
 
       const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       setPrefersReducedMotion(motionQuery.matches);
@@ -49,37 +51,40 @@ export default function Hero() {
     offset: ['start start', 'end end'],
   });
 
-  // Ultra-responsive spring tuned for 60fps mobile & desktop scrub
+  // Spring physics for smooth UI animations
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 30,
-    mass: 0.2,
+    stiffness: 140,
+    damping: 28,
+    mass: 0.18,
     restDelta: 0.001,
   });
 
-  // iOS Safari Reactive RAF Scrub Loop (Direto de smoothProgress.get() com trava nativa !v.seeking)
+  // Robust Timestamp-Throttled Scrub Loop (Zero boolean lock / 100% reactive to scroll)
   useEffect(() => {
     if (!isInView || prefersReducedMotion) return;
 
     let raf: number;
 
-    const tick = () => {
+    const tick = (now: number) => {
       const v = videoRef.current;
-      if (v && v.duration && !isNaN(v.duration) && !v.seeking) {
-        const progress = smoothProgress.get();
-        const target = Math.min(Math.max(progress * v.duration, 0.01), v.duration - 0.05);
-        const diff = Math.abs(v.currentTime - target);
-        if (diff >= 0.02) {
-          v.currentTime = target;
+      if (v && v.duration && !isNaN(v.duration)) {
+        if (now - lastSeekTimeRef.current >= 24) {
+          const progress = scrollYProgress.get();
+          const target = Math.min(Math.max(progress * v.duration, 0.01), v.duration - 0.05);
+          const diff = Math.abs(v.currentTime - target);
+          if (diff >= 0.018) {
+            v.currentTime = target;
+            lastSeekTimeRef.current = now;
+          }
         }
       }
 
       if (isDesktop) {
         const bgV = bgVideoRef.current;
-        if (bgV && bgV.duration && !isNaN(bgV.duration) && !bgV.seeking) {
-          const progress = smoothProgress.get();
+        if (bgV && bgV.duration && !isNaN(bgV.duration)) {
+          const progress = scrollYProgress.get();
           const target = Math.min(Math.max(progress * bgV.duration, 0.01), bgV.duration - 0.05);
-          if (Math.abs(bgV.currentTime - target) >= 0.04) {
+          if (Math.abs(bgV.currentTime - target) >= 0.035) {
             bgV.currentTime = target;
           }
         }
@@ -90,7 +95,7 @@ export default function Hero() {
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [isInView, prefersReducedMotion, isDesktop, smoothProgress]);
+  }, [isInView, prefersReducedMotion, isDesktop, scrollYProgress]);
 
   // Phase 1 (0.00 -> 0.30): Na Recepção - Slide from left
   const p1Opacity = useTransform(scrollYProgress, [0, 0.22, 0.30], [1, 1, 0]);
@@ -121,7 +126,7 @@ export default function Hero() {
         {isDesktop && (
           <video
             ref={bgVideoRef}
-            src="/videos/hero_scrub_bg.mp4?v=1"
+            src="/videos/hero_scrub_bg.mp4?v=ios-final-v1"
             poster="/images/hero_poster.webp"
             muted
             playsInline
@@ -147,7 +152,7 @@ export default function Hero() {
             onLoadedData={(e) => {
               const v = e.currentTarget;
               v.pause();
-              const progress = smoothProgress.get();
+              const progress = scrollYProgress.get();
               if (v.duration) {
                 v.currentTime = Math.min(Math.max(progress * v.duration, 0.01), v.duration - 0.05);
               }
