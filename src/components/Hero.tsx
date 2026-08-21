@@ -26,6 +26,37 @@ export default function Hero() {
     setPrefersReducedMotion(mq.matches);
   }, []);
 
+  // Primar o vídeo (obrigatório no iOS Safari para liberar o decoder e permitir seeks arbitrários)
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+
+    const unlock = () => {
+      const p = v.play();
+      if (p !== undefined) {
+        p.then(() => {
+          v.pause();
+          v.currentTime = 0.01;
+        }).catch(() => {});
+      }
+    };
+
+    // Tenta no loadedmetadata
+    v.addEventListener('loadedmetadata', unlock, { once: true });
+
+    // E também no primeiro toque do usuário (mais seguro para mobile)
+    const onFirstTouch = () => {
+      unlock();
+      window.removeEventListener('touchstart', onFirstTouch);
+    };
+    window.addEventListener('touchstart', onFirstTouch, { once: true, passive: true });
+
+    return () => {
+      v.removeEventListener('loadedmetadata', unlock);
+      window.removeEventListener('touchstart', onFirstTouch);
+    };
+  }, [videoSrc]);
+
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -56,10 +87,10 @@ export default function Hero() {
       const v = videoRef.current;
       if (v && v.duration && !isNaN(v.duration) && v.duration > 0) {
         if (!v.paused) v.pause();
-        if (now - lastSeekRef.current >= 28) {
+        if (now - lastSeekRef.current >= 24) {
           const p = scrollYProgress.get();
           const t = Math.max(0.01, Math.min(p * v.duration, v.duration - 0.05));
-          if (Math.abs(v.currentTime - t) > 0.02) {
+          if (Math.abs(v.currentTime - t) > 0.015) {
             v.currentTime = t;
             lastSeekRef.current = now;
           }
@@ -72,7 +103,7 @@ export default function Hero() {
           if (!bg.paused) bg.pause();
           const p = scrollYProgress.get();
           const t = Math.max(0.01, Math.min(p * bg.duration, bg.duration - 0.05));
-          if (Math.abs(bg.currentTime - t) > 0.04) {
+          if (Math.abs(bg.currentTime - t) > 0.03) {
             bg.currentTime = t;
           }
         }
@@ -131,7 +162,7 @@ export default function Hero() {
             poster="/images/hero_poster.webp"
             muted
             playsInline
-            preload="auto"
+            preload={isDesktop ? "auto" : "metadata"}
             disablePictureInPicture
             className="w-full h-full object-contain object-center z-0 [transform:translate3d(0,0,0)] [will-change:transform]"
           />
