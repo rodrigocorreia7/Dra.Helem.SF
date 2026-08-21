@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform, useMotionValueEvent } from 'framer-motion';
 import { ChevronDown, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
 import { site } from '../lib/site';
 import { useBooking } from '../lib/booking';
@@ -43,77 +43,64 @@ export default function Hero() {
     return () => observer.disconnect();
   }, []);
 
+  // Unlock mobile hardware video decoder on initial touch / scroll
+  useEffect(() => {
+    const unlock = () => {
+      const v = videoRef.current;
+      if (v) {
+        v.play().then(() => v.pause()).catch(() => {});
+      }
+      const bg = bgVideoRef.current;
+      if (bg) {
+        bg.play().then(() => bg.pause()).catch(() => {});
+      }
+    };
+
+    window.addEventListener('touchstart', unlock, { once: true, passive: true });
+    window.addEventListener('scroll', unlock, { once: true, passive: true });
+
+    return () => {
+      window.removeEventListener('touchstart', unlock);
+      window.removeEventListener('scroll', unlock);
+    };
+  }, []);
+
   // Scroll Progress across the 350vh container
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   });
 
-  // Smooth physics spring for scrubbing
+  // Ultra-responsive spring tuned for 60fps mobile & desktop scrub
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 110,
-    damping: 30,
-    mass: 0.25,
+    stiffness: 140,
+    damping: 28,
+    mass: 0.18,
     restDelta: 0.001,
   });
 
-  // Zero-latency mobile & desktop video scrub with deadzone filter and IntersectionObserver
-  useEffect(() => {
+  // Direct, deadlock-free video frame scrub sync across all mobile & desktop browsers
+  useMotionValueEvent(smoothProgress, 'change', (latest) => {
     if (!isInView || prefersReducedMotion) return;
 
-    const el = videoRef.current;
-    if (!el) return;
-
-    let target = 0;
-    let isSeeking = false;
-    let raf: number;
-
-    const handleSeeked = () => {
-      isSeeking = false;
-    };
-
-    el.addEventListener('seeked', handleSeeked);
-
-    const unsub = smoothProgress.on('change', (v) => {
-      if (el.duration) {
-        target = Math.min(Math.max(v * el.duration, 0.01), el.duration - 0.05);
+    const v = videoRef.current;
+    if (v && v.duration && !isNaN(v.duration)) {
+      const targetTime = Math.min(Math.max(latest * v.duration, 0.01), v.duration - 0.05);
+      if (Math.abs(v.currentTime - targetTime) > 0.015) {
+        v.currentTime = targetTime;
       }
-    });
+    }
 
-    const loop = () => {
-      const v = videoRef.current as any;
-      const bgV = bgVideoRef.current as any;
-
-      if (v && v.duration && !isSeeking) {
-        const diff = Math.abs(v.currentTime - target);
-        if (diff > 0.025) {
-          isSeeking = true;
-          if ('fastSeek' in v) {
-            v.fastSeek(target);
-          } else {
-            v.currentTime = target;
-          }
-
-          if (bgV && bgV.duration) {
-            if ('fastSeek' in bgV) {
-              bgV.fastSeek(target);
-            } else {
-              bgV.currentTime = target;
-            }
-          }
+    if (isDesktop) {
+      const bgV = bgVideoRef.current;
+      if (bgV && bgV.duration && !isNaN(bgV.duration)) {
+        const targetTime = Math.min(Math.max(latest * bgV.duration, 0.01), bgV.duration - 0.05);
+        if (Math.abs(bgV.currentTime - targetTime) > 0.02) {
+          bgV.currentTime = targetTime;
         }
       }
-      raf = requestAnimationFrame(loop);
-    };
-
-    raf = requestAnimationFrame(loop);
-
-    return () => {
-      el.removeEventListener('seeked', handleSeeked);
-      cancelAnimationFrame(raf);
-      unsub();
-    };
-  }, [smoothProgress, videoSrc, isInView, prefersReducedMotion]);
+    }
+  });
 
   // Phase 1 (0.00 -> 0.30): Na Recepção - Slide from left
   const p1Opacity = useTransform(scrollYProgress, [0, 0.22, 0.30], [1, 1, 0]);
@@ -148,6 +135,7 @@ export default function Hero() {
             poster="/images/hero_poster.webp"
             muted
             playsInline
+            autoPlay={false}
             preload="auto"
             aria-hidden="true"
             className="absolute inset-0 h-full w-full object-cover blur-3xl opacity-35 scale-110 pointer-events-none [transform:translateZ(0)]"
@@ -162,9 +150,16 @@ export default function Hero() {
             poster="/images/hero_poster.webp"
             muted
             playsInline
+            autoPlay={false}
             preload="auto"
             disablePictureInPicture
             className="w-full h-full object-contain object-center z-0 [transform:translateZ(0)] [will-change:transform]"
+            onLoadedMetadata={() => {
+              const v = videoRef.current;
+              if (v) {
+                v.currentTime = 0.01;
+              }
+            }}
           />
 
           {/* Cinematic Vignette Overlays no lado esquerdo do desktop */}
@@ -172,7 +167,7 @@ export default function Hero() {
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#071914] via-transparent to-black/30 z-1" />
         </div>
 
-        {/* Layer 3: Container das Frases (Posicionado perfeitamente no meio da tela no desktop) */}
+        {/* Layer 3: Container das Frases (Centralizado verticalmente na tela) */}
         <div className="relative z-10 w-full flex-1 md:absolute md:inset-0 mx-auto max-w-6xl px-5 sm:px-10 lg:px-16 flex flex-col items-center md:items-start justify-start md:justify-center text-center md:text-left pt-3 sm:pt-4 md:pt-0">
           
           {/* ================= FASE 1 (0% -> 30%): Na Recepção ================= */}
