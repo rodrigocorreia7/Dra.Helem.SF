@@ -24,9 +24,16 @@
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href="https://drahelemmachado.com.br/" />
 
+    <!-- AI Agent & LLM Discovery Links (Agentic Web Standards) -->
+    <link rel="alternate" type="text/markdown" href="/llms.txt" title="LLM Summary" />
+    <link rel="alternate" type="text/markdown" href="/llms-full.txt" title="LLM Full Documentation" />
+    <meta name="ai:ready" content="true" />
+    <meta name="ai:knowledge" content="https://drahelemmachado.com.br/llms.txt" />
+    <meta name="ai:actions" content="https://drahelemmachado.com.br/llms.txt#acoes" />
+
     <!-- Geo-Targeting SEO -->
     <meta name="geo.region" content="BR-SC" />
-    <meta name="geo.placename" content="Santa Catarina" />
+    <meta name="geo.placename" content="Florianópolis, Santa Catarina" />
     <meta name="geo.position" content="-27.5948;-48.5482" />
     <meta name="ICBM" content="-27.5948, -48.5482" />
 
@@ -49,6 +56,7 @@
       name="twitter:description"
       content="Atendimento médico e psicológico especializado em modulação hormonal, saúde da mulher, andropausa e medicina do estilo de vida."
     />
+    
     <!-- Critical Resource Preload: Instant First Frame Paint -->
     <link rel="preload" href="/images/hero_poster.webp" as="image" type="image/webp" fetchpriority="high" />
 
@@ -60,37 +68,145 @@
       rel="stylesheet"
     />
 
-    <!-- JSON-LD Structured Data (Schema.org) -->
+    <!-- JSON-LD Structured Data (Schema.org / Agentic Actions & Microdata) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@graph": [
           {
-            "@type": "Physician",
+            "@type": "WebSite",
+            "@id": "https://drahelemmachado.com.br/#website",
+            "url": "https://drahelemmachado.com.br/",
+            "name": "Dra. Hélem Machado Almeida — Medicina & Saúde Hormonal",
+            "description": "Clínica médica de modulação hormonal, saúde da mulher, saúde do homem e medicina do estilo de vida.",
+            "inLanguage": "pt-BR",
+            "publisher": {
+              "@id": "https://drahelemmachado.com.br/#physician"
+            },
+            "potentialAction": {
+              "@type": "ReadAction",
+              "target": ["https://drahelemmachado.com.br/"]
+            }
+          },
+          {
+            "@type": "MedicalBusiness",
             "@id": "https://drahelemmachado.com.br/#physician",
-            "name": "Dra. Hélem Machado Almeida",
-            "medicalSpecialty": ["GeneralPractice", "Endocrinology", "IntegrativeMedicine"],
+            "name": "Dra. Hélem Machado Almeida — Medicina Integrativa",
+            "alternateName": "Dra. Hélem Machado",
+            "medicalSpecialty": [
+              "GeneralPractice",
+              "Endocrinology",
+              "IntegrativeMedicine",
+              "PublicHealthSpecialty"
+            ],
             "identifier": "CRM 40098-SC",
-            "description": "Médica (CRM 40098-SC) e Psicóloga associada à ABMEV, especialista em modulação hormonal, saúde integrativa, saúde da mulher e saúde do homem.",
+            "description": "Médica (CRM 40098-SC) e Psicóloga associada à ABMEV, especialista em modulação hormonal, saúde integrativa, saúde da mulher (climatério e menopausa) e saúde do homem (andropausa e performance).",
             "image": "https://drahelemmachado.com.br/images/Dra_Helem_1.webp",
             "telephone": "+554791512620",
             "email": "contato@drahelemmachado.com.br",
             "url": "https://drahelemmachado.com.br",
+            "priceRange": "$$$",
+            "currenciesAccepted": "BRL",
+            "paymentAccepted": "Cartão de Crédito, PIX, Transferência",
             "address": {
               "@type": "PostalAddress",
               "addressLocality": "Florianópolis",
               "addressRegion": "SC",
               "addressCountry": "BR"
             },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": -27.5948,
+              "longitude": -48.5482
+            },
             "memberOf": {
               "@type": "Organization",
-              "name": "ABMEV - Associação Brasileira de Medicina do Estilo de Vida"
+              "name": "ABMEV - Associação Brasileira de Medicina do Estilo de Vida",
+              "url": "https://abmev.org.br"
             },
             "aggregateRating": {
               "@type": "AggregateRating",
               "ratingValue": "4.9",
-              "reviewCount": "128"
+              "reviewCount": "128",
+              "bestRating": "5",
+              "worstRating": "1"
+            },
+            "availableService": [
+              {
+                "@type": "MedicalProcedure",
+                "name": "Modulação e Reposição Hormonal Personalizada",
+                "description": "Protocolos de hormônios bioidênticos e otimização hormonal para homens e mulheres."
+              },
+              {
+                "@type": "MedicalProcedure",
+                "name": "Saúde da Mulher & Menopausa",
+                "description": "Tratamento de sintomas do climatério, fogachos, lipedema, tireoide e metabolismo feminino."
+              },
+              {
+                "@type": "MedicalProcedure",
+                "name": "Saúde do Homem & Andropausa",
+                "description": "Otimização de testosterona, vigor físico, saúde prostática e prevenção cardiovascular."
+              },
+              {
+                "@type": "MedicalProcedure",
+                "name": "Medicina do Estilo de Vida & Reversão Metabólica",
+                "description": "Manejo clínico de esteatose hepática, pré-diabetes e síndrome metabólica."
+              }
+            ],
+            "potentialAction": {
+              "@type": "ReserveAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://wa.me/554791512620?text=Ol%C3%A1%2C%20Dra.%20H%C3%A9lem!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20agendamento%20de%20consulta.",
+                "inLanguage": "pt-BR",
+                "actionPlatform": [
+                  "http://schema.org/DesktopWebPlatform",
+                  "http://schema.org/MobileWebPlatform",
+                  "http://schema.org/IOSPlatform",
+                  "http://schema.org/AndroidPlatform"
+                ]
+              },
+              "result": {
+                "@type": "Reservation",
+                "name": "Agendamento de Consulta Médica com Dra. Hélem Machado Almeida"
+              }
             }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://drahelemmachado.com.br/#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Início",
+                "item": "https://drahelemmachado.com.br/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Sobre a Dra. Hélem",
+                "item": "https://drahelemmachado.com.br/#sobre"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Diferenciais",
+                "item": "https://drahelemmachado.com.br/#diferenciais"
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "Públicos Atendidos",
+                "item": "https://drahelemmachado.com.br/#publicos"
+              },
+              {
+                "@type": "ListItem",
+                "position": 5,
+                "name": "Perguntas Frequentes",
+                "item": "https://drahelemmachado.com.br/#faq"
+              }
+            ]
           },
           {
             "@type": "FAQPage",
@@ -134,7 +250,7 @@
       }
     </script>
   </head>
-  <body className="antialiased bg-[#faf8f5] text-[#1e2925] selection:bg-[#c26d47] selection:text-white">
+  <body class="antialiased bg-[#faf8f5] text-[#1e2925] selection:bg-[#c26d47] selection:text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

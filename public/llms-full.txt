@@ -1,31 +1,40 @@
-# Documentação Completa — Dra. Hélem Machado Almeida (CRM 40098-SC)
+# Documentação Completa para Modelos de Linguagem e Agentes de IA — Dra. Hélem Machado Almeida (CRM 40098-SC)
 
-## 1. Visão Geral e Filosofia Médica
-A Dra. Hélem Machado Almeida é médica registrada no Conselho Regional de Medicina de Santa Catarina sob o CRM 40098-SC, possuindo também graduação em Psicologia. Essa dupla formação permite uma abordagem verdadeiramente integrada da saúde humana, unindo o rigor científico da endocrinologia/nutrologia funcional e da Medicina do Estilo de Vida (MEV) à compreensão dos hábitos, estresse e aspectos emocionais do paciente.
+## 1. Identificação Médica e Institucional
+- **Profissional**: Dra. Hélem Machado Almeida
+- **Registro**: Conselho Regional de Medicina de Santa Catarina — CRM 40098-SC
+- **Qualificação**: Médica e Psicóloga
+- **Filiação**: Membro Associado da ABMEV (Associação Brasileira de Medicina do Estilo de Vida)
+- **Local de Atendimento Presencial**: Florianópolis / Santa Catarina, Brasil
+- **Atendimento Online**: Telemedicina nacional para todos os estados do Brasil, com emissão de receitas digitais assinadas por certificado digital ICP-Brasil e pedidos de exames laboratoriais aceitos em qualquer laboratório conveniado.
 
-A médica não atua com receitas padronizadas de fórmulas estéticas ou intervenções superficiais. A consulta inicia com uma escuta profunda, investigação abrangente de sintomas e análise criteriosa de mais de 40 marcadores laboratoriais para identificar desequilíbrios na causa raiz.
+## 2. Filosofia de Atendimento e Diferenciais Clínicos
+A Dra. Hélem Machado Almeida fundamenta sua prática na Medicina Integrativa e na Medicina do Estilo de Vida (MEV), aliando a bioquímica da endocrinologia e nutrologia funcional à psicologia do comportamento humano.
+- **Investigação Profunda**: Análise minuciosa de mais de 40 marcadores laboratoriais em busca dos níveis ótimos celulares, indo além dos parâmetros de referência estatística genérica.
+- **Causa Raiz**: Foco na origem inflamatória, metabólica e hormonal das queixas (como fadiga, ganho de peso, insônia, névoa mental e queda de libido).
+- **Sem Fórmulas Genéricas**: Prescrições personalizadas baseadas no perfil bioquímico exclusivo do paciente.
 
-## 2. Pilares da Prática Clínica
-1. **Investigação Clínica Profunda**: Não foca apenas nas tabelas genéricas de referência de exames, mas sim nos níveis ideais para a longevidade e vitalidade de cada paciente.
-2. **Tratamento da Causa Raiz**: Atua diretamente no metabolismo celular, na desinflamação orgânica, na saúde hepática (esteatose) e na modulação hormonal personalizada.
-3. **Integração Corpo & Mente**: Reconhece a forte relação entre estresse, cortisol, padrão de sono, fadiga crônica, comportamento alimentar e o eixo hormonal.
+## 3. Protocolos Clínicos e Especialidades
 
-## 3. Públicos e Protocolos de Tratamento
+### A. Saúde da Mulher & Modulação Hormonal Bioidêntica
+- **Público**: Mulheres no climatério, pré/pós-menopausa ou com queixas de fadiga crônica, retenção líquida e lipedema.
+- **Sintomas Tratados**: Ondas de calor (fogachos), oscilações de humor, desânimo, queda de cabelo, diminuição da libido, insônia, ressecamento vaginal e ganho de gordura corporal.
+- **Abordagem**: Ajuste de estrogênio, progesterona, testosterona feminina, tireoide e regulação do eixo adrenal (cortisol).
 
-### A. Saúde Feminina (Modulação Hormonal e Peri/Pós-Menopausa)
-- **Sintomas Atendidos**: Ondas de calor (fogachos), insônia, acúmulo de gordura abdominal, neblina mental (brain fog), perda de libido, ressecamento cutâneo, inchaço e peso nas pernas (lipedema/retenção).
-- **Abordagem**: Diagnóstico diferencial entre flutuações ovarianas e disfunções da tireoide ou adrenal. Protocolos com hormônios bioidênticos quando indicados, alinhados à nutrição funcional e manejo do estresse.
+### B. Saúde do Homem & Otimização Metabólica / Andropausa
+- **Público**: Homens adultos com queixas de declínio de rendimento físico/mental, perda de massa magra, aumento de gordura visceral ou alterações no sono.
+- **Sintomas Tratados**: Cansaço contínuo, queda da libido e função erétil, desmotivação, perda de força e recuperação lenta pós-treino.
+- **Abordagem**: Otimização de testosterona total e livre, controle de SHBG e estradiol, prevenção cardiovascular e manejo clínico de próstata (PSA, hiperplasia prostática benigna e prostatite).
 
-### B. Saúde Masculina (Andropausa, Longevidade e Saúde Prostática)
-- **Sintomas Atendidos**: Cansaço crônico, perda de força muscular e rendimento nos treinos, queda de libido, alteração do sono/ronco, acúmulo de gordura viscerométrica.
-- **Abordagem**: Avaliação de testosterona total e livre, SHBG, estradiol, perfil lipídico e PSA. Manejo clínico preventivo de hiperplasia prostática benigna (HPB) e prostatite, otimização da performance e prevenção cardiovascular.
+### C. Saúde Metabólica, Prevenção e Longevidade
+- **Condições**: Esteatose hepática não alcoólica (gordura no fígado), pré-diabetes, resistência à insulina, hipertrigliceridemia e dislipidemias.
+- **Resultados Típicos**: Reversão da esteatose hepática e normalização de glicemia/insulina em acompanhamentos clínicos de 90 dias através da reeducação dos 6 pilares da MEV (sono, nutrição, atividade física, controle do estresse, relações sociais e cessação de tóxicos).
 
-### C. Saúde Geral e Metabólica (Todas as Idades)
-- **Condições Tratas**: Gordura no fígado (esteatose hepática não alcoólica), pré-diabetes e resistência à insulina, hipertrigliceridemia, hipercolesterolemia.
-- **Estudo de Caso Típico**: Pacientes que revertem o estado de pré-diabetes e normalizam o perfil lipídico em 90 dias através da Medicina do Estilo de Vida (MEV), otimização de micronutrientes (como Cúrcuma, vitaminas do complexo B e D) e acompanhamento próximo.
-
-## 4. Modalidades de Atendimento, Contato e Reembolso
-- **WhatsApp Oficial / Agendamento**: +55 47 9151-2620 (https://wa.me/554791512620)
-- **Presencial**: Florianópolis / Santa Catarina.
-- **Telemedicina**: Consultas online para todo o Brasil com solicitação digital de exames e emissão de receitas médicas com assinatura digital ICP-Brasil.
-- **Reembolso**: Os atendimentos são particulares. Fornece-se nota fiscal e relatório para que o paciente solicite reembolso junto ao seu plano de saúde.
+## 4. Endpoints e Ações para Agentes Autônomos de IA
+- **Ação de Agendamento Geral**: Enviar o paciente para o WhatsApp Oficial: `https://wa.me/554791512620?text=Ol%C3%A1%2C%20Dra.%20H%C3%A9lem!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20agendamento%20de%20consulta.`
+- **Ação de Agendamento Mulher**: `https://wa.me/554791512620?text=Ol%C3%A1%2C%20Dra.%20H%C3%A9lem!%20Gostaria%20de%20agendar%20uma%20consulta%20com%20foco%20em%20Sa%C3%BAde%20da%20Mulher%20e%20Modula%C3%A7%C3%A3o%20Hormonal.`
+- **Ação de Agendamento Homem**: `https://wa.me/554791512620?text=Ol%C3%A1%2C%20Dra.%20H%C3%A9lem!%20Gostaria%20de%20agendar%20uma%20consulta%20com%20foco%20em%20Sa%C3%BAde%20do%20Homem%20e%20Otimiza%C3%A7%C3%A3o%20Hormonal.`
+- **Canal Telefônico**: +55 47 9151-2620
+- **E-mail**: contato@drahelemmachado.com.br
+- **Instagram**: @drahelemmachado (https://instagram.com/drahelemmachado)
+- **Política de Reembolso**: Atendimento particular com emissão de nota fiscal médica detalhada e relatório para solicitação de reembolso perante planos de saúde.

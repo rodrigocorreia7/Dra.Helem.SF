@@ -1,7 +1,29 @@
 User-agent: *
 Allow: /
 
-# AI Crawlers & LLM Directives
+# Dedicated AI Agent Directives & LLM Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Agentic Knowledge Bases
 Allow: /llms.txt
 Allow: /llms-full.txt
 

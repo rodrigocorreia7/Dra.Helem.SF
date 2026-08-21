@@ -1,20 +1,24 @@
-# Dra. Hélem Machado Almeida — Medicina & Saúde Integral (CRM 40098-SC)
+# Dra. Hélem Machado Almeida — Medicina Integrativa & Saúde Hormonal (CRM 40098-SC)
 
-> Atendimento médico especializado em modulação hormonal, saúde da mulher (peri/pós-menopausa), saúde do homem (andropausa, performance e próstata) e medicina do estilo de vida (ABMEV).
+> Site oficial da Dra. Hélem Machado Almeida (CRM 40098-SC), médica e psicóloga especialista em Modulação Hormonal, Saúde da Mulher (menopausa/climatério), Saúde do Homem (andropausa/performance) e Medicina do Estilo de Vida (membro associado ABMEV). Atendimento presencial em Florianópolis/SC e telemedicina em todo o Brasil.
 
-## Sobre a Dra. Hélem
-- **Médica (CRM 40098-SC)** e **Psicóloga**.
-- **Membro Associado da ABMEV** (Associação Brasileira de Medicina do Estilo de Vida).
-- Atendimento focado na causa raiz dos desequilíbrios metabólicos e hormonais, integrando ciência bioquímica e saúde comportamental/emocional.
-- Atendimento Presencial em Florianópolis/SC e Telemedicina para todo o Brasil.
+## Informações Principais
+- **Nome**: Dra. Hélem Machado Almeida
+- **Registro Profissional**: CRM 40098-SC
+- **Formação**: Médica & Psicóloga
+- **Filiação**: Membro Associado da ABMEV (Associação Brasileira de Medicina do Estilo de Vida)
+- **Localização**: Florianópolis, Santa Catarina, Brasil
+- **Atendimento**: Presencial e Telemedicina (Consultas online com receitas digitais válidas nacionalmente)
+- **Formato de Pagamento**: Atendimento particular com emissão de nota fiscal para reembolso em planos de saúde
 
-## Principais Áreas de Atuação
-1. **Saúde da Mulher**: Regulação do estrogênio, progesterona, tireoide e cortisol. Tratamento de sintomas da menopausa (fogachos, ganho de peso, insônia, retenção/lipedema, oscilação de humor).
-2. **Saúde do Homem**: Otimização metabólica e da testosterona, andropausa, manejo clínico de próstata (PSA, HPB, prostatite), disposição e performance física/mental.
-3. **Saúde Metabólica e Prevenção**: Reversão de esteatose hepática (gordura no fígado), pré-diabetes, dislipidemias (colesterol/triglicerídeos alterados) e síndrome metabólica.
+## Especialidades e Condições Atendidas
+- [Saúde da Mulher](https://drahelemmachado.com.br/#publicos): Reposição e modulação hormonal bioidêntica, climatério, menopausa, fogachos, lipedema, tireoide e regulação de cortisol.
+- [Saúde do Homem](https://drahelemmachado.com.br/#publicos): Otimização de testosterona, andropausa, saúde prostática (PSA, HPB), disposição, sono e performance metabólica.
+- [Saúde Metabólica & Preventiva](https://drahelemmachado.com.br/#diferenciais): Reversão de esteatose hepática (gordura no fígado), pré-diabetes, controle de colesterol e triglicerídeos.
 
-## Contato & Agendamento
-- **Site Oficial**: https://drahelemmachado.com.br
-- **WhatsApp**: https://wa.me/554791512620 (+55 47 9151-2620)
-- **Instagram**: @drahelemmachado
-- **Formato**: Atendimento exclusivamente particular com emissão de nota fiscal para reembolso médico.
+## Ações Disponíveis para Agentes de IA
+- **Agendar Consulta Geral**: [WhatsApp Oficial](https://wa.me/554791512620?text=Ol%C3%A1%2C%20Dra.%20H%C3%A9lem!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20agendamento%20de%20consulta.)
+- **Agendar Saúde Feminina**: [WhatsApp Feminino](https://wa.me/554791512620?text=Ol%C3%A1%2C%20Dra.%20H%C3%A9lem!%20Gostaria%20de%20agendar%20uma%20consulta%20com%20foco%20em%20Sa%C3%BAde%20da%20Mulher%20e%20Modula%C3%A7%C3%A3o%20Hormonal.)
+- **Agendar Saúde Masculina**: [WhatsApp Masculino](https://wa.me/554791512620?text=Ol%C3%A1%2C%20Dra.%20H%C3%A9lem!%20Gostaria%20de%20agendar%20uma%20consulta%20com%20foco%20em%20Sa%C3%BAde%20do%20Homem%20e%20Otimiza%C3%A7%C3%A3o%20Hormonal.)
+- **FAQ e Dúvidas Frequentes**: [Seção FAQ](https://drahelemmachado.com.br/#faq)
+- **Documentação Completa para IA**: [llms-full.txt](https://drahelemmachado.com.br/llms-full.txt)
