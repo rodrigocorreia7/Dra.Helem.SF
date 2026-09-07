@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+:root {
+  --nav-height: 108px;
+}
+
 @theme {
   --color-ivory: #faf8f5;
   --color-ivory-deep: #f3efe9;
@@ -80,3 +84,22 @@ body {
 }
 .pulse-glow { animation: pulseGlow 3s ease-in-out infinite; }
 
+.hero-primary-video {
+  width: 100%;
+  height: calc(100% - clamp(0.75rem, 3dvh, 2rem));
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
+
+@media (min-width: 768px) {
+  .hero-primary-video {
+    height: calc(100% - clamp(1.5rem, 6dvh, 4.5rem));
+  }
+}
+
+@media (min-width: 1280px) and (max-height: 760px) {
+  .hero-primary-video {
+    height: calc(100% - clamp(3.5rem, 10dvh, 6.5rem));
+  }
+}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Menu, X, Star, ShieldCheck, Phone, Video } from 'lucide-react';
 import { site, whatsappLink } from '../lib/site';
 import { useBooking } from '../lib/booking';
@@ -16,9 +16,30 @@ const links = [
 export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { openBooking } = useBooking();
+  const headerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header || typeof document === 'undefined') return;
+
+    const updateNavHeight = () => {
+      document.documentElement.style.setProperty('--nav-height', `${header.offsetHeight}px`);
+    };
+
+    updateNavHeight();
+
+    const resizeObserver = new ResizeObserver(updateNavHeight);
+    resizeObserver.observe(header);
+    window.addEventListener('resize', updateNavHeight);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateNavHeight);
+    };
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 bg-[#faf8f5] border-b border-forest/10 shadow-xs">
+    <header ref={headerRef} className="sticky top-0 z-40 bg-[#faf8f5] border-b border-forest/10 shadow-xs">
       {/* Topbar Superior */}
       <div className="bg-forest text-ivory text-[11px] py-1.5 px-4 hidden sm:block border-b border-ivory/10">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
