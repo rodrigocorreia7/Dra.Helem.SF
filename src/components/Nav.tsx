@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Menu, X, Star, ShieldCheck, Phone, Video } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import { site, whatsappLink } from '../lib/site';
 import { useBooking } from '../lib/booking';
 import Logo from './Logo';
@@ -12,11 +13,14 @@ const links = [
   { href: '#casos', label: 'Casos Clínicos' },
   { href: '#duvidas', label: 'FAQ' },
 ];
+const blogLink = { to: '/blog', label: 'Blog' };
 
 export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { openBooking } = useBooking();
   const headerRef = useRef<HTMLElement>(null);
+  const { pathname } = useLocation();
+  const anchorHref = (hash: string) => (pathname === '/' ? hash : `/${hash}`);
 
   useEffect(() => {
     const header = headerRef.current;
@@ -73,21 +77,24 @@ export default function Nav() {
       {/* Main Navbar Container */}
       <div className="py-3 sm:py-3.5">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 sm:px-8">
-          <a href="#topo" className="group flex items-center" aria-label="Voltar ao topo">
+          <Link to={anchorHref('#topo')} className="group flex items-center" aria-label="Voltar ao topo">
             <Logo variant="dark" showSubtitle={true} className="scale-95 origin-left" />
-          </a>
+          </Link>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden items-center gap-6 lg:flex">
             {links.map((l) => (
-              <a
+              <Link
                 key={l.href}
-                href={l.href}
+                to={anchorHref(l.href)}
                 className="text-xs font-semibold uppercase tracking-wider text-forest/85 transition-colors hover:text-clay"
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
+            <Link to={blogLink.to} className="text-xs font-semibold uppercase tracking-wider text-forest/85 transition-colors hover:text-clay">
+              {blogLink.label}
+            </Link>
             <button
               onClick={() => openBooking('geral')}
               className="rounded-full bg-forest px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-ivory transition-all hover:bg-forest-soft hover:shadow-lg shadow-forest/15 cursor-pointer"
@@ -112,15 +119,18 @@ export default function Nav() {
         <div className="border-b border-forest/10 bg-[#faf8f5] px-5 py-4 lg:hidden">
           <nav className="flex flex-col gap-3">
             {links.map((l) => (
-              <a
+              <Link
                 key={l.href}
-                href={l.href}
+                to={anchorHref(l.href)}
                 onClick={() => setMobileOpen(false)}
                 className="py-1 text-sm font-semibold text-forest hover:text-clay"
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
+            <Link to={blogLink.to} onClick={() => setMobileOpen(false)} className="py-1 text-sm font-semibold text-forest hover:text-clay">
+              {blogLink.label}
+            </Link>
             <button
               onClick={() => {
                 setMobileOpen(false);

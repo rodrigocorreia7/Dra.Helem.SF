@@ -27,4 +27,4 @@ Allow: /
 Allow: /llms.txt
 Allow: /llms-full.txt
 
-Sitemap: https://drahelemmachado.com.br/sitemap.xml
+Sitemap: https://www.drahelemmachado.com.br/sitemap.xml
