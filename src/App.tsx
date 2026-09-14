@@ -1,3 +1,5 @@
+'use client';
+
 import { BookingProvider } from './lib/booking';
 import Nav from './components/Nav';
 import Hero from './components/Hero';
@@ -12,6 +14,7 @@ import Footer from './components/Footer';
 import BookingModal from './components/BookingModal';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
 import BrandDivider from './components/BrandDivider';
+import BlogSection from './components/blog/BlogSection';
 
 export default function App() {
   return (
@@ -29,6 +32,7 @@ export default function App() {
           <Process />
           <SocialProof />
           <Faq />
+          <BlogSection />
           <FinalCta />
         </main>
         <Footer />

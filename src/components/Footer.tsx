@@ -1,6 +1,7 @@
 import { site, whatsappLink } from '../lib/site';
 import Logo from './Logo';
 import { Instagram, Mail, MessageCircle, ShieldCheck } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -25,12 +26,18 @@ export default function Footer() {
               Navegação
             </p>
             <ul className="space-y-2 text-ivory/80">
-              <li><a href="#publicos" className="hover:text-ivory hover:underline">Para Quem É</a></li>
-              <li><a href="#diferenciais" className="hover:text-ivory hover:underline">O Diferencial Médico</a></li>
-              <li><a href="#sobre" className="hover:text-ivory hover:underline">Sobre a Dra. Hélem</a></li>
-              <li><a href="#processo" className="hover:text-ivory hover:underline">Jornada em 3 Etapas</a></li>
-              <li><a href="#casos" className="hover:text-ivory hover:underline">Casos Clínicos</a></li>
-              <li><a href="#duvidas" className="hover:text-ivory hover:underline">Perguntas Frequentes</a></li>
+              <li><a href="#publicos" className="hover:text-ivory hover:underline">Tratamentos</a></li>
+              <li><a href="#diferenciais" className="hover:text-ivory hover:underline">Diferenciais</a></li>
+              <li><a href="#sobre" className="hover:text-ivory hover:underline">Sobre</a></li>
+              <li><a href="#processo" className="hover:text-ivory hover:underline">Consulta</a></li>
+              <li><a href="#casos" className="hover:text-ivory hover:underline">Casos</a></li>
+              <li><a href="#duvidas" className="hover:text-ivory hover:underline">Dúvidas</a></li>
+              <li><Link href="/blog" className="font-semibold text-ivory hover:text-ivory hover:underline">Blog</Link></li>
+              <li className="flex flex-col gap-1 pt-2 text-[11px] text-ivory/60">
+                <Link href="/blog/menopausa-fogachos-o-que-fazer" className="hover:text-ivory hover:underline">Fogachos na menopausa</Link>
+                <Link href="/blog/testosterona-baixa-sintomas-homens" className="hover:text-ivory hover:underline">Testosterona baixa em homens</Link>
+                <Link href="/blog/gordura-no-figado-esteatose-tem-reversao" className="hover:text-ivory hover:underline">Gordura no figado: tem reversao?</Link>
+              </li>
             </ul>
           </div>
 

@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
 import { site } from '../lib/site';
 import { useBooking } from '../lib/booking';
@@ -13,7 +13,9 @@ export default function Hero() {
   const [videoSrc, setVideoSrc] = useState('/videos/hero_mobile.mp4');
   const [isDesktop, setIsDesktop] = useState(false);
   const [isInView, setIsInView] = useState(true);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [prefersReducedMotion] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,
+  );
 
   const lastSeekRef = useRef(0);
 
@@ -40,9 +42,6 @@ export default function Hero() {
 
     selectHeroVideo();
     window.addEventListener('resize', selectHeroVideo);
-
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mq.matches);
 
     return () => window.removeEventListener('resize', selectHeroVideo);
   }, []);
@@ -98,13 +97,6 @@ export default function Hero() {
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 140,
-    damping: 28,
-    mass: 0.18,
-    restDelta: 0.001,
   });
 
   // Reliable scrub loop: allows seeking as soon as metadata is loaded (readyState >= 1 / duration > 0)

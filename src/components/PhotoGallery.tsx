@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Sparkles, User, Venus, Mars } from 'lucide-react';
+import Image from 'next/image';
 
 type PhotoItem = {
   id: string;
@@ -11,6 +12,8 @@ type PhotoItem = {
   aspect?: string;
   position?: string;
 };
+
+type PhotoFilter = 'todos' | PhotoItem['category'];
 
 const PHOTOS: PhotoItem[] = [
   {
@@ -104,11 +107,17 @@ const PHOTOS: PhotoItem[] = [
 ];
 
 export default function PhotoGallery() {
-  const [filter, setFilter] = useState<'todos' | 'dra_helem' | 'mulher' | 'homem'>('todos');
+  const [filter, setFilter] = useState<PhotoFilter>('todos');
   const [selectedPhoto, setSelectedPhoto] = useState<PhotoItem | null>(null);
 
   const filteredPhotos =
     filter === 'todos' ? PHOTOS : PHOTOS.filter((p) => p.category === filter);
+  const tabs: { id: PhotoFilter; label: string; icon: typeof Sparkles }[] = [
+    { id: 'todos', label: 'Todas as Fotos (11)', icon: Sparkles },
+    { id: 'dra_helem', label: 'Dra. Hélem Machado (6)', icon: User },
+    { id: 'mulher', label: 'Saúde Feminina (3)', icon: Venus },
+    { id: 'homem', label: 'Saúde Masculina (2)', icon: Mars },
+  ];
 
   return (
     <section id="galeria" className="py-24 bg-ivory relative overflow-hidden">
@@ -126,18 +135,13 @@ export default function PhotoGallery() {
 
           {/* Filter Tabs */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
-            {[
-              { id: 'todos', label: 'Todas as Fotos (11)', icon: Sparkles },
-              { id: 'dra_helem', label: 'Dra. Hélem Machado (6)', icon: User },
-              { id: 'mulher', label: 'Saúde Feminina (3)', icon: Venus },
-              { id: 'homem', label: 'Saúde Masculina (2)', icon: Mars },
-            ].map((tab) => {
+            {tabs.map((tab) => {
               const Icon = tab.icon;
               const active = filter === tab.id;
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setFilter(tab.id as any)}
+                  onClick={() => setFilter(tab.id)}
                   className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all ${
                     active
                       ? 'bg-forest text-ivory shadow-md shadow-forest/20'
@@ -168,9 +172,11 @@ export default function PhotoGallery() {
               >
                 {/* Photo Container with 4:5 portrait ratio and top/center framing */}
                 <div className="relative aspect-[4/5] w-full overflow-hidden bg-forest/5">
-                  <img
+                  <Image
                     src={item.src}
                     alt={item.title}
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                     className={`h-full w-full object-cover ${item.position || 'object-[center_15%]'} transition-transform duration-500 group-hover:scale-105`}
                     loading="lazy"
                   />
@@ -227,9 +233,12 @@ export default function PhotoGallery() {
               </button>
 
               <div className="flex-1 overflow-hidden bg-black flex items-center justify-center min-h-0">
-                <img
+                <Image
                   src={selectedPhoto.src}
                   alt={selectedPhoto.title}
+                  width={1200}
+                  height={1500}
+                  sizes="100vw"
                   className="max-h-[72vh] w-auto max-w-full object-contain mx-auto"
                 />
               </div>

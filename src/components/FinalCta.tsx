@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { MessageCircle, Instagram, Mail, Calendar } from 'lucide-react';
+import Image from 'next/image';
 import { site, whatsappLink } from '../lib/site';
 import { useBooking } from '../lib/booking';
 
@@ -22,9 +23,12 @@ export default function FinalCta() {
         <div className="relative grid items-center gap-10 lg:grid-cols-12">
           <div className="hidden lg:block lg:col-span-4">
             <div className="overflow-hidden rounded-2xl border border-ivory/20 shadow-2xl">
-              <img
+              <Image
                 src="/images/Dra_Helem_5.webp"
                 alt="Dra. Hélem Machado Almeida"
+                width={420}
+                height={560}
+                sizes="33vw"
                 className="aspect-[3/4] w-full object-cover object-[center_15%]"
                 loading="lazy"
               />

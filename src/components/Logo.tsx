@@ -37,20 +37,23 @@ export function HMMonogram({ className = "h-9 w-auto", color = "currentColor" }:
 export default function Logo({
   variant = "dark",
   showSubtitle = true,
+  size = "default",
   className = "",
 }: {
   variant?: "dark" | "light" | "gold";
   showSubtitle?: boolean;
+  size?: "default" | "compact";
   className?: string;
 }) {
   const isDarkBg = variant === "light";
+  const compact = size === "compact";
   
   return (
     <div className={`inline-flex flex-col items-center justify-center text-center ${className}`}>
       {/* Monogram */}
-      <div className="relative mb-1">
+      <div className={compact ? "relative mb-0.5" : "relative mb-1"}>
         <HMMonogram
-          className="h-10 w-auto sm:h-12"
+          className={compact ? "h-8 w-auto sm:h-9" : "h-10 w-auto sm:h-12"}
           color={
             variant === "gold"
               ? "#c2a15b"
@@ -63,7 +66,9 @@ export default function Logo({
 
       {/* Text Name */}
       <span
-        className={`font-display text-lg tracking-tight font-medium sm:text-xl ${
+        className={`whitespace-nowrap font-display tracking-tight font-medium ${
+          compact ? "text-base sm:text-lg" : "text-lg sm:text-xl"
+        } ${
           variant === "gold"
             ? "text-[#c2a15b]"
             : isDarkBg
@@ -77,7 +82,9 @@ export default function Logo({
       {/* Subtitle */}
       {showSubtitle && (
         <span
-          className={`mt-0.5 text-[10px] uppercase font-semibold tracking-[0.38em] ${
+          className={`mt-0.5 uppercase font-semibold tracking-[0.38em] ${
+            compact ? "text-[8px] sm:text-[9px]" : "text-[10px]"
+          } ${
             variant === "gold"
               ? "text-[#c2a15b]"
               : isDarkBg

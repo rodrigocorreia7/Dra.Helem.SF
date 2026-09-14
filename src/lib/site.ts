@@ -3,7 +3,7 @@ export const site = {
   shortName: 'Dra. Hélem',
   crm: 'CRM 40098-SC',
   titles: 'Médica & Psicóloga',
-  association: 'Membro Associado da ABMEV (Associação Brasileira de Medicina do Estilo de Vida)',
+  association: 'Membro do Colégio Brasileiro de Medicina do Estilo de Vida (CBMEV)',
   
   // Contatos
   whatsappNumber: '554791512620', // WhatsApp institucional da clínica (+55 47 9151-2620)

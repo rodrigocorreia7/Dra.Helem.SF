@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Venus, Mars, Activity, CheckCircle, Sparkles, ArrowRight } from 'lucide-react';
+import { Venus, Mars, Activity, CheckCircle, Sparkles, ArrowRight, type LucideIcon } from 'lucide-react';
+import Image from 'next/image';
 import { useBooking } from '../lib/booking';
 import { Audience } from '../lib/site';
 import ShinyText from './ShinyText';
@@ -18,7 +19,7 @@ type Category = {
   title: string;
   subtitle: string;
   badge: string;
-  icon: any;
+  icon: LucideIcon;
   howWeHelp: string;
   cta: string;
   lineColor: string;
@@ -269,9 +270,11 @@ export default function Audiences() {
                       <div>
                         {/* Image Container with clear top framing */}
                         <div className="relative aspect-[4/3] w-full overflow-hidden bg-forest/5 border-b border-forest/10">
-                          <img
+                          <Image
                             src={card.image}
                             alt={card.imageCaption}
+                            fill
+                            sizes="(min-width: 768px) 33vw, 100vw"
                             className={`h-full w-full object-cover ${card.imagePos || 'object-[center_15%]'} transition-transform duration-500 hover:scale-105`}
                             loading="lazy"
                           />

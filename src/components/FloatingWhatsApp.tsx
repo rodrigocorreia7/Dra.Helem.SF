@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X } from 'lucide-react';
-import { site, whatsappLink } from '../lib/site';
+import Image from 'next/image';
+import { whatsappLink } from '../lib/site';
 
 export default function FloatingWhatsApp() {
   const [showTooltip, setShowTooltip] = useState(true);
@@ -55,9 +56,11 @@ export default function FloatingWhatsApp() {
                   <X size={12} />
                 </button>
                 <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-clay">
-                  <img
+                  <Image
                     src="/images/Dra_Helem_2.webp"
                     alt="Dra. Hélem Machado Almeida"
+                    width={80}
+                    height={80}
                     className="h-full w-full object-cover"
                   />
                   <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 ring-2 ring-slate-900" />

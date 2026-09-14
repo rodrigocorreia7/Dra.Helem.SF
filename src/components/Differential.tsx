@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Microscope, Activity, Brain, CheckCircle2 } from 'lucide-react';
+import Image from 'next/image';
 import { useBooking } from '../lib/booking';
 
 export default function Differential() {
@@ -94,9 +95,11 @@ export default function Differential() {
           >
             <div className="overflow-hidden rounded-[2.5rem] border border-forest/15 shadow-2xl shadow-forest/10 bg-white">
               <div className="relative aspect-[2/3] w-full overflow-hidden bg-forest/5">
-                <img
+                <Image
                   src="/images/Dra_Helem_5.webp"
                   alt="Dra. Hélem Machado Almeida em consulta médica integral"
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
                   className="h-full w-full object-cover object-[center_85%]"
                   loading="lazy"
                 />

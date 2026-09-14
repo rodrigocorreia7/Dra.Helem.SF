@@ -27,11 +27,11 @@ if not exist "node_modules\" (
     echo.
 )
 
-echo [>] Iniciando o servidor e abrindo o navegador na porta exata do projeto...
+echo [>] Iniciando o servidor de desenvolvimento Next.js...
 echo.
 
-:: 3. Roda o comando npm run dev e manda abrir o navegador na porta correta
-call npm run dev -- --open
+:: 3. Roda o comando npm run dev
+call npm run dev
 
 :: Se npm run dev falhar ou nao existir, tenta npm start
 if %ERRORLEVEL% NEQ 0 (

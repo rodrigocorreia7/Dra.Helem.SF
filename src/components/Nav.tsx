@@ -1,16 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import { Menu, X, Star, ShieldCheck, Phone, Video } from 'lucide-react';
+import { Menu, X, ShieldCheck, Phone, Video } from 'lucide-react';
+import Link from 'next/link';
 import { site, whatsappLink } from '../lib/site';
 import { useBooking } from '../lib/booking';
 import Logo from './Logo';
 
 const links = [
-  { href: '#publicos', label: 'Para Quem' },
-  { href: '#diferenciais', label: 'O Diferencial' },
-  { href: '#sobre', label: 'Sobre a Médica' },
-  { href: '#processo', label: 'Como Funciona' },
-  { href: '#casos', label: 'Casos Clínicos' },
-  { href: '#duvidas', label: 'FAQ' },
+  { href: '#publicos', label: 'Tratamentos' },
+  { href: '#diferenciais', label: 'Diferenciais' },
+  { href: '#sobre', label: 'Sobre' },
+  { href: '#processo', label: 'Consulta' },
+  { href: '#casos', label: 'Casos' },
+  { href: '#duvidas', label: 'Dúvidas' },
 ];
 
 export default function Nav() {
@@ -42,7 +43,7 @@ export default function Nav() {
     <header ref={headerRef} className="sticky top-0 z-40 bg-[#faf8f5] border-b border-forest/10 shadow-xs">
       {/* Topbar Superior */}
       <div className="bg-forest text-ivory text-[11px] py-1.5 px-4 hidden sm:block border-b border-ivory/10">
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1 font-medium text-clay-soft">
               <ShieldCheck size={13} /> {site.crm}
@@ -54,10 +55,6 @@ export default function Nav() {
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1 text-amber-300 font-semibold">
-              <Star size={12} className="fill-amber-300" /> Avaliação ★ 4.9 no Google
-            </span>
-            <span>•</span>
             <a
               href={whatsappLink(`Olá, gostaria de informações sobre agendamento.`)}
               target="_blank"
@@ -71,28 +68,34 @@ export default function Nav() {
       </div>
 
       {/* Main Navbar Container */}
-      <div className="py-3 sm:py-3.5">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 sm:px-8">
-          <a href="#topo" className="group flex items-center" aria-label="Voltar ao topo">
-            <Logo variant="dark" showSubtitle={true} className="scale-95 origin-left" />
+      <div className="py-2.5 sm:py-3">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-5 sm:px-8">
+          <a href="#topo" className="group flex shrink-0 items-center" aria-label="Voltar ao topo">
+            <Logo variant="dark" showSubtitle={true} size="compact" className="origin-left" />
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden items-center gap-6 lg:flex">
+          <nav className="hidden flex-1 items-center justify-center gap-4 lg:flex xl:gap-6">
             {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
-                className="text-xs font-semibold uppercase tracking-wider text-forest/85 transition-colors hover:text-clay"
+                className="whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.14em] text-forest/80 transition-colors hover:text-clay xl:text-xs"
               >
                 {l.label}
               </a>
             ))}
+            <Link
+              href="/blog"
+              className="whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.14em] text-forest/80 transition-colors hover:text-clay xl:text-xs"
+            >
+              Blog
+            </Link>
             <button
               onClick={() => openBooking('geral')}
-              className="rounded-full bg-forest px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-ivory transition-all hover:bg-forest-soft hover:shadow-lg shadow-forest/15 cursor-pointer"
+              className="min-w-[132px] whitespace-nowrap rounded-full bg-forest px-5 py-3 text-[11px] font-bold uppercase tracking-[0.14em] text-ivory shadow-forest/15 transition-all hover:bg-forest-soft hover:shadow-lg xl:min-w-[152px] xl:px-6 xl:text-xs cursor-pointer"
             >
-              Agendar Consulta
+              Agendar
             </button>
           </nav>
 
@@ -121,6 +124,13 @@ export default function Nav() {
                 {l.label}
               </a>
             ))}
+            <Link
+              href="/blog"
+              onClick={() => setMobileOpen(false)}
+              className="py-1 text-sm font-semibold text-forest hover:text-clay"
+            >
+              Blog
+            </Link>
             <button
               onClick={() => {
                 setMobileOpen(false);

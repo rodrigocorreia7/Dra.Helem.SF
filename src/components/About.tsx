@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ShieldCheck, HeartHandshake, Stethoscope, Users, Award } from 'lucide-react';
+import Image from 'next/image';
 import { site } from '../lib/site';
 
 export default function About() {
@@ -39,9 +40,12 @@ export default function About() {
             transition={{ duration: 0.8 }}
           >
             <div className="relative overflow-hidden rounded-[2.5rem] border border-ivory/20 shadow-2xl">
-              <img
+              <Image
                 src="/images/Dra_Helem_3.webp"
                 alt="Dra. Hélem Machado Almeida - Médica e Psicóloga"
+                width={900}
+                height={1100}
+                sizes="(min-width: 1024px) 40vw, 100vw"
                 className="h-[440px] w-full object-cover object-[center_15%] sm:h-[520px]"
                 loading="lazy"
               />

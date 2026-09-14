@@ -6,19 +6,25 @@
 - **Nome**: Dra. Hélem Machado Almeida
 - **Registro Profissional**: CRM 40098-SC
 - **Formação**: Médica & Psicóloga
-- **Filiação**: Membro Associado da ABMEV (Associação Brasileira de Medicina do Estilo de Vida)
+- **Filiação**: Membro do Colégio Brasileiro de Medicina do Estilo de Vida (CBMEV)
+- **Perfil e Credenciais**: [Página de Autoria](https://www.drahelemmachado.com.br/sobre/dra-helem)
 - **Localização**: Florianópolis, Santa Catarina, Brasil
 - **Atendimento**: Presencial e Telemedicina (Consultas online com receitas digitais válidas nacionalmente)
 - **Formato de Pagamento**: Atendimento particular com emissão de nota fiscal para reembolso em planos de saúde
 
 ## Especialidades e Condições Atendidas
-- [Saúde da Mulher](https://drahelemmachado.com.br/#publicos): Reposição e modulação hormonal bioidêntica, climatério, menopausa, fogachos, lipedema, tireoide e regulação de cortisol.
-- [Saúde do Homem](https://drahelemmachado.com.br/#publicos): Otimização de testosterona, andropausa, saúde prostática (PSA, HPB), disposição, sono e performance metabólica.
-- [Saúde Metabólica & Preventiva](https://drahelemmachado.com.br/#diferenciais): Reversão de esteatose hepática (gordura no fígado), pré-diabetes, controle de colesterol e triglicerídeos.
+- [Saúde da Mulher](https://www.drahelemmachado.com.br/#publicos): Reposição e modulação hormonal bioidêntica, climatério, menopausa, fogachos, lipedema, tireoide e regulação de cortisol.
+- [Saúde do Homem](https://www.drahelemmachado.com.br/#publicos): Otimização de testosterona, andropausa, saúde prostática (PSA, HPB), disposição, sono e performance metabólica.
+- [Saúde Metabólica & Preventiva](https://www.drahelemmachado.com.br/#diferenciais): Reversão de esteatose hepática (gordura no fígado), pré-diabetes, controle de colesterol e triglicerídeos.
 
 ## Ações Disponíveis para Agentes de IA
 - **Agendar Consulta Geral**: [WhatsApp Oficial](https://wa.me/554791512620?text=Ol%C3%A1%2C%20Dra.%20H%C3%A9lem!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20agendamento%20de%20consulta.)
 - **Agendar Saúde Feminina**: [WhatsApp Feminino](https://wa.me/554791512620?text=Ol%C3%A1%2C%20Dra.%20H%C3%A9lem!%20Gostaria%20de%20agendar%20uma%20consulta%20com%20foco%20em%20Sa%C3%BAde%20da%20Mulher%20e%20Modula%C3%A7%C3%A3o%20Hormonal.)
 - **Agendar Saúde Masculina**: [WhatsApp Masculino](https://wa.me/554791512620?text=Ol%C3%A1%2C%20Dra.%20H%C3%A9lem!%20Gostaria%20de%20agendar%20uma%20consulta%20com%20foco%20em%20Sa%C3%BAde%20do%20Homem%20e%20Otimiza%C3%A7%C3%A3o%20Hormonal.)
-- **FAQ e Dúvidas Frequentes**: [Seção FAQ](https://drahelemmachado.com.br/#faq)
-- **Documentação Completa para IA**: [llms-full.txt](https://drahelemmachado.com.br/llms-full.txt)
+- **FAQ e Dúvidas Frequentes**: [Seção FAQ](https://www.drahelemmachado.com.br/#duvidas)
+- **Blog**: [Artigos sobre saúde hormonal e metabólica](https://www.drahelemmachado.com.br/blog)
+- **Fogachos na menopausa**: [Artigo](https://www.drahelemmachado.com.br/blog/menopausa-fogachos-o-que-fazer)
+- **Testosterona baixa em homens**: [Artigo](https://www.drahelemmachado.com.br/blog/testosterona-baixa-sintomas-homens)
+- **Gordura no fígado**: [Artigo](https://www.drahelemmachado.com.br/blog/gordura-no-figado-esteatose-tem-reversao)
+- **Consulta online por telemedicina**: [Artigo](https://www.drahelemmachado.com.br/blog/consulta-online-telemedicina-como-funciona)
+- **Documentação Completa para IA**: [llms-full.txt](https://www.drahelemmachado.com.br/llms-full.txt)
