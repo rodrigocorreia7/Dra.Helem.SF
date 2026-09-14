@@ -1,6 +1,6 @@
 # Dra. Hélem Machado Almeida — Medicina Integrativa & Saúde Hormonal (CRM 40098-SC)
 
-> Site oficial da Dra. Hélem Machado Almeida (CRM 40098-SC), médica e psicóloga especialista em Modulação Hormonal, Saúde da Mulher (menopausa/climatério), Saúde do Homem (andropausa/performance) e Medicina do Estilo de Vida (membro associado ABMEV). Atendimento presencial em Florianópolis/SC e telemedicina em todo o Brasil.
+> Site oficial da Dra. Hélem Machado Almeida (CRM 40098-SC), médica e psicóloga especialista em Modulação Hormonal, Saúde da Mulher (menopausa/climatério), Saúde do Homem (andropausa/performance) e Medicina do Estilo de Vida (membro CBMEV). Atendimento presencial em Balneário Camboriú/SC e telemedicina em todo o Brasil.
 
 ## Informações Principais
 - **Nome**: Dra. Hélem Machado Almeida
@@ -8,8 +8,8 @@
 - **Formação**: Médica & Psicóloga
 - **Filiação**: Membro do Colégio Brasileiro de Medicina do Estilo de Vida (CBMEV)
 - **Perfil e Credenciais**: [Página de Autoria](https://www.drahelemmachado.com.br/sobre/dra-helem)
-- **Localização**: Florianópolis, Santa Catarina, Brasil
-- **Atendimento**: Presencial e Telemedicina (Consultas online com receitas digitais válidas nacionalmente)
+- **Endereço do Consultório**: Rua 981, 196 - Centro, Balneário Camboriú - SC, CEP 88330-750
+- **Atendimento**: Presencial em Balneário Camboriú e Telemedicina nacional (Consultas online com receitas digitais válidas no Brasil)
 - **Formato de Pagamento**: Atendimento particular com emissão de nota fiscal para reembolso em planos de saúde
 
 ## Especialidades e Condições Atendidas

@@ -176,7 +176,7 @@ export const blogPosts: BlogPost[] = [
       { type: 'h2', id: 'receitas-exames', text: 'Receitas, atestados e pedidos de exame' },
       { type: 'p', text: 'Documentos são emitidos com assinatura digital (ICP-Brasil) e enviados por PDF. Valem em farmácias e laboratórios de todo o país. Quando o caso exige exame físico presencial ou procedimento, você recebe a orientação de onde e quando fazer.' },
       { type: 'h2', id: 'para-quem', text: 'Para quem faz mais sentido' },
-      { type: 'list', items: ['Quem mora fora de Florianópolis/SC e quer acompanhamento contínuo', 'Rotina corrida que dificulta deslocamento frequente', 'Seguimento de modulação hormonal e saúde metabólica com exames periódicos', 'Quem já tem exames e quer segunda opinião com olhar integrativo'] },
+      { type: 'list', items: ['Quem mora fora de Balneário Camboriú/SC e quer acompanhamento contínuo', 'Rotina corrida que dificulta deslocamento frequente', 'Seguimento de modulação hormonal e saúde metabólica com exames periódicos', 'Quem já tem exames e quer segunda opinião com olhar integrativo'] },
       { type: 'h2', id: 'quando-presencial', text: 'Quando o presencial é melhor' },
       { type: 'p', text: 'Dor aguda, sangramento, falta de ar, febre persistente, necessidade de exame físico detalhado ou coleta no mesmo dia são situações em que o presencial (ou pronto-atendimento) é mais seguro. Na dúvida, a triagem orienta o melhor caminho antes da consulta.' },
       { type: 'quote', text: 'Telemedicina não é “consulta rápida”. É consulta completa, com tempo para ouvir, investigar causa raiz e construir um plano que caiba na sua rotina — só que sem deslocamento.' },

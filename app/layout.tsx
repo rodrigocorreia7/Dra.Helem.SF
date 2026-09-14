@@ -62,14 +62,16 @@ const jsonLd = {
       paymentAccepted: 'Cartão de Crédito, PIX, Transferência',
       address: {
         '@type': 'PostalAddress',
-        addressLocality: 'Florianópolis',
+        streetAddress: 'Rua 981, 196',
+        addressLocality: 'Balneário Camboriú',
         addressRegion: 'SC',
+        postalCode: '88330-750',
         addressCountry: 'BR',
       },
       geo: {
         '@type': 'GeoCoordinates',
-        latitude: -27.5948,
-        longitude: -48.5482,
+        latitude: -26.9842,
+        longitude: -48.6378,
       },
       memberOf: {
         '@type': 'Organization',
@@ -192,9 +194,9 @@ export const metadata: Metadata = {
     'ai:knowledge': `${siteUrl}/llms.txt`,
     'ai:actions': `${siteUrl}/llms.txt#acoes`,
     'geo.region': 'BR-SC',
-    'geo.placename': 'Florianópolis, Santa Catarina',
-    'geo.position': '-27.5948;-48.5482',
-    ICBM: '-27.5948, -48.5482',
+    'geo.placename': 'Balneário Camboriú, Santa Catarina',
+    'geo.position': '-26.9842;-48.6378',
+    ICBM: '-26.9842, -48.6378',
   },
 };
 

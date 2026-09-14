@@ -13,8 +13,10 @@ export const site = {
   instagramLabel: '@drahelemmachado',
   email: 'contato@drahelemmachado.com.br',
   
-  city: 'Florianópolis / Santa Catarina',
-  attendance: 'Atendimento presencial e online (Telemedicina para todo o Brasil)',
+  city: 'Balneário Camboriú / Santa Catarina',
+  address: 'Rua 981, 196 - Centro, Balneário Camboriú - SC',
+  postalCode: '88330-750',
+  attendance: 'Atendimento presencial em Balneário Camboriú/SC e Telemedicina para todo o Brasil',
   
   headline: 'Recupere sua energia, equilíbrio hormonal e saúde metabólica com uma medicina que olha você por inteiro.',
   subheadline: 'Cansaço constante, ganho de peso sem explicação, insônia, alterações de humor ou exames alterados? A resposta não está em fórmulas mágicas nem em consultas superficiais, mas na investigação médica profunda das causas raízes do seu corpo.',

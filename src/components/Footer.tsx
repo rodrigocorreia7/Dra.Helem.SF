@@ -47,7 +47,10 @@ export default function Footer() {
               Canais de Atendimento
             </p>
             <div className="space-y-2 text-ivory/80">
-              <p>📍 {site.attendance}</p>
+              <p className="leading-relaxed">
+                📍 <strong>Consultório:</strong> {site.address}<br />
+                <span className="text-ivory/60 text-[11px]">Atendimento presencial e Telemedicina nacional</span>
+              </p>
               <a
                 href={whatsappLink(`Olá! Gostaria de informações sobre agendamento.`)}
                 target="_blank"

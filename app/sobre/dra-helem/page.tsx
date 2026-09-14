@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     url: pageUrl,
     title: 'Dra. Hélem Machado Almeida — Médica e Psicóloga | CRM 40098-SC',
     description:
-      'Biografia e credenciais da Dra. Hélem Machado Almeida (CRM 40098-SC). Atendimento presencial em Florianópolis e Telemedicina nacional.',
+      'Biografia e credenciais da Dra. Hélem Machado Almeida (CRM 40098-SC). Atendimento presencial em Balneário Camboriú e Telemedicina nacional.',
     images: ['/images/Dra_Helem_1.webp'],
   },
 };
@@ -193,7 +193,7 @@ export default function SobrePage() {
               <div className="p-6 rounded-2xl bg-ivory border border-forest/10 space-y-2">
                 <h3 className="font-bold text-forest text-lg">Telemedicina & Presencial</h3>
                 <p className="text-sm text-[#2d473e] leading-relaxed">
-                  Atendimento presencial em Florianópolis/SC e consultas online para pacientes de todo o Brasil e exterior, com prescrições e pedidos de exames com assinatura digital válida nacionalmente (ICP-Brasil).
+                  Atendimento presencial no consultório em Balneário Camboriú/SC (Rua 981, 196 - Centro) e consultas online por telemedicina para pacientes de todo o Brasil e exterior, com prescrições e pedidos de exames com assinatura digital válida nacionalmente (ICP-Brasil).
                 </p>
               </div>
             </div>
