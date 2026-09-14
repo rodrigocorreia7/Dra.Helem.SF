@@ -60,7 +60,8 @@ export default function SeoHead({ title, description, canonical, ogImage, ogType
       const s = document.createElement('script');
       s.id = id;
       s.type = 'application/ld+json';
-      s.textContent = JSON.stringify(arr.length === 1 ? arr[0] : { '@context': 'https://schema.org', '@graph': arr });
+      const jsonString = JSON.stringify(arr.length === 1 ? arr[0] : { '@context': 'https://schema.org', '@graph': arr });
+      s.textContent = jsonString.replace(/</g, '\\u003c');
       document.head.appendChild(s);
     }
 

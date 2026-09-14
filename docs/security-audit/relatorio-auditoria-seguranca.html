@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Relatório de Auditoria de Segurança — Dra. Hélem Machado Almeida</title>
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 15mm 20mm 15mm;
+    @bottom-right {
+      content: "Página " counter(page);
+      font-size: 8pt;
+      color: #64748b;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    line-height: 1.55;
+    font-size: 9.5pt;
+  }
+
+  .page {
+    page-break-after: always;
+    position: relative;
+    padding-bottom: 10px;
+  }
+  .page:last-child {
+    page-break-after: avoid;
+  }
+
+  /* Header & Footer */
+  .header-bar {
+    border-bottom: 2px solid #0f766e;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header-title { font-size: 8.5pt; font-weight: bold; color: #0f766e; text-transform: uppercase; letter-spacing: 0.05em; }
+  .header-meta { font-size: 8pt; color: #64748b; }
+
+  /* Typography */
+  h1 { font-size: 20pt; font-weight: 800; color: #0f172a; line-height: 1.2; margin-bottom: 12px; }
+  h2 { font-size: 13pt; font-weight: 700; color: #0f766e; margin-top: 18px; margin-bottom: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+  h3 { font-size: 10.5pt; font-weight: 700; color: #1e293b; margin-top: 12px; margin-bottom: 6px; }
+  p { margin-bottom: 8px; text-align: justify; }
+
+  /* Chips */
+  .chip {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 9999px;
+    font-size: 7.5pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .chip-critica { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+  .chip-alta { background: #ffedd5; color: #ea580c; border: 1px solid #fdba74; }
+  .chip-media { background: #fef3c7; color: #d97706; border: 1px solid #fcd34d; }
+  .chip-baixa { background: #dbeafe; color: #2563eb; border: 1px solid #93c5fd; }
+  .chip-info { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+  .chip-forte { background: #d1fae5; color: #059669; border: 1px solid #6ee7b7; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 16px 0; font-size: 8.5pt; }
+  th, td { padding: 7px 10px; text-align: left; vertical-align: top; border-bottom: 1px solid #e2e8f0; }
+  th { background: #f8fafc; font-weight: 700; color: #334155; border-top: 1px solid #cbd5e1; font-size: 8pt; text-transform: uppercase; }
+  tr:nth-child(even) td { background: #fafbfc; }
+
+  /* Cards */
+  .card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  .card-critical { border-left: 4px solid #b91c1c; background: #fffbfb; }
+  .card-high { border-left: 4px solid #ea580c; background: #fffdfb; }
+  .card-medium { border-left: 4px solid #d97706; background: #fffdf8; }
+  .card-strong { border-left: 4px solid #059669; background: #f7fee7; }
+
+  /* Code Blocks */
+  code { font-family: 'Consolas', 'Courier New', monospace; font-size: 8pt; background: #f1f5f9; padding: 1px 4px; border-radius: 3px; color: #0f172a; }
+  pre {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 7.5pt;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 10px 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 8px 0;
+    line-height: 1.4;
+  }
+
+  /* Cover Page */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90vh;
+    padding: 30px 20px;
+  }
+  .cover-header { border-bottom: 3px solid #0f766e; padding-bottom: 20px; }
+  .cover-badge {
+    background: #0f766e;
+    color: #ffffff;
+    font-size: 8.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+  .cover-subtitle { font-size: 11pt; color: #475569; margin-top: 8px; }
+  .cover-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 30px 0;
+    font-size: 9pt;
+  }
+  .cover-meta-item strong { color: #0f172a; display: block; font-size: 8pt; text-transform: uppercase; color: #64748b; }
+  .cover-footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 14px;
+    font-size: 8pt;
+    color: #94a3b8;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Charts layout */
+  .charts-row {
+    display: flex;
+    gap: 20px;
+    margin: 15px 0 20px 0;
+    align-items: center;
+  }
+  .chart-box {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+  .chart-box h4 { font-size: 8.5pt; text-transform: uppercase; color: #475569; margin-bottom: 8px; }
+
+  /* Issue Box */
+  .issue-box {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 14px;
+    page-break-inside: avoid;
+  }
+  .issue-box pre {
+    background: #1e293b;
+    color: #f8fafc;
+  }
+</style>
+</head>
+<body>
+
+<!-- PÁGINA 1: CAPA -->
+<div class="page cover">
+  <div class="cover-header">
+    <span class="cover-badge">Auditoria de Segurança de Código-Fonte</span>
+    <h1>Relatório de Auditoria de Segurança</h1>
+    <div class="cover-subtitle">Projeto: <strong>Dra. Hélem Machado Almeida — Portal & API</strong></div>
+    <div style="font-size: 9pt; color: #64748b; margin-top: 4px;">Análise Estática de Vulnerabilidades (SAST) e Mapeamento de Riscos OWASP</div>
+  </div>
+
+  <div class="cover-meta-grid">
+    <div class="cover-meta-item">
+      <strong>Data da Auditoria</strong>
+      14 de Setembro de 2026
+    </div>
+    <div class="cover-meta-item">
+      <strong>Escopo Auditado</strong>
+      Código Frontend (React/Vite/TS), Handlers Serverless (Node.js/api) e Configurações de Deploy (Vercel/Cloudflare)
+    </div>
+    <div class="cover-meta-item">
+      <strong>Stack Tecnológica Detectada</strong>
+      React 19, Vite 7, TypeScript, Tailwind CSS v4, Vercel Serverless Functions, Supabase JS SDK
+    </div>
+    <div class="cover-meta-item">
+      <strong>Metodologia Aplicada</strong>
+      OWASP Top 10 API & Web, LGPD (Dados Sensíveis em Saúde), Verificação de 5 Categorias Críticas
+    </div>
+  </div>
+
+  <div style="background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px; border-radius: 4px; font-size: 8.5pt; color: #1e40af;">
+    <strong>Nota Metodológica de Adaptação à Stack:</strong><br>
+    Como a aplicação possui arquitetura híbrida (Frontend Estático em React + Endpoints Serverless na Vercel com conexão ao Supabase), cada pilar da auditoria foi mapeado especificamente:
+    1. <em>Banco sem Tranca</em>: Mapeado para uso de <code>SUPABASE_SERVICE_ROLE_KEY</code> vs RLS do Supabase.
+    2. <em>Permissão no Navegador</em>: Mapeado para endpoints que expõem leituras privilegiadas sem middleware de autenticação.
+    3. <em>IDOR</em>: Mapeado para handlers com busca/mutação por identificador direto de paciente.
+    4. <em>Chaves Expostas</em>: Mapeado para credenciais no repositório, bundle do client e fallbacks inseguros.
+    5. <em>Inputs sem Tratamento</em>: Mapeado para sanitização de strings, injeção de scripts no JSON-LD e contexto de banco.
+  </div>
+
+  <div class="cover-footer">
+    <span>Classificação: Confidencial / Uso Interno</span>
+    <span>Versão 1.0 — Final</span>
+  </div>
+</div>
+
+<!-- PÁGINA 2: RESUMO EXECUTIVO E GRÁFICOS -->
+<div class="page">
+  <div class="header-bar">
+    <span class="header-title">Relatório de Auditoria de Segurança — Dra. Hélem Machado</span>
+    <span class="header-meta">Resumo Executivo</span>
+  </div>
+
+  <h2>1. Resumo Executivo</h2>
+  <p>
+    A auditoria de segurança analisou a totalidade do código-fonte da aplicação. Foram identificados <strong>7 achados</strong>, variando de informativos a críticos. O ponto de maior atenção refere-se ao endpoint de leads (<code>api/leads.js</code>), que expõe publicamente dados pessoais e de saúde de pacientes sem autenticação, potencializando vazamento de dados segundo a LGPD.
+  </p>
+
+  <!-- Gráficos com paleta estrita -->
+  <div class="charts-row">
+    <!-- Rosca por Severidade -->
+    <div class="chart-box">
+      <h4>Distribuição por Severidade</h4>
+      <svg width="220" height="150" viewBox="0 0 220 150">
+        <!-- Donut Chart SVG -->
+        <circle cx="75" cy="75" r="50" fill="transparent" stroke="#e2e8f0" stroke-width="24" />
+        <!-- Crítica (1/7 = 14.3%) -->
+        <circle cx="75" cy="75" r="50" fill="transparent" stroke="#B91C1C" stroke-width="24"
+                stroke-dasharray="45 314" stroke-dashoffset="0" />
+        <!-- Alta (1/7 = 14.3%) -->
+        <circle cx="75" cy="75" r="50" fill="transparent" stroke="#EA580C" stroke-width="24"
+                stroke-dasharray="45 314" stroke-dashoffset="-45" />
+        <!-- Média (3/7 = 42.8%) -->
+        <circle cx="75" cy="75" r="50" fill="transparent" stroke="#D97706" stroke-width="24"
+                stroke-dasharray="135 314" stroke-dashoffset="-90" />
+        <!-- Baixa (1/7 = 14.3%) -->
+        <circle cx="75" cy="75" r="50" fill="transparent" stroke="#2563EB" stroke-width="24"
+                stroke-dasharray="45 314" stroke-dashoffset="-225" />
+        <!-- Info (1/7 = 14.3%) -->
+        <circle cx="75" cy="75" r="50" fill="transparent" stroke="#64748B" stroke-width="24"
+                stroke-dasharray="44 314" stroke-dashoffset="-270" />
+        
+        <!-- Centro -->
+        <text x="75" y="72" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">7</text>
+        <text x="75" y="85" text-anchor="middle" font-size="7.5" fill="#64748b">ACHADOS</text>
+
+        <!-- Legenda -->
+        <circle cx="150" cy="30" r="4" fill="#B91C1C" />
+        <text x="160" y="33" font-size="7.5" fill="#334155">1 Crítica</text>
+        <circle cx="150" cy="50" r="4" fill="#EA580C" />
+        <text x="160" y="53" font-size="7.5" fill="#334155">1 Alta</text>
+        <circle cx="150" cy="70" r="4" fill="#D97706" />
+        <text x="160" y="73" font-size="7.5" fill="#334155">3 Médias</text>
+        <circle cx="150" cy="90" r="4" fill="#2563EB" />
+        <text x="160" y="93" font-size="7.5" fill="#334155">1 Baixa</text>
+        <circle cx="150" cy="110" r="4" fill="#64748B" />
+        <text x="160" y="113" font-size="7.5" fill="#334155">1 Informativa</text>
+      </svg>
+    </div>
+
+    <!-- Barras por Categoria -->
+    <div class="chart-box">
+      <h4>Achados por Categoria Auditada</h4>
+      <svg width="240" height="150" viewBox="0 0 240 150">
+        <!-- Grid horizontal -->
+        <line x1="85" y1="20" x2="230" y2="20" stroke="#f1f5f9" />
+        <line x1="85" y1="45" x2="230" y2="45" stroke="#f1f5f9" />
+        <line x1="85" y1="70" x2="230" y2="70" stroke="#f1f5f9" />
+        <line x1="85" y1="95" x2="230" y2="95" stroke="#f1f5f9" />
+        <line x1="85" y1="120" x2="230" y2="120" stroke="#f1f5f9" />
+
+        <!-- Barras -->
+        <text x="80" y="24" text-anchor="end" font-size="7" fill="#475569">1. Banco/RLS</text>
+        <rect x="85" y="14" width="90" height="14" rx="3" fill="#B91C1C" />
+        <text x="180" y="24" font-size="7.5" font-weight="bold" fill="#B91C1C">2</text>
+
+        <text x="80" y="49" text-anchor="end" font-size="7" fill="#475569">2. Permissão</text>
+        <rect x="85" y="39" width="45" height="14" rx="3" fill="#EA580C" />
+        <text x="135" y="49" font-size="7.5" font-weight="bold" fill="#EA580C">1</text>
+
+        <text x="80" y="74" text-anchor="end" font-size="7" fill="#475569">3. IDOR</text>
+        <rect x="85" y="64" width="8" height="14" rx="3" fill="#059669" />
+        <text x="98" y="74" font-size="7.5" font-weight="bold" fill="#059669">0 (OK)</text>
+
+        <text x="80" y="99" text-anchor="end" font-size="7" fill="#475569">4. Chaves</text>
+        <rect x="85" y="89" width="90" height="14" rx="3" fill="#D97706" />
+        <text x="180" y="99" font-size="7.5" font-weight="bold" fill="#D97706">2</text>
+
+        <text x="80" y="124" text-anchor="end" font-size="7" fill="#475569">5. XSS/Inputs</text>
+        <rect x="85" y="114" width="90" height="14" rx="3" fill="#D97706" />
+        <text x="180" y="124" font-size="7.5" font-weight="bold" fill="#D97706">2</text>
+      </svg>
+    </div>
+  </div>
+
+  <h2>2. Pontos Fortes e Riscos Centrais</h2>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;">
+    <div class="card card-strong">
+      <h3 style="color: #059669; margin-top:0;">🛡️ Pontos Fortes Verificados</h3>
+      <ul style="font-size: 8pt; padding-left: 16px; margin-top: 6px;">
+        <li><strong>Frontend Seguro contra XSS:</strong> React 19 com JSX escapa dados nativamente. Zero uso de <code>dangerouslySetInnerHTML</code> ou <code>eval</code>.</li>
+        <li><strong>Sem Segredos Hardcoded no Client:</strong> Nenhuma chave privada ou token JWT foi commitado no bundle do frontend.</li>
+        <li><strong>Validação no BookingModal:</strong> Sanitização de número de telefone (<code>replace(/\D/g, '')</code>) e checagem de formato de e-mail.</li>
+        <li><strong>Sem IDOR Destrutivo:</strong> Nenhum endpoint permite deleção ou alteração arbitrária por ID sem checagem.</li>
+      </ul>
+    </div>
+    <div class="card card-critical">
+      <h3 style="color: #b91c1c; margin-top:0;">⚠️ Riscos Centrais</h3>
+      <ul style="font-size: 8pt; padding-left: 16px; margin-top: 6px;">
+        <li><strong>Exposição Pública de Pacientes:</strong> <code>GET /api/leads</code> permite a qualquer pessoa na internet baixar a base de pacientes com nome, telefone e relatos médicos.</li>
+        <li><strong>Bypass Total de RLS:</strong> <code>api/db-client.js</code> utiliza <code>SUPABASE_SERVICE_ROLE_KEY</code> em todas as requisições.</li>
+        <li><strong>Endpoints Públicos sem Rate-Limit:</strong> Inserção aberta em <code>POST /api/testimonials</code> e <code>POST /api/leads</code> suscetível a spam bot.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- PÁGINA 3: TABELA DETALHADA DE ACHADOS -->
+<div class="page">
+  <div class="header-bar">
+    <span class="header-title">Relatório de Auditoria de Segurança — Dra. Hélem Machado</span>
+    <span class="header-meta">Achados Detalhados</span>
+  </div>
+
+  <h2>3. Tabela de Achados por Categoria</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 14%;">Severidade</th>
+        <th style="width: 28%;">Arquivo : Linha</th>
+        <th style="width: 20%;">Categoria</th>
+        <th style="width: 38%;">Descrição & Impacto</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="chip chip-critica">Crítica</span></td>
+        <td><code>api/leads.js:10-18</code></td>
+        <td>1. Banco sem Tranca</td>
+        <td><strong>Vazamento irrestrito de dados de pacientes (LGPD):</strong> Rota <code>GET /api/leads</code> executa <code>select('*')</code> com Service Role sem nenhuma autenticação e CORS liberado (<code>*</code>).</td>
+      </tr>
+      <tr>
+        <td><span class="chip chip-alta">Alta</span></td>
+        <td><code>api/leads.js:3-8</code></td>
+        <td>2. Permissão no Browser</td>
+        <td><strong>Ausência de autorização de leitura administrativa:</strong> O endpoint não valida privilégios de administrador no backend, assumindo que apenas o admin o chamaria.</td>
+      </tr>
+      <tr>
+        <td><span class="chip chip-media">Média</span></td>
+        <td><code>api/db-client.js:4-6</code></td>
+        <td>4. Chaves Expostas</td>
+        <td><strong>Uso irrestrito de Service Role Key:</strong> Conexão única ao Supabase usa chave com permissão total (bypass RLS) para rotas públicas como <code>faqs.js</code> e <code>symptoms.js</code>.</td>
+      </tr>
+      <tr>
+        <td><span class="chip chip-media">Média</span></td>
+        <td><code>api/testimonials.js:20-37</code></td>
+        <td>1. Banco sem Tranca</td>
+        <td><strong>Inserção de depoimentos desprotegida:</strong> Rota <code>POST</code> aceita inserções públicas com Service Role sem rate-limiting, captcha ou autenticação, permitindo DoS de banco.</td>
+      </tr>
+      <tr>
+        <td><span class="chip chip-media">Média</span></td>
+        <td><code>api/leads.js:36-44</code></td>
+        <td>5. Inputs sem Tratamento</td>
+        <td><strong>Persistência de texto sem sanitização / limite:</strong> Campos <code>name</code> e <code>message</code> gravados diretamente sem sanitização contra injeção ou truncagem de payload.</td>
+      </tr>
+      <tr>
+        <td><span class="chip chip-baixa">Baixa</span></td>
+        <td><code>src/components/blog/SeoHead.tsx:63</code></td>
+        <td>5. Inputs sem Tratamento</td>
+        <td><strong>Risco de Script Breakout em JSON-LD:</strong> <code>s.textContent = JSON.stringify(...)</code> sem escape de <code>&lt;/script&gt;</code> caso textos dinâmicos venham a conter tags HTML.</td>
+      </tr>
+      <tr>
+        <td><span class="chip chip-info">Info</span></td>
+        <td><code>api/db-wake.js:1-3</code></td>
+        <td>4. Chaves / Config</td>
+        <td><strong>Ausência de validação de startup:</strong> Variáveis de ambiente opcionais com fallback vazio <code>|| ''</code> sem validação explícita no boot da função serverless.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>4. Recomendações Priorizadas de Correção</h2>
+  <div class="card card-critical">
+    <p><strong>[P1 - IMEDIATO] Proteger ou Desativar <code>GET /api/leads</code>:</strong> Exigir cabeçalho <code>Authorization: Bearer &lt;ADMIN_API_KEY&gt;</code> verificado no servidor, ou remover a rota <code>GET</code> da API pública se a leitura for feita diretamente no painel do Supabase.</p>
+  </div>
+  <div class="card card-high">
+    <p><strong>[P2 - ALTA PRIORIDADE] Segregação de Chaves do Supabase:</strong> Utilizar a chave pública anônima (<code>anon_key</code>) para rotas públicas (<code>faqs</code>, <code>symptoms</code>) combinada com políticas de RLS (Row Level Security), reservando a <code>service_role_key</code> apenas para operações estritamente administrativas.</p>
+  </div>
+  <div class="card card-medium">
+    <p><strong>[P3 - MÉDIA PRIORIDADE] Rate-Limiting e Sanitização:</strong> Adicionar limite de requisições por IP nas rotas <code>POST /api/leads</code> e <code>POST /api/testimonials</code> para evitar spam automatizado, além de sanitizar entradas de texto e limitar tamanho de payload.</p>
+  </div>
+</div>
+
+<!-- PÁGINAS 4-5: ISSUES PARA O GITHUB -->
+<div class="page">
+  <div class="header-bar">
+    <span class="header-title">Relatório de Auditoria de Segurança — Dra. Hélem Machado</span>
+    <span class="header-meta">Issues para o GitHub</span>
+  </div>
+
+  <h2>5. Issues Prontas para o GitHub</h2>
+  <p style="margin-bottom: 12px; font-size: 8.5pt; color: #64748b;">
+    Copie e cole os blocos abaixo diretamente nas Issues do repositório no GitHub para rastreamento e resolução do time de desenvolvimento.
+  </p>
+
+  <!-- ISSUE 1 -->
+  <div class="issue-box">
+    <div style="font-weight: bold; font-size: 9pt; color: #b91c1c; margin-bottom: 4px;">--- ISSUE 1 ---</div>
+    <pre>### [Segurança] Vazamento de dados de pacientes no endpoint GET /api/leads
+
+**Labels:** `security`, `severity: critical`, `bug`, `lgpd`
+
+**Descrição do Problema:**
+O endpoint `GET /api/leads` em `api/leads.js` retorna a lista completa dos últimos 200 leads cadastrados (nome, telefone/WhatsApp, e-mail, queixas de saúde e mensagens pessoais) sem nenhuma autenticação, token ou verificação de permissão. Qualquer requisição HTTP GET aberta à URL retorna os dados confidenciais de pacientes.
+
+**Evidência:**
+Arquivo: `api/leads.js:10-18`
+```javascript
+if (req.method === 'GET') {
+  const { data, error } = await supabase
+    .from('leads')
+    .select('*')
+    .order('id', { ascending: false })
+    .limit(200);
+  if (error) throw error;
+  return res.status(200).json(data);
+}
+```
+
+**Impacto:**
+Violação grave da LGPD e quebra do sigilo médico de pacientes que buscam atendimento clínico e hormonal.
+
+**Sugestão de Correção:**
+1. Exigir autenticação via token no header (`req.headers.authorization === \`Bearer \${process.env.ADMIN_SECRET_KEY}\``) OU
+2. Remover completamente o método `GET` do endpoint se o acesso aos leads for feito diretamente pelo dashboard do Supabase.
+
+**Critérios de Aceite:**
+- [ ] Requisições `GET /api/leads` sem token válido retornam HTTP 401 Unauthorized.
+- [ ] Requisições com token válido no header `Authorization` retornam os dados autorizados.
+- [ ] Teste automatizado cobrindo a rejeição de acesso anônimo.</pre>
+    <div style="font-weight: bold; font-size: 9pt; color: #b91c1c; margin-top: 4px;">--- FIM ISSUE 1 ---</div>
+  </div>
+
+  <!-- ISSUE 2 -->
+  <div class="issue-box">
+    <div style="font-weight: bold; font-size: 9pt; color: #ea580c; margin-bottom: 4px;">--- ISSUE 2 ---</div>
+    <pre>### [Segurança] Segregação de chaves Supabase e ativação de RLS
+
+**Labels:** `security`, `severity: high`, `enhancement`
+
+**Descrição do Problema:**
+O arquivo `api/db-client.js` inicializa o cliente Supabase utilizando `SUPABASE_SERVICE_ROLE_KEY`. Isso faz com que qualquer operação no banco ignore completamente as políticas de Row Level Security (RLS), inclusive em endpoints públicos como `faqs.js`, `symptoms.js` e `testimonials.js`.
+
+**Evidência:**
+Arquivo: `api/db-client.js:4-6`
+```javascript
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  ...
+);
+```
+
+**Impacto:**
+Caso ocorra uma injeção ou falha em qualquer handler, o invasor ganha privilégios de superusuário no banco PostgreSQL.
+
+**Sugestão de Correção:**
+1. Criar um cliente Supabase público em `api/db-client.js` utilizando `NEXT_PUBLIC_SUPABASE_ANON_KEY` para leituras normais com RLS habilitado.
+2. Isolar o cliente com `SERVICE_ROLE_KEY` exclusivamente para rotas administrativas autenticadas.
+
+**Critérios de Aceite:**
+- [ ] RLS ativado em todas as tabelas públicas (`faqs`, `symptoms`, `testimonials`).
+- [ ] Endpoints de leitura utilizam a chave pública restrita.</pre>
+    <div style="font-weight: bold; font-size: 9pt; color: #ea580c; margin-top: 4px;">--- FIM ISSUE 2 ---</div>
+  </div>
+
+  <!-- ISSUE 3 -->
+  <div class="issue-box">
+    <div style="font-weight: bold; font-size: 9pt; color: #d97706; margin-bottom: 4px;">--- ISSUE 3 ---</div>
+    <pre>### [Segurança] Rate-limiting e sanitização de inputs nos endpoints de escrita
+
+**Labels:** `security`, `severity: medium`, `hardening`
+
+**Descrição do Problema:**
+Os endpoints `POST /api/leads` e `POST /api/testimonials` permitem inserção irrestrita de dados sem limite de taxa de requisições por IP (rate-limiting) e sem sanitização de caracteres especiais ou controle rígido de tamanho de texto.
+
+**Evidência:**
+Arquivos: `api/leads.js:21-46` e `api/testimonials.js:20-35`
+
+**Impacto:**
+Possibilidade de flooding por bots (DoS de banco de dados) e persistência de dados maliciosos.
+
+**Sugestão de Correção:**
+1. Implementar rate-limit (ex: Upstash Ratelimit ou middleware de limitação na Vercel).
+2. Truncar campos de texto (ex: `name` máx 100 caracteres, `message` máx 1000 caracteres).
+
+**Critérios de Aceite:**
+- [ ] Mais de 5 requisições por minuto de um mesmo IP recebem HTTP 429 Too Many Requests.
+- [ ] Payloads com tamanho excessivo são rejeitados com HTTP 400 Bad Request.</pre>
+    <div style="font-weight: bold; font-size: 9pt; color: #d97706; margin-top: 4px;">--- FIM ISSUE 3 ---</div>
+  </div>
+</div>
+
+</body>
+</html>
