@@ -1,21 +1,22 @@
 import type { MetadataRoute } from 'next';
 import { blogPosts } from '../src/lib/blog';
+import { site } from '../src/lib/site';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = 'https://www.drahelemmachado.com.br';
+  const siteUrl = site.url || 'https://www.drahelemmachado.com.br';
 
   return [
     {
       url: `${siteUrl}/`,
       lastModified: new Date('2026-09-07'),
       changeFrequency: 'weekly',
-      priority: 1,
+      priority: 1.0,
     },
     {
       url: `${siteUrl}/blog`,
       lastModified: new Date('2026-09-07'),
       changeFrequency: 'weekly',
-      priority: 0.85,
+      priority: 0.8,
     },
     {
       url: `${siteUrl}/sobre/dra-helem`,
@@ -25,9 +26,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...blogPosts.map((post) => ({
       url: `${siteUrl}/blog/${post.slug}`,
-      lastModified: new Date(post.dateModified),
+      lastModified: new Date(post.dateModified || post.datePublished),
       changeFrequency: 'monthly' as const,
-      priority: 0.72,
+      priority: 0.7,
     })),
   ];
 }
