@@ -109,6 +109,13 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR" dir="ltr">
+      <head>
+        <script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="5vOoibK9krNi/CcFENGGXg"
+          async
+        />
+      </head>
       <body className={`${josefin.variable} ${rem.variable} antialiased bg-[#faf8f5] text-[#1e2925] selection:bg-[#c26d47] selection:text-white`}>
         <StructuredData />
         {children}
