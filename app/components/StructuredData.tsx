@@ -9,7 +9,7 @@ export default function StructuredData() {
     image: `${site.url}/images/Dra_Helem_1.webp`,
     description:
       'Médica e Psicóloga especialista em Medicina do Estilo de Vida, saúde hormonal, saúde da mulher e saúde do homem.',
-    medicalSpecialty: ['https://schema.org/Endocrine', 'https://schema.org/PreventiveMedicine'],
+    medicalSpecialty: ['https://schema.org/Endocrine', 'https://schema.org/PrimaryCare'],
     url: site.url,
     telephone: site.telephone,
     email: site.email,
