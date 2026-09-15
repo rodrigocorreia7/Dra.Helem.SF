@@ -29,7 +29,7 @@ export default function Differential() {
 
   return (
     <section id="diferenciais" className="relative py-24 bg-ivory-deep/40 overflow-hidden">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+      <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-center">
           <div>
             <div className="flex flex-wrap items-center gap-3">

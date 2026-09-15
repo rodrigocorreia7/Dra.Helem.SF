@@ -1,9 +1,10 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { CalendarCheck, FileSearch, Sparkles, ArrowRight } from 'lucide-react';
 import { useBooking } from '../lib/booking';
 
 export default function Process() {
   const { openBooking } = useBooking();
+  const prefersReducedMotion = useReducedMotion();
 
   const steps = [
     {
@@ -39,6 +40,33 @@ export default function Process() {
           <p className="mt-4 text-base text-ink/75">
             Um processo claro, estruturado e transparente desde o primeiro contato até o acompanhamento dos resultados.
           </p>
+        </div>
+
+        <div className="relative mt-10 min-h-[220px] overflow-hidden rounded-[2rem] border border-forest/15 bg-forest shadow-[0_22px_55px_-32px_rgba(7,25,20,0.65)] sm:min-h-[250px]">
+          <video
+            aria-hidden="true"
+            autoPlay={!prefersReducedMotion}
+            muted
+            loop
+            playsInline
+            preload={prefersReducedMotion ? 'none' : 'metadata'}
+            poster="/images/dna-helix.webp"
+            className="absolute inset-0 h-full w-full object-cover opacity-55"
+          >
+            <source src="/videos/dna-helix.webm" type="video/webm" />
+            <source src="/videos/dna-helix.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-r from-forest via-forest/75 to-forest/25" />
+          <div className="relative flex min-h-[220px] items-end p-6 text-ivory sm:min-h-[250px] sm:p-9">
+            <div className="max-w-xl">
+              <span className="inline-flex rounded-full border border-clay-soft/45 bg-forest/55 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-clay-soft backdrop-blur-sm">
+                Investigação médica integral
+              </span>
+              <p className="mt-3 font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+                Cada etapa ajuda a construir um mapa mais claro do seu cuidado.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="mt-14 grid gap-8 md:grid-cols-3">

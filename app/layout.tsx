@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Josefin_Sans, REM } from 'next/font/google';
+import { Geist, REM } from 'next/font/google';
 import StructuredData from './components/StructuredData';
 import '../src/index.css';
 
@@ -8,10 +8,10 @@ const title = 'Dra. Hélem Machado Almeida | Saúde Hormonal em SC';
 const description =
   'Atendimento médico em saúde hormonal, saúde da mulher, saúde do homem e medicina do estilo de vida com Dra. Hélem Machado Almeida, CRM 40098-SC.';
 
-const josefin = Josefin_Sans({
+const geist = Geist({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-josefin',
+  variable: '--font-geist',
 });
 
 const rem = REM({
@@ -116,7 +116,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           async
         />
       </head>
-      <body className={`${josefin.variable} ${rem.variable} antialiased bg-[#faf8f5] text-[#1e2925] selection:bg-[#c26d47] selection:text-white`}>
+      <body className={`${geist.variable} ${rem.variable} antialiased bg-[#faf8f5] text-[#1e2925] selection:bg-[#c26d47] selection:text-white`}>
         <StructuredData />
         {children}
       </body>

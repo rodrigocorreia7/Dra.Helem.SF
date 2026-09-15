@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useBooking } from '../lib/booking';
 import { Audience } from '../lib/site';
 import ShinyText from './ShinyText';
+import ScrollExpand from './ScrollExpand';
 
 type SymptomCard = {
   id: string;
@@ -46,7 +47,7 @@ export default function Audiences() {
       cards: [
         {
           id: 'card-mulher-1',
-          image: '/images/w1.webp',
+          image: '/images/saude-mulher.webp',
           imageCaption: 'Modulação Hormonal & Vitalidade',
           imagePos: 'object-center',
           symptoms: [
@@ -143,7 +144,7 @@ export default function Audiences() {
         },
         {
           id: 'card-geral-2',
-          image: '/images/Dra_Helem_2.webp',
+          image: '/images/estrategia-metabolica.webp',
           imageCaption: 'Estratégia Metabólica Integrada',
           imagePos: 'object-center',
           symptoms: [
@@ -153,7 +154,7 @@ export default function Audiences() {
         },
         {
           id: 'card-geral-3',
-          image: '/images/Dra_Helem_3.webp',
+          image: '/images/prevencao-longevidade.webp',
           imageCaption: 'Prevenção & Longevidade',
           imagePos: 'object-center',
           symptoms: [
@@ -166,8 +167,21 @@ export default function Audiences() {
     },
   ];
 
+  const activeCategory = categories.find((category) => category.id === activeTab) ?? categories[0];
+  const ActiveIcon = activeCategory.icon;
+  const stageImage = activeTab === 'homens'
+    ? '/images/homem-saude.webp'
+    : activeTab === 'geral'
+      ? '/images/dna-helix.webp'
+      : activeCategory.cards[0].image;
+  const stageImageAlt = activeTab === 'homens'
+    ? 'Homem adulto representando saúde e vitalidade masculina'
+    : activeTab === 'geral'
+      ? 'Hélice de DNA representando a investigação integral da saúde'
+      : activeCategory.cards[0].imageCaption;
+
   return (
-    <section id="publicos" className="relative py-24 bg-ivory overflow-hidden">
+    <section id="publicos" className="relative overflow-x-clip bg-ivory py-24">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="text-center max-w-3xl mx-auto">
           <span className="inline-flex items-center gap-2 rounded-full border border-clay/20 bg-clay/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
@@ -181,49 +195,86 @@ export default function Audiences() {
             Cansaço constante, ganho de peso sem explicação, insônia, alterações de humor ou exames alterados? A resposta não está em fórmulas mágicas nem em consultas superficiais, mas na investigação médica profunda das causas raízes do seu corpo.
           </p>
 
-          {/* Category Navigation Buttons with Soft Ambient Pulsing Glow */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5 sm:gap-5">
+          <div className="metallic-green-border mt-8 rounded-[2rem]">
+            <div className="rounded-[calc(2rem-1px)] bg-white/80 p-4 backdrop-blur-sm sm:p-5">
+            <div className="mb-4 flex flex-col items-center justify-between gap-2 text-center sm:flex-row sm:text-left">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-clay">Escolha por onde começar</p>
+                <p className="mt-1 text-sm text-ink/65">Três caminhos de cuidado, uma investigação feita para você.</p>
+              </div>
+              <span className="rounded-full bg-forest/8 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-forest">3 caminhos</span>
+            </div>
+
+          {/* Category Navigation Buttons: high-contrast targets that remain visible above the media reveal */}
+          <div className="grid gap-3 md:grid-cols-3">
             {categories.map((cat) => {
               const Icon = cat.icon;
               const active = activeTab === cat.id;
               return (
                 <div key={cat.id} className="relative group">
-                  {/* Soft Ambient Pulsing Light behind the button */}
-                  <div
-                    className={`absolute -inset-1 rounded-full blur-md transition-all duration-700 animate-pulse pointer-events-none ${
-                      active
-                        ? 'bg-forest/35 opacity-100 scale-105'
-                        : 'bg-clay/25 opacity-60 group-hover:opacity-90 group-hover:bg-clay/40 scale-100'
-                    }`}
-                  />
-
-                  {/* Clean Native Button */}
+                  {/* High-contrast target with an explicit selected state. */}
                   <button
                     onClick={() => setActiveTab(cat.id)}
-                    className={`relative flex items-center gap-2.5 rounded-full px-7 py-3.5 text-sm sm:text-base font-semibold transition-all duration-300 cursor-pointer ${
+                    aria-pressed={active}
+                    className={`relative flex min-h-[4.25rem] w-full items-center justify-between gap-3 rounded-2xl px-5 py-4 text-left text-sm font-semibold transition-all duration-300 cursor-pointer sm:px-6 sm:text-base ${
                       active
-                        ? 'bg-forest text-ivory shadow-xl shadow-forest/25 scale-105 ring-1 ring-white/20'
-                        : 'border border-forest/20 bg-white text-forest hover:border-clay hover:text-clay hover:bg-forest/5 hover:scale-102 shadow-md shadow-forest/5'
+                        ? 'border border-white/20 bg-forest text-ivory'
+                        : 'border border-forest/15 bg-white text-forest hover:border-clay hover:bg-clay/5'
                     }`}
                   >
-                    <Icon size={19} className={`shrink-0 transition-colors ${active ? 'text-clay-soft' : 'text-clay'}`} />
-                    {active ? (
-                      <ShinyText
-                        text={cat.title}
-                        color="#ffffff"
-                        shineColor="#ffd166"
-                        speed={2.2}
-                        spread={110}
-                        className="font-semibold"
-                      />
-                    ) : (
-                      <span>{cat.title}</span>
-                    )}
+                    <span className="flex min-w-0 items-center gap-3">
+                      <Icon size={20} className={`shrink-0 transition-colors ${active ? 'text-clay-soft' : 'text-clay'}`} />
+                      {active ? (
+                        <ShinyText
+                          text={cat.title}
+                          color="#ffffff"
+                          shineColor="#ffd166"
+                          speed={2.2}
+                          spread={110}
+                          className="font-semibold"
+                        />
+                      ) : (
+                        <span>{cat.title}</span>
+                      )}
+                    </span>
+                    <ArrowRight size={17} className={`shrink-0 transition-transform duration-300 ${active ? 'text-clay-soft' : 'text-forest/35 group-hover:translate-x-1 group-hover:text-clay'}`} />
                   </button>
                 </div>
               );
             })}
+            </div>
           </div>
+          </div>
+        </div>
+
+        {/* Visual gateway inspired by ScrollExpand: the page scroll reveals the selected path. */}
+        <div className="mt-8 text-left">
+          <ScrollExpand
+            src={stageImage}
+            alt={stageImageAlt}
+            imageClassName={activeTab === 'mulheres' ? activeCategory.cards[0].imagePos : 'object-center'}
+            title={activeCategory.title}
+            scrollHint="Role para revelar este caminho"
+            stageHeight={620}
+            startWidth={66}
+            startHeight={62}
+            startRadius={28}
+            endRadius={20}
+            mediaZoom={1.16}
+            scrollDistance={0.4}
+            holdDistance={0.4}
+            smoothing={0.12}
+            overlayScrim={0.58}
+            className="rounded-[2rem]"
+          >
+            <div className="w-full max-w-2xl rounded-[1.5rem] border border-white/20 bg-forest/75 p-5 text-left text-white backdrop-blur-md sm:p-7">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-clay-soft">
+                <ActiveIcon size={17} /> {activeCategory.badge}
+              </div>
+              <p className="mt-2 font-display text-xl font-semibold tracking-tight sm:text-2xl">{activeCategory.subtitle}</p>
+              <p className="mt-2 text-sm leading-relaxed text-white/75">Veja os sinais, cuidados e possibilidades de acompanhamento para este caminho.</p>
+            </div>
+          </ScrollExpand>
         </div>
 
         {/* Selected Category Content Grid */}
