@@ -2,98 +2,102 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Star, Calendar, ExternalLink, ShieldCheck, MessageCircle } from 'lucide-react';
+import { Star, Calendar, ExternalLink, ShieldCheck, MessageCircle, Clock } from 'lucide-react';
+import DoctoraliaReviewsCarousel from './DoctoraliaReviewsCarousel';
 import DoctoraliaWidget from './DoctoraliaWidget';
 import { site, whatsappLink } from '../lib/site';
 
 export default function DoctoraliaSection() {
-  const [activeTab, setActiveTab] = useState<'calendar' | 'certificate'>('calendar');
+  const [showCalendar, setShowCalendar] = useState(false);
 
   return (
-    <section id="avaliacoes" className="bg-[#f7f5f0] py-20 relative overflow-hidden">
-      <div className="mx-auto max-w-5xl px-5 sm:px-8">
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto">
+    <section id="avaliacoes" className="bg-[#f7f5f0] py-24 relative overflow-hidden border-b border-forest/10">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        {/* Cabeçalho da Seção */}
+        <div className="text-center max-w-3xl mx-auto mb-14">
           <span className="inline-flex items-center gap-2 rounded-full border border-clay/20 bg-clay/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
-            <Star size={13} className="fill-clay" /> Avaliações Verificadas & Agendamento
+            <Star size={13} className="fill-clay" /> Opiniões de Pacientes Verificados
           </span>
-          <h2 className="mt-4 font-display text-3xl sm:text-4xl leading-tight text-forest">
-            Agende sua Consulta e Veja Opiniões Reais na Doctoralia
+          <h2 className="mt-4 font-display text-3xl sm:text-4xl lg:text-[2.6rem] leading-tight text-forest">
+            A Experiência de Quem Já Cuidou da Saúde com a Dra. Hélem
           </h2>
-          <p className="mt-3 text-base text-ink/75">
-            Consulte a disponibilidade de horários em tempo real para atendimento presencial em Balneário Camboriú ou Telemedicina para todo o Brasil.
+          <p className="mt-3 text-base text-ink/75 leading-relaxed">
+            Leia os relatos reais de pacientes atendidos em Balneário Camboriú e por Telemedicina em todo o Brasil. Avaliações 100% auditadas pela Doctoralia.
           </p>
-
-          {/* Abas de alternância de visualização */}
-          <div className="mt-6 inline-flex rounded-full bg-forest/8 p-1 border border-forest/12">
-            <button
-              onClick={() => setActiveTab('calendar')}
-              className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-semibold transition-all ${
-                activeTab === 'calendar'
-                  ? 'bg-forest text-ivory shadow-sm'
-                  : 'text-forest/70 hover:text-forest'
-              }`}
-            >
-              <Calendar size={14} /> Agendamento & Avaliações
-            </button>
-            <button
-              onClick={() => setActiveTab('certificate')}
-              className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-semibold transition-all ${
-                activeTab === 'certificate'
-                  ? 'bg-forest text-ivory shadow-sm'
-                  : 'text-forest/70 hover:text-forest'
-              }`}
-            >
-              <ShieldCheck size={14} /> Certificado de Opiniões
-            </button>
-          </div>
         </div>
 
-        {/* Card do Widget */}
+        {/* 1. Carrossel Nativo com Todas as Avaliações */}
+        <DoctoraliaReviewsCarousel />
+
+        {/* 2. Área de Agendamento Online Direto */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-10 rounded-[2.5rem] border border-forest/15 bg-white p-4 sm:p-8 shadow-xl shadow-forest/5"
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-14 rounded-[2.5rem] border border-forest/15 bg-white p-6 sm:p-10 shadow-lg shadow-forest/5"
         >
-          {activeTab === 'calendar' ? (
-            <div className="min-h-[480px] flex flex-col items-center justify-center">
-              <DoctoraliaWidget type="big" opinion={true} />
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6 pb-8 border-b border-forest/10">
+            <div>
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-forest/70">
+                <Clock size={14} className="text-clay" /> Agendamento em Tempo Real
+              </span>
+              <h3 className="mt-1 font-display text-2xl font-bold text-forest">
+                Consulte os Horários Disponíveis na Agenda
+              </h3>
+              <p className="mt-1 text-sm text-ink/75">
+                Você pode verificar vagas abertas e agendar diretamente pelo calendário online ou com nossa equipe pelo WhatsApp.
+              </p>
             </div>
-          ) : (
-            <div className="min-h-[260px] flex flex-col items-center justify-center py-6">
-              <DoctoraliaWidget type="certificate" opinion={false} />
-            </div>
-          )}
-
-          {/* Rodapé do Card */}
-          <div className="mt-6 border-t border-forest/10 pt-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-forest/70">
-            <span className="flex items-center gap-1.5 text-center sm:text-left">
-              <ShieldCheck size={15} className="text-emerald-700 shrink-0" />
-              Perfil oficial verificado pela Doctoralia Brasil (CRM 40098-SC).
-            </span>
 
             <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={() => setShowCalendar((prev) => !prev)}
+                className="flex items-center gap-2 rounded-full bg-forest px-6 py-3 text-sm font-semibold text-ivory transition-all hover:bg-forest-soft active:scale-95 shadow-xs"
+              >
+                <Calendar size={16} />
+                {showCalendar ? 'Ocultar Calendário' : 'Ver Calendário Interativo'}
+              </button>
+
+              <a
+                href={whatsappLink('Olá! Gostaria de informações sobre horários disponíveis para consulta com a Dra. Hélem.')}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-full border border-emerald-600 bg-emerald-50 px-6 py-3 text-sm font-semibold text-emerald-800 transition-all hover:bg-emerald-100 active:scale-95"
+              >
+                <MessageCircle size={16} /> Agendar via WhatsApp
+              </a>
+            </div>
+          </div>
+
+          {/* Widget do Calendário Doctoralia (expansível com um clique) */}
+          {showCalendar ? (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.4 }}
+              className="mt-8 pt-4 min-h-[480px] flex flex-col items-center justify-center"
+            >
+              <DoctoraliaWidget type="big" opinion={false} />
+            </motion.div>
+          ) : (
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-xs text-forest/60">
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck size={15} className="text-emerald-700" />
+                Atendimento 100% particular com emissão de nota fiscal para reembolso no seu plano de saúde.
+              </span>
+
               <a
                 href={site.doctoralia}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 font-semibold text-forest hover:text-clay transition-colors"
               >
-                Abrir perfil na Doctoralia <ExternalLink size={12} />
-              </a>
-              <span className="text-forest/30">|</span>
-              <a
-                href={whatsappLink('Olá! Gostaria de tirar dúvidas sobre o agendamento de consulta com a Dra. Hélem.')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-semibold text-emerald-800 hover:text-emerald-950 transition-colors"
-              >
-                <MessageCircle size={13} /> Agendar via WhatsApp
+                Abrir perfil completo na Doctoralia <ExternalLink size={12} />
               </a>
             </div>
-          </div>
+          )}
         </motion.div>
       </div>
     </section>
