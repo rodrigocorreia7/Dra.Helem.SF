@@ -11,6 +11,7 @@ const links = [
   { href: '#sobre', label: 'Sobre' },
   { href: '#processo', label: 'Consulta' },
   { href: '#casos', label: 'Casos' },
+  { href: '#avaliacoes', label: 'Avaliações' },
   { href: '#duvidas', label: 'Dúvidas' },
 ];
 

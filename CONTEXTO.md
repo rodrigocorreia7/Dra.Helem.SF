@@ -11,9 +11,9 @@ Este documento é a **Fonte Única da Verdade (Single Source of Truth)** do proj
 
 - **Profissional**: Dra. Hélem Machado Almeida
 - **Registro Profissional**: CRM 40098-SC
-- **Diferencial Único de Posicionamento**: Dupla formação como **Médica** e **Psicóloga**, com atuação focada em **Medicina do Estilo de Vida (MEV)**, modulação hormonal individualizada, saúde metabólica e conexão corpo-mente.
-- **Entidade de Classe**: Membro do **Colégio Brasileiro de Medicina do Estilo de Vida (CBMEV)** — [cbmev.org.br](https://cbmev.org.br) (Nota: o antigo domínio `abmev.org.br` está obsoleto/quebrado).
-- **Nicho**: Medicina Integrativa, Metabólica e Hormonal (Classificado como nicho crítico **YMYL - Your Money or Your Life** pelo Google).
+- **Diferencial Único de Posicionamento**: Dupla formação como **Médica** e **Psicóloga**, pós-graduanda/em especialização em **Tratamentos e Modulação Hormonal** (tanto para **saúde da mulher** quanto para **saúde do homem**), combinada com **Medicina do Estilo de Vida (MEV)**, saúde metabólica e conexão corpo-mente.
+- **Entidade de Classe**: Membro do **Colégio Brasileiro de Medicina do Estilo de Vida (CBMEV)** — [cbmev.org.br](https://cbmev.org.br).
+- **Nicho**: Medicina Integrativa, Tratamentos Hormonais (Andropausa/Testosterona masculina e Menopausa/Climatério feminino), Metabólica e Estilo de Vida (Classificado como nicho crítico **YMYL - Your Money or Your Life** pelo Google).
 - **Endereço Físico Oficial**:
   - **Logradouro**: Rua 981, 196 - Centro
   - **Cidade/Estado**: Balneário Camboriú - SC
@@ -24,7 +24,7 @@ Este documento é a **Fonte Única da Verdade (Single Source of Truth)** do proj
   - **Telefone / WhatsApp**: `+55 47 9151-2620` (Institucional da clínica)
   - **E-mail**: `contato@drahelemmachado.com.br`
   - **Instagram**: `https://instagram.com/drahelemmachado`
-  - **Doctoralia**: `https://www.doctoralia.com.br/helem-machado-de-almeida/clinico-geral/itajai`
+  - **Doctoralia**: `https://www.doctoralia.com.br/helem-machado-almeida/medico-clinico-geral/balneario-camboriu`
 - **Modalidades de Atendimento**:
   - Presencial em Balneário Camboriú / SC.
   - Telemedicina para pacientes de todo o Brasil e exterior, com prescrições e atestados com assinatura digital ICP-Brasil (em conformidade com a Resolução CFM nº 2.314/2022).

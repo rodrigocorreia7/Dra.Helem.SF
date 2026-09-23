@@ -114,7 +114,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           url: `${BLOG_BASE}/sobre/dra-helem`,
           sameAs: [
             site.instagram,
-            'https://www.doctoralia.com.br/helem-machado-de-almeida/clinico-geral/itajai',
+            site.doctoralia,
           ],
         },
         publisher: {

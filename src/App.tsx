@@ -8,6 +8,7 @@ import Differential from './components/Differential';
 import About from './components/About';
 import Process from './components/Process';
 import SocialProof from './components/SocialProof';
+import DoctoraliaSection from './components/DoctoraliaSection';
 import Faq from './components/Faq';
 import FinalCta from './components/FinalCta';
 import Footer from './components/Footer';
@@ -31,6 +32,7 @@ export default function App() {
           <BrandDivider />
           <Process />
           <SocialProof />
+          <DoctoraliaSection />
           <Faq />
           <BlogSection />
           <FinalCta />

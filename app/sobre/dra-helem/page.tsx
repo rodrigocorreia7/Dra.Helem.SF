@@ -45,7 +45,7 @@ const profileLd = {
       image: 'https://www.drahelemmachado.com.br/images/Dra_Helem_1.webp',
       url: pageUrl,
       sameAs: [
-        'https://www.doctoralia.com.br/helem-machado-de-almeida/clinico-geral/itajai',
+        site.doctoralia,
         'https://www.instagram.com/drahelemmachado/',
       ],
       alumniOf: [

@@ -14,6 +14,8 @@ export const site = {
   instagram: 'https://instagram.com/drahelemmachado',
   instagramLabel: '@drahelemmachado',
   email: 'contato@drahelemmachado.com.br',
+  doctoralia: 'https://www.doctoralia.com.br/helem-machado-almeida/medico-clinico-geral/balneario-camboriu',
+  doctoraliaLabel: 'Doctoralia Balneário Camboriú',
   
   // Localização e Endereço
   streetAddress: 'Rua 981, 196 - Centro',
